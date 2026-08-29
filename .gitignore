@@ -1,0 +1,5 @@
+# The source film: 355MB, re-downloadable from download.blender.org
+tos.mov
+# Extracted clips: regenerate from tos.mov + segments.json
+clips/
+clips_audio/
