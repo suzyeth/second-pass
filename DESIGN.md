@@ -48,32 +48,43 @@ told explicitly not to guess whether viewers liked the clip.
 
 ### The result
 
-Excluding bins near either end, where a one-sided moving-average baseline makes the
-residual an artifact rather than a measurement (`analyze.py` reports both):
+The pilot scored 24 position-matched extremes (17 after excluding edge bins) and found
+all six fields pointing the same way with the strongest |rho| at 0.316 — consistent
+direction, insufficient power. Then all 100 segments were scored and loaded, and the
+full sample says something sharper.
 
-| field | LOW | HIGH | diff | rho |
+Across every non-edge segment of Tears of Steel (n=84, so a rank correlation has to
+clear **0.215** to be distinguishable from noise):
+
+| field | vs raw attention | vs residual | vs position | verdict |
 | --- | --- | --- | --- | --- |
-| visual_event_density | 3.91 | 5.83 | **+1.92** | +0.316 |
-| speech_density | 0.91 | 2.83 | **+1.92** | +0.164 |
-| story_information | 3.36 | 4.33 | +0.97 | +0.118 |
-| character_presence | 4.45 | 5.33 | +0.88 | −0.191 |
-| score_intensity | 5.64 | 5.67 | +0.03 | −0.059 |
-| inertness | 5.00 | 4.50 | −0.50 | −0.223 |
+| score_intensity | **+0.366** | +0.161 | **+0.377** | position artifact |
+| character_presence | **−0.346** | −0.124 | **−0.237** | position artifact |
+| inertness | **+0.224** | +0.071 | +0.187 | position artifact |
+| visual_event_density | +0.183 | **+0.224** | +0.189 | marginal |
+| story_information | −0.164 | −0.007 | **−0.244** | nothing shown |
+| speech_density | +0.004 | +0.165 | −0.053 | nothing shown |
 
-n=17. Strongest |rho| = 0.316; p<0.05 needs 0.490.
+Read the first two numeric columns against each other. **Three fields clear the
+significance threshold against raw attention and none of them survive the correction.**
+Their correlation with position is as large as their correlation with attention, or
+larger. "Louder score means more watched" is significant, is the kind of finding a deck
+gets built on, and is entirely an artifact of where those segments sit in the film.
 
-**All six point the right way** — more happens, more is said, more is revealed in the
-stretches that hold attention better than their position predicts. But the effects are
-too small to separate from noise at this n. The honest sentence is *consistent
-direction, insufficient power*, not *no relationship*.
+Exactly one field survives: visual_event_density at 0.224 against a 0.215 floor. It
+clears by 0.009. That is not a finding either — it is a coin landing on its edge, and
+the honest report says so and asks for a second film.
+
+The pilot's "all six point the right way" was itself a small-sample accident; at n=84
+the directions disagree. Keeping both numbers in this document is the point.
 
 Two supporting details worth keeping:
 
-- On the **full** sample four of six fields point the *wrong* way; excluding the edges
-  fixes all four. The edges really are noise.
+- On the **full** sample including edges, four of six fields are significant against raw
+  attention and zero against the residual — the same story, louder.
 - Three clips are title or credit cards — near-identical content — and they landed in
-  **both** groups (bin 0 HIGH, bin 9 LOW, bin 96 HIGH). Nothing demonstrates edge noise
-  more cheaply than that.
+  **both** extreme groups (bin 0 HIGH, bin 9 LOW, bin 96 HIGH). Nothing demonstrates
+  edge noise more cheaply than that.
 
 ---
 
@@ -90,10 +101,11 @@ relationship actually is, including when the answer is "weak".*
 The falsification machinery was always the differentiator. The day-1 result makes it the
 product:
 
-> **Proof panel, first entry.** On Tears of Steel, after controlling for position,
-> content explains attention only weakly (strongest ρ = 0.32, n = 17, not significant).
-> Position explains far more than content does. Here is the method, here is the data,
-> here is the script that reproduces it.
+> **Proof panel, first entry.** On Tears of Steel (n=84), three content fields
+> correlate significantly with raw attention and none of the three survives correcting
+> for position. The one field that survives clears the noise floor by 0.009. Position
+> explains more than content does. Here is the method, here is the data, here is the
+> script that reproduces it.
 
 A system willing to show that about itself is more credible than one that claims
 prediction. And the claim it *does* make — that the two datasets belong together and
