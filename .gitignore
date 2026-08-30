@@ -7,3 +7,8 @@ big_buck_bunny_480p_h264.mov
 bbb.mov.zip
 seg_*.mp4
 films/*/clips/
+
+# Node deps for the scoring scripts. Reinstallable from package-lock.json.
+node_modules/
+__pycache__/
+*.pyc

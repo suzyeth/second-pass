@@ -1,0 +1,16 @@
+# Pinned, because the runtime shape of two of these is load-bearing and neither
+# is stable across minors: ADK 2.8 runs each tool call in its own task (which is
+# why the MCP session is owned by one), and mcp-clickhouse 0.4.1 exposes exactly
+# three tools and is read-only by default.
+google-adk==2.8.0
+google-genai==2.20.0
+mcp==1.28.1
+mcp-clickhouse==0.4.1
+fastapi==0.141.1
+uvicorn==0.49.0
+pydantic==2.13.4
+
+# Not used by the server. The loader writes several million rows and MCP has no
+# bulk-ingest path, so ingestion goes through the native client and only queries
+# go through MCP.
+clickhouse-connect==1.7.2

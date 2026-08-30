@@ -80,12 +80,17 @@ def main(film_id):
         if os.path.exists(target):
             skipped += 1
             continue
+        # Clip length follows the bin, not a constant. A fixed 7s cut bleeds
+        # into the next bin on any film shorter than ~12 min (bbb bins are
+        # 5.97s), which smears adjacent segments' content into each other's
+        # scores. Integer seconds because zh-CN ffmpeg rejects decimals.
+        clip_len = max(2, round(b["end"] - b["start"]))
         subprocess.run(
             [
                 "ffmpeg", "-nostdin", "-v", "error",
                 "-ss", str(int(b["start"])),
                 "-i", film["video"],
-                "-t", "7",
+                "-t", str(clip_len),
                 "-vf", "scale=-2:360,fps=2",
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "32",
                 "-c:a", "aac", "-b:a", "48k", "-ac", "1", "-ar", "16000",

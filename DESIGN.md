@@ -2,7 +2,7 @@
 
 Target: **Agentic Cinema**, ClickHouse track. Deadline **2026-09-07 14:00 PT**.
 Written 2026-08-27, after the day-1 gate was run and did not pass.
-Supersedes the 2026-08-08 concept in `G:\2026claude\agentic-cinema-DESIGN-abandoned.md`.
+Supersedes the 2026-08-08 concept, which is kept outside this repository.
 
 ---
 

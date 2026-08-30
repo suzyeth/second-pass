@@ -193,9 +193,9 @@ def main():
 
         # Chunked: one insert of several million rows is a timeout waiting to
         # happen on a trial-tier instance.
-        from datetime import datetime
+        from datetime import datetime, timezone
 
-        now = datetime.utcnow().replace(microsecond=0)
+        now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
         CHUNK = 200_000
         batch, written = [], 0
         for f, sess, t, b, k in generate_events(film, random.Random(SEED)):

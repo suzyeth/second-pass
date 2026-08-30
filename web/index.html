@@ -144,6 +144,15 @@
   .b-marginal { color: var(--warn); }
   .b-none { color: var(--dimmer); }
   .b-holds { color: var(--pos); }
+  .toggle { display: inline-flex; margin: 2px 0 14px; border: 1px solid var(--line);
+            border-radius: 5px; overflow: hidden; }
+  .toggle button {
+    border: 0; border-radius: 0; background: transparent; color: var(--dimmer);
+    font-size: 12px; padding: 6px 14px;
+  }
+  .toggle button + button { border-left: 1px solid var(--line); }
+  .toggle button.on { background: var(--panel-2); color: var(--text); }
+
   .note { margin-top: 16px; color: var(--dimmer); font-size: 12px; max-width: 80ch; }
 
   .prov {
@@ -213,6 +222,10 @@
 
 <section>
   <h2>Proof &mdash; what this system can and cannot claim</h2>
+  <div class="toggle" id="toggle">
+    <button data-shuffled="0" class="on">real attention</button>
+    <button data-shuffled="1">attention shuffled</button>
+  </div>
   <p class="headline" id="headline">&nbsp;</p>
   <table class="proof" id="prooftable"></table>
   <p class="note">
@@ -282,7 +295,7 @@ async function load() {
     + "on content alone — that trend is what the residual removes.";
 
   drawChart();
-  drawProof(proof);
+  drawProof(proof, false);
   startPolling();
 }
 
@@ -519,7 +532,16 @@ function startPolling() {
 
 // ---------------------------------------------------------------- proof panel
 
-function drawProof(proof) {
+$("toggle").addEventListener("click", async (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  [...$("toggle").children].forEach(x => x.classList.toggle("on", x === b));
+  const shuffled = b.dataset.shuffled === "1";
+  drawProof(await fetch("/api/proof/" + FILM + "?shuffled=" + shuffled)
+    .then(r => r.json()), shuffled);
+});
+
+function drawProof(proof, shuffled) {
   const c = {};
   proof.columns.forEach((n, i) => c[n] = i);
   const rows = proof.rows;
@@ -529,14 +551,21 @@ function drawProof(proof) {
   const survive = rows.filter(r => r[c.verdict] === "holds up after correcting for position").length;
   const marginal = rows.filter(r => String(r[c.verdict]).startsWith("marginal"));
 
-  $("headline").innerHTML =
-    `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of 6</b> content features `
-    + `correlate significantly with measured attention. After correcting for where they `
-    + `sit in the film, <b>${survive} of those ${sigRaw}</b> survive.`
-    + (marginal.length
-        ? ` One feature clears the noise floor by ${(Math.abs(marginal[0][c.vs_residual]) - floor).toFixed(3)} `
-          + `&mdash; too little to believe from a single film.`
-        : "");
+  // The control's headline is a pass/fail statement about the method, not a
+  // finding about the film. Reusing the real one would read as a second result.
+  $("headline").innerHTML = shuffled
+    ? `Each feature paired with a <b>different</b> segment's attention. `
+      + `The method now finds <b>${sigRaw === 0 && survive === 0 ? "nothing" : sigRaw + " thing(s)"}</b>`
+      + ` &mdash; every correlation below the ${floor} noise floor. `
+      + `A method that still found structure here would be manufacturing it, `
+      + `and no result from it could be trusted.`
+    : `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of 6</b> content features `
+      + `correlate significantly with measured attention. After correcting for where they `
+      + `sit in the film, <b>${survive} of those ${sigRaw}</b> survive.`
+      + (marginal.length
+          ? ` One feature clears the noise floor by ${(Math.abs(marginal[0][c.vs_residual]) - floor).toFixed(3)} `
+            + `&mdash; too little to believe from a single film.`
+          : "");
 
   // A feature that is significant against measured attention and not against the
   // residual is the case worth naming out loud, so it gets its own badge rather

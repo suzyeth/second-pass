@@ -22,6 +22,9 @@ if (-not $env:GOOGLE_API_KEY) {
 }
 # ADK reads GOOGLE_API_KEY; it must also be told not to route via Vertex.
 $env:GOOGLE_GENAI_USE_VERTEXAI = 'FALSE'
+# score-film.js reads GEMINI_API_KEY — same key, second name, so the scorer
+# works through this wrapper too instead of silently seeing no credential.
+$env:GEMINI_API_KEY = $env:GOOGLE_API_KEY
 
 if (-not $env:CLICKHOUSE_HOST)  { Write-Error 'CLICKHOUSE_HOST not in registry'; exit 1 }
 if (-not $env:GOOGLE_API_KEY)   { Write-Error 'could not read gemini-api-key from Secret Manager'; exit 1 }

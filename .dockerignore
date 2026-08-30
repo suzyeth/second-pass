@@ -1,0 +1,31 @@
+# The build context is uploaded to Cloud Build before anything is read, so the
+# films and their clips have to be excluded here rather than merely left out of
+# the COPY lines — otherwise every deploy ships ~700MB of video to build an image
+# that does not contain any of it.
+*.mov
+*.mov.zip
+*.mp4
+clips/
+clips_audio/
+films/
+
+# Data prep and analysis. None of it runs in the container.
+prepare.py
+load.py
+analyze.py
+analyze-film.py
+runq.py
+mcp_probe.py
+score*.js
+*.json
+!films.json
+schema.sql
+queries.sql
+
+.git/
+.gitignore
+__pycache__/
+*.pyc
+run.ps1
+DESIGN.md
+README.md

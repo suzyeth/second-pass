@@ -168,6 +168,42 @@ def _limit(value, cap=10):
 # --- the four questions ------------------------------------------------------
 
 
+# The scored segments of one film, minus the edge bins whose residual is an
+# artifact of a one-sided baseline window.
+def _population(film):
+    return (
+        "SELECT *, row_number() OVER (ORDER BY bin) - 1 AS r, count() OVER () AS n "
+        f"FROM segments WHERE film = '{film}' AND is_edge = 0"
+    )
+
+
+def _correlation_select(field, film, shift=None):
+    """One feature's row of the correlation table.
+
+    With shift set, the feature is paired against the attention of a DIFFERENT
+    segment — bin r against bin (r * shift + 11) mod n. Because shift is coprime
+    with n that is a genuine permutation, and because it is fixed rather than
+    random the control gives the same numbers on every take. A negative control
+    that moves between runs is not a control.
+    """
+    pop = _population(film)
+    if shift is None:
+        src, res, raw, pos = f"({pop})", "attention_res", "attention_raw", "bin"
+    else:
+        src = f"({pop}) AS a INNER JOIN ({pop}) AS b ON b.r = (a.r * {shift} + 11) % a.n"
+        field, res, raw, pos = f"a.{field}", "b.attention_res", "b.attention_raw", "b.bin"
+
+    label = field.split(".")[-1]
+    return (
+        f"SELECT '{label}' AS feature, "
+        f"round(rankCorr({field}, {raw}), 3) AS vs_raw, "
+        f"round(rankCorr({field}, {res}), 3) AS vs_residual, "
+        f"round(rankCorr({field}, {pos}), 3) AS vs_position, "
+        "count() AS n, round(1.96 / sqrt(count() - 1), 3) AS significant_above "
+        f"FROM {src}"
+    )
+
+
 async def underperforming_stretches(film: str, limit: int = 5) -> str:
     """Stretches watched LESS than their position in the film predicts, with what is on screen.
 
@@ -230,22 +266,16 @@ async def correlation_table(film: str) -> str:
         film: which film. Your instructions name the ones in the corpus.
     """
     f = _film(film)
-    parts = [
-        (
-            f"SELECT '{field}' AS feature, "
-            f"round(rankCorr({field}, attention_raw), 3) AS vs_raw, "
-            f"round(rankCorr({field}, attention_res), 3) AS vs_residual, "
-            f"round(rankCorr({field}, bin), 3) AS vs_position, "
-            "count() AS n, round(1.96 / sqrt(count() - 1), 3) AS significant_above "
-            f"FROM segments WHERE film = '{f}' AND is_edge = 0"
-        )
-        for field in sorted(FIELDS)
-    ]
+    parts = [_correlation_select(field, f) for field in sorted(FIELDS)]
     # The verdict is computed in SQL, not left to the model. Asked in prose to
     # call 0.224 against a 0.215 floor "marginal", the model reports it as a
     # finding instead — the threshold clears, so the caveat evaporates. A column
     # cannot be talked around.
-    sql = (
+    return await MCP.run_query(_with_verdicts(parts))
+
+
+def _with_verdicts(parts):
+    return (
         "SELECT feature, vs_raw, vs_residual, vs_position, n, significant_above, "
         "multiIf(abs(vs_residual) < significant_above, 'no relationship shown', "
         "abs(vs_residual) < significant_above * 1.5, "
@@ -255,7 +285,24 @@ async def correlation_table(film: str) -> str:
         "'yes - looks real against raw attention, is not', 'no') AS position_artifact "
         "FROM (" + " UNION ALL ".join(parts) + ") ORDER BY abs(vs_raw) DESC"
     )
-    return await MCP.run_query(sql)
+
+
+async def negative_control(film: str) -> str:
+    """The same correlation table, computed against SHUFFLED attention.
+
+    Each feature is paired with another segment's attention instead of its own.
+    Whatever the real table finds, this one must find nothing — and if it does
+    find something, the method is producing structure out of noise and no result
+    from it can be trusted.
+
+    Run it when asked whether the findings are real, or whether the method works.
+
+    Args:
+        film: which film. Your instructions name the ones in the corpus.
+    """
+    f = _film(film)
+    return await MCP.run_query(
+        _with_verdicts([_correlation_select(field, f, shift=37) for field in sorted(FIELDS)]))
 
 
 async def exit_hotspots(film: str, limit: int = 5) -> str:
@@ -367,6 +414,7 @@ def build_agent():
             underperforming_stretches,
             content_at,
             correlation_table,
+            negative_control,
             exit_hotspots,
         ],
     )

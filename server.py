@@ -21,15 +21,33 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, StreamingResponse
 from pydantic import BaseModel
 
-from agent import FIELDS, MCP, correlation_table, stream, MODEL, _film
+from agent import (
+    FIELDS,
+    MCP,
+    MODEL,
+    _film,
+    correlation_table,
+    negative_control,
+    stream,
+)
 
 WEB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
 
 
 async def lifespan(app):
-    # Pay the ClickHouse cold start before the first visitor, not during it.
-    elapsed = await MCP.prewarm()
-    print(f"[clickhouse ready in {elapsed:.1f}s]", flush=True)
+    # Pay the ClickHouse cold start before the first visitor, not during it — an
+    # idle Cloud instance takes the better part of twenty seconds to accept its
+    # first connection, and spending that inside a request looks like a hang.
+    #
+    # A failure here is logged and survived rather than raised. Uvicorn does not
+    # bind the port until startup finishes, so raising would mean a ClickHouse
+    # hiccup during a rollout fails the whole revision's health check; better to
+    # come up and let the page report the error it gets.
+    try:
+        elapsed = await MCP.prewarm()
+        print(f"[clickhouse ready in {elapsed:.1f}s]", flush=True)
+    except Exception as exc:  # noqa: BLE001 - startup must not depend on this
+        print(f"[clickhouse prewarm failed: {exc}]", flush=True)
     yield
     await MCP.aclose()
 
@@ -110,10 +128,15 @@ async def film(film: str):
 
 
 @app.get("/api/proof/{film}")
-async def proof(film: str):
-    """The correlation table — the same tool the agent calls, not a copy of it."""
+async def proof(film: str, shuffled: bool = False):
+    """The correlation table, or the same table computed against shuffled attention.
+
+    Both are the tools the agent calls, not copies of them — so the panel and the
+    answer cannot disagree about what the database said.
+    """
     try:
-        return json.loads(await correlation_table(film))
+        table = negative_control(film) if shuffled else correlation_table(film)
+        return json.loads(await table)
     except ValueError as exc:
         raise HTTPException(404, str(exc))
 
