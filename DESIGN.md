@@ -58,22 +58,29 @@ clear **0.215** to be distinguishable from noise):
 
 | field | vs raw attention | vs residual | vs position | verdict |
 | --- | --- | --- | --- | --- |
-| score_intensity | **+0.366** | +0.161 | **+0.377** | position artifact |
-| character_presence | **−0.346** | −0.124 | **−0.237** | position artifact |
-| inertness | **+0.224** | +0.071 | +0.187 | position artifact |
-| visual_event_density | +0.183 | **+0.224** | +0.189 | marginal |
-| story_information | −0.164 | −0.007 | **−0.244** | nothing shown |
-| speech_density | +0.004 | +0.165 | −0.053 | nothing shown |
+| character_presence | **−0.382** | −0.154 | **−0.270** | position artifact |
+| score_intensity | **+0.354** | +0.144 | **+0.365** | position artifact |
+| inertness | +0.205 | +0.048 | +0.167 | nothing shown |
+| story_information | −0.188 | −0.028 | **−0.269** | nothing shown |
+| visual_event_density | +0.172 | +0.213 | +0.178 | nothing shown |
+| speech_density | −0.096 | +0.082 | −0.159 | nothing shown |
 
-Read the first two numeric columns against each other. **Three fields clear the
-significance threshold against raw attention and none of them survive the correction.**
+Read the first two numeric columns against each other. **Two fields clear the
+significance threshold against raw attention and neither survives the correction.**
 Their correlation with position is as large as their correlation with attention, or
 larger. "Louder score means more watched" is significant, is the kind of finding a deck
 gets built on, and is entirely an artifact of where those segments sit in the film.
 
-Exactly one field survives: visual_event_density at 0.224 against a 0.215 floor. It
-clears by 0.009. That is not a finding either — it is a coin landing on its edge, and
-the honest report says so and asks for a second film.
+Nothing takes their place. The largest residual correlation of any field is
+visual_event_density at +0.213, against a 0.215 floor — a miss by 0.002, which is not a
+finding in waiting but a number that needs a second film before it means anything.
+
+An earlier version of this table read 0.366 / 0.224 / and a marginal survivor, because
+the numbers came from ClickHouse's `rankCorr`, which does not average tied ranks. The
+content scores take seven to nine distinct values across eighty-four segments, so ties
+are most of the data and the two methods disagree by up to 0.083 — enough to move a
+field across the floor. `analyze-film.py` had it right all along and the disagreement is
+what surfaced it.
 
 The pilot's "all six point the right way" was itself a small-sample accident; at n=84
 the directions disagree. Keeping both numbers in this document is the point.
@@ -101,11 +108,12 @@ relationship actually is, including when the answer is "weak".*
 The falsification machinery was always the differentiator. The day-1 result makes it the
 product:
 
-> **Proof panel, first entry.** On Tears of Steel (n=84), three content fields
-> correlate significantly with raw attention and none of the three survives correcting
-> for position. The one field that survives clears the noise floor by 0.009. Position
-> explains more than content does. Here is the method, here is the data, here is the
-> script that reproduces it.
+> **Proof panel, first entry.** On Tears of Steel (n=84), two content fields correlate
+> significantly with raw attention and neither survives correcting for position. Nothing
+> takes their place: the largest residual correlation misses the noise floor by 0.002.
+> Position explains more than content does. Here is the method, here is the data, here
+> is the script that reproduces it, and here is the same query against shuffled
+> attention finding nothing at all.
 
 A system willing to show that about itself is more credible than one that claims
 prediction. And the claim it *does* make — that the two datasets belong together and

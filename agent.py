@@ -177,30 +177,73 @@ def _population(film):
     )
 
 
-def _correlation_select(field, film, shift=None):
-    """One feature's row of the correlation table.
+def _avg_rank(column, alias):
+    """Average rank, which is what Spearman actually requires.
 
-    With shift set, the feature is paired against the attention of a DIFFERENT
-    segment — bin r against bin (r * shift + 11) mod n. Because shift is coprime
-    with n that is a genuine permutation, and because it is fixed rather than
-    random the control gives the same numbers on every take. A negative control
-    that moves between runs is not a control.
+    ClickHouse's rankCorr does not average tied ranks. The content scores are
+    integers with seven to nine distinct values across eighty-four segments, so
+    ties are not an edge case here, they are most of the data — and the two
+    methods disagree by up to 0.083. That is the difference between a feature
+    clearing the noise floor and not clearing it, which is the difference
+    between this project reporting a finding and reporting none.
+
+    rank() gives the minimum rank of a tie group (1, 1, 3, ...); adding half the
+    group's excess turns it into the average.
+    """
+    return (
+        f"rank() OVER (ORDER BY {column}) + "
+        f"(count() OVER (PARTITION BY {column}) - 1) / 2 AS {alias}"
+    )
+
+
+def _pairs(field, film, shift):
+    """One feature next to the attention it is being correlated against.
+
+    With shift set, that is a DIFFERENT segment's attention — the negative
+    control. Pairing happens before ranking, so the control ranks the same
+    population the real table does.
     """
     pop = _population(film)
     if shift is None:
-        src, res, raw, pos = f"({pop})", "attention_res", "attention_raw", "bin"
-    else:
-        src = f"({pop}) AS a INNER JOIN ({pop}) AS b ON b.r = (a.r * {shift} + 11) % a.n"
-        field, res, raw, pos = f"a.{field}", "b.attention_res", "b.attention_raw", "b.bin"
-
-    label = field.split(".")[-1]
+        return (
+            f"SELECT {field} AS f, attention_raw AS a_raw, attention_res AS a_res, "
+            f"bin AS a_pos FROM ({pop})"
+        )
     return (
-        f"SELECT '{label}' AS feature, "
-        f"round(rankCorr({field}, {raw}), 3) AS vs_raw, "
-        f"round(rankCorr({field}, {res}), 3) AS vs_residual, "
-        f"round(rankCorr({field}, {pos}), 3) AS vs_position, "
-        "count() AS n, round(1.96 / sqrt(count() - 1), 3) AS significant_above "
-        f"FROM {src}"
+        f"SELECT a.{field} AS f, b.attention_raw AS a_raw, b.attention_res AS a_res, "
+        f"b.bin AS a_pos FROM ({pop}) AS a INNER JOIN ({pop}) AS b "
+        f"ON b.r = (a.r * {shift} + 11) % a.n"
+    )
+
+
+def _correlation_select(field, film, shift=None):
+    """One feature's row of the correlation table: Spearman, three ways."""
+    ranked = (
+        "SELECT "
+        + ", ".join([
+            _avg_rank("f", "r_f"),
+            _avg_rank("a_raw", "r_raw"),
+            _avg_rank("a_res", "r_res"),
+            _avg_rank("a_pos", "r_pos"),
+        ])
+        + " FROM (" + _pairs(field, film, shift) + ")"
+    )
+    return (
+        f"SELECT '{field}' AS feature, "
+        "round(corr(r_f, r_raw), 3) AS vs_raw, "
+        "round(corr(r_f, r_res), 3) AS vs_residual, "
+        "round(corr(r_f, r_pos), 3) AS vs_position, "
+        "count() AS n, "
+        # Two floors, because there are two different questions. 1.96 is the
+        # single-test threshold and answers "is THIS feature related to
+        # attention". 2.6383 is the same threshold with Bonferroni applied over
+        # the six features, and answers "did we find ANYTHING" — which is the
+        # question actually being asked when all six are put on screen at once.
+        # Judging six results against a one-test floor is how a null gets
+        # reported as a marginal finding.
+        "round(1.96 / sqrt(count() - 1), 3) AS significant_above_one_test, "
+        "round(2.6383 / sqrt(count() - 1), 3) AS significant_above "
+        f"FROM ({ranked})"
     )
 
 
@@ -252,8 +295,13 @@ async def correlation_table(film: str) -> str:
 
     The one query that contains the whole argument. Each row gives a feature's
     rank correlation against raw attention, against the position-corrected
-    residual, and against position itself, plus significant_above — the value
-    a correlation has to beat at this sample size to mean anything at all.
+    residual, and against position itself, plus two noise floors.
+    significant_above_one_test is the threshold for a single pre-chosen feature;
+    significant_above is that threshold corrected for testing all six at once,
+    and it is the one the verdict uses, because six features on screen at once
+    is six tests. Both are optimistic: the residual is a moving-average residual
+    and therefore serially correlated, so the effective sample size is below the
+    row count. Read them as "at least this much noise".
 
     Read it by comparing vs_raw to vs_position. Where they are close and
     vs_residual is under significant_above, the feature has no demonstrated
@@ -276,7 +324,8 @@ async def correlation_table(film: str) -> str:
 
 def _with_verdicts(parts):
     return (
-        "SELECT feature, vs_raw, vs_residual, vs_position, n, significant_above, "
+        "SELECT feature, vs_raw, vs_residual, vs_position, n, "
+        "significant_above_one_test, significant_above, "
         "multiIf(abs(vs_residual) < significant_above, 'no relationship shown', "
         "abs(vs_residual) < significant_above * 1.5, "
         "'marginal - clears the floor by too little to believe from one film', "

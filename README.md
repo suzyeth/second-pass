@@ -21,17 +21,24 @@ Across the 84 non-edge segments:
 
 | feature | vs measured attention | vs residual | vs position | |
 | --- | --- | --- | --- | --- |
-| score intensity | **+0.366** | +0.161 | **+0.377** | position artifact |
-| character presence | **−0.346** | −0.124 | **−0.237** | position artifact |
-| inertness | **+0.224** | +0.071 | +0.187 | position artifact |
-| visual event density | +0.183 | **+0.224** | +0.189 | marginal |
-| story information | −0.164 | −0.007 | **−0.244** | nothing shown |
-| speech density | +0.004 | +0.165 | −0.053 | nothing shown |
+| character presence | **−0.382** | −0.154 | **−0.270** | position artifact |
+| score intensity | **+0.354** | +0.144 | **+0.365** | position artifact |
+| inertness | +0.205 | +0.048 | +0.167 | nothing shown |
+| story information | −0.188 | −0.028 | **−0.269** | nothing shown |
+| visual event density | +0.172 | +0.213 | +0.178 | nothing shown |
+| speech density | −0.096 | +0.082 | −0.159 | nothing shown |
 
-A rank correlation has to clear **0.215** at this sample size to be distinguishable
-from noise. **Three features clear it against measured attention. None of the three
-survives correcting for position.** One feature survives — by 0.009, which is a coin
-landing on its edge, not a finding.
+A correlation has to clear **0.290** to stand out from noise here — the single-test
+floor of 0.215 at n=84, corrected for testing all six features at once. Judging six
+results against a one-test floor is how a null gets reported as a finding.
+
+**Two features clear it against measured attention. Neither survives correcting for
+position, and nothing else takes their place.** The largest residual correlation of any
+feature is +0.213, which does not reach even the uncorrected floor.
+
+Both floors are optimistic: the residual is taken against a moving average and is
+therefore serially correlated, so the effective sample size is below the row count.
+Read them as *at least* this much noise.
 
 "Louder score means more watched" is significant, is the kind of result a deck gets
 built on, and is entirely an artifact of where those segments sit in the film.
@@ -56,17 +63,24 @@ agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse Cloud
 ui        player, attention curve, residual, proof panel
 ```
 
-**The model does not write SQL.** It picks one of four parameterised questions and
+**The model does not write SQL.** It picks one of five parameterised questions and
 fills in its arguments; the SQL is composed in `agent.py` from a template and executed
 through MCP's `run_query`. That keeps MCP genuinely on the runtime path — the track's
 requirement — while keeping the statements deterministic, which matters when the demo
 is unedited. Every parameter is validated against an allow-list read from the `films`
 table at startup.
 
+**Correlations are computed with tie-averaged ranks.** ClickHouse's `rankCorr` does
+not average tied ranks, and with content scores taking seven to nine distinct values
+across eighty-four segments, ties are most of the data. The two methods disagree by up
+to 0.083 — enough to move a feature across the significance floor and back. The SQL
+builds average ranks with window functions and correlates those, which reproduces
+`analyze-film.py` to three decimals on every field.
+
 **Judgements are computed in SQL, not asked for in prose.** `correlation_table` returns
-`significant_above` (the noise floor at this n), a `verdict`, and a `position_artifact`
-flag as columns. Asked in the prompt to call 0.224 against a 0.215 floor "marginal",
-the model reported it as a finding instead. A column cannot be talked around.
+both noise floors, a `verdict`, and a `position_artifact`
+flag as columns. Asked in the prompt to call a hair over the floor "marginal", the
+model reported it as a finding instead. A column cannot be talked around.
 
 **The method is tested against itself.** `negative_control` runs the identical query
 with each feature paired against a *different* segment's attention — segment `r` against
@@ -76,9 +90,9 @@ collapses:
 
 | feature | real | shuffled |
 | --- | --- | --- |
-| score intensity | +0.366 | +0.117 |
-| character presence | −0.346 | −0.092 |
-| visual event density (residual) | +0.224 | −0.047 |
+| character presence | −0.382 | −0.121 |
+| score intensity | +0.354 | +0.099 |
+| visual event density (residual) | +0.213 | −0.062 |
 
 Nothing clears the floor. A method that still found structure there would be
 manufacturing it, and no result from it could be trusted. The proof panel runs this
@@ -139,11 +153,23 @@ Credentials come from Secret Manager; nothing is baked into the image.
   and is what a production version would use.
 - It measures **rewatch, not exit**. A peak means people went back, not that they
   stayed.
-- One film, 84 usable segments. The one marginal result would need a second film
-  before it was worth believing, and the README will say so until it has one.
+- One film, 84 usable segments. Per-film n is structurally capped near this, because
+  the heatmap is always 100 bins whatever the runtime — so single-film significance at
+  the effect sizes in play is out of reach by construction. The statistical story that
+  is left is cross-film direction consistency, which is what the corpus and the join
+  are for, and which needs a second scored film before it can be told.
 - Bins near either end have a one-sided moving-average baseline, so their residual is
   an artifact of the window. They are kept in the table, drawn differently in the UI,
   and excluded from every claim.
+- The ±8-bin detrend window caps what is findable at all. A content effect lasting
+  longer than about two minutes is absorbed into its own baseline, so "nothing in the
+  residual" means nothing *on a short timescale*. Residualising against one monotone
+  position curve fitted across films would let long stretches count; it is not built.
+- `attention_raw` is min-max normalised per film by YouTube, so it is not comparable
+  between films. Only residuals are even arguably poolable.
+- The Gemini content scores have no reliability estimate. Temperature is 0, but nothing
+  here measures test-retest agreement, and noisy scores attenuate every correlation —
+  some of this null could be measurement noise rather than absence.
 
 ## Licence
 

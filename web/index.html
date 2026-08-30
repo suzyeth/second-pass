@@ -229,10 +229,18 @@
   <p class="headline" id="headline">&nbsp;</p>
   <table class="proof" id="prooftable"></table>
   <p class="note">
-    Rank correlation of each content feature against measured attention, against the
-    position-corrected residual, and against position itself. <code>significant_above</code>
-    is the value a correlation must beat at this sample size to be distinguishable from
-    noise; it and the verdict are computed in SQL, not written here. Edge bins excluded.
+    Spearman rank correlation with tie-averaged ranks, of each content feature against
+    measured attention, against the position-corrected residual, and against position
+    itself. <span id="floors"></span> The floors and the verdict are computed in SQL, not
+    written here. Edge bins excluded.
+  </p>
+  <p class="note">
+    Both floors are optimistic. The residual is taken against a moving average and is
+    therefore serially correlated, so the effective sample size is below the row count
+    &mdash; read them as <i>at least</i> this much noise. The &plusmn;8-bin window also
+    caps what is findable: any content effect lasting longer than about two minutes is
+    absorbed into its own baseline, so "nothing in the residual" means nothing on a
+    short timescale.
   </p>
 
   <!-- Provenance belongs on the page, not only in whatever the agent happens to say
@@ -550,6 +558,7 @@ function drawProof(proof, shuffled) {
   const sigRaw = rows.filter(r => Math.abs(r[c.vs_raw]) > floor).length;
   const survive = rows.filter(r => r[c.verdict] === "holds up after correcting for position").length;
   const marginal = rows.filter(r => String(r[c.verdict]).startsWith("marginal"));
+  const best = Math.max(...rows.map(r => Math.abs(r[c.vs_residual])));
 
   // The control's headline is a pass/fail statement about the method, not a
   // finding about the film. Reusing the real one would read as a second result.
@@ -562,9 +571,10 @@ function drawProof(proof, shuffled) {
     : `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of 6</b> content features `
       + `correlate significantly with measured attention. After correcting for where they `
       + `sit in the film, <b>${survive} of those ${sigRaw}</b> survive.`
+      + ` The largest residual correlation of any feature is `
+      + `<b>${best.toFixed(3)}</b>, against a floor of ${floor}.`
       + (marginal.length
-          ? ` One feature clears the noise floor by ${(Math.abs(marginal[0][c.vs_residual]) - floor).toFixed(3)} `
-            + `&mdash; too little to believe from a single film.`
+          ? ` It clears by too little to believe from a single film.`
           : "");
 
   // A feature that is significant against measured attention and not against the
@@ -584,6 +594,12 @@ function drawProof(proof, shuffled) {
     const cls = Math.abs(v) > floor ? "sig" : "insig";
     return `<span class="${cls}">${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(3)}</span>`;
   };
+
+  $("floors").innerHTML =
+    `A correlation must beat <b>${floor}</b> to stand out from noise here &mdash; that is `
+    + `the single-test floor of ${rows[0][c.significant_above_one_test]} corrected for `
+    + `testing all six features at once. Judging six results against a one-test floor is `
+    + `how a null gets reported as a finding.`;
 
   $("prooftable").innerHTML =
     `<thead><tr><th>feature</th><th>vs measured</th><th>vs residual</th>`
