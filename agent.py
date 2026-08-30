@@ -339,10 +339,10 @@ def _with_verdicts(parts):
 async def negative_control(film: str) -> str:
     """The same correlation table, computed against SHUFFLED attention.
 
-    Each feature is paired with another segment's attention instead of its own.
-    Whatever the real table finds, this one must find nothing — and if it does
-    find something, the method is producing structure out of noise and no result
-    from it can be trusted.
+    Each feature is paired with another segment's attention instead of its own,
+    so any correlation it returns was produced by the method rather than found by
+    it. What it returns is not knowable without running it: run it and read the
+    result. Never describe its outcome from memory of what a control is for.
 
     Run it when asked whether the findings are real, or whether the method works.
 
@@ -399,6 +399,12 @@ INSTRUCTION = """You answer questions about why an audience's attention rises an
 falls across a film, using a database of measured segments and playback events.
 
 Ground every claim in a tool result. If you did not query it, do not say it.
+
+That includes checks. Never report that a control, a comparison, or a second film
+confirms anything unless you called the tool and read what came back. Saying "the
+negative control confirms this" without having run it is the exact failure this
+system exists to catch, and doing it here would discredit every true sentence
+around it. If a check is worth citing, run it.
 
 The one thing you must never get wrong: attention rises toward the end of almost
 every film regardless of content. A correlation against RAW attention is therefore
