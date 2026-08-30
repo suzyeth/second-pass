@@ -1,0 +1,17 @@
+{
+ "tos": {
+  "title": "Tears of Steel",
+  "youtube": "R6MlUcmOul8",
+  "source": "https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov",
+  "meta": "tos.json",
+  "video": "tos.mov"
+ },
+ "bbb": {
+  "title": "Big Buck Bunny (2008 original)",
+  "note": "NOT the 2013 Sunflower re-release, which runs ~40s longer. The YouTube upload the heatmap comes from is 597s, matching the original at 596.5s. Using Sunflower would shift every timecode and fail silently.",
+  "youtube": "YE7VzlLtp-4",
+  "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov.zip",
+  "meta": "bbb.json",
+  "video": "big_buck_bunny_480p_h264.mov"
+ }
+}
