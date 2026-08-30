@@ -12,26 +12,45 @@ WHERE film = 'tos' AND is_edge = 0
 ORDER BY attention_res ASC
 LIMIT 5;
 
--- Q2 — the false positive, in one query. rankCorr against RAW attention says
--- faces drive viewers away. Against the residual it says almost nothing. The
--- difference is position, and position is what nobody controls for.
+-- Q2 — the false positive, in one query. Against RAW attention, faces drive
+-- viewers away and a loud score keeps them. Against the residual both say almost
+-- nothing. The difference is position, and position is what nobody controls for.
+--
+-- Spearman is computed here as a Pearson correlation of AVERAGE ranks rather than
+-- with rankCorr, which does not average ties. The content scores take seven to
+-- nine distinct values across eighty-four segments, so ties are most of the data
+-- and the two disagree by up to 0.083 — enough to move a field across the
+-- significance floor. At n=84 that floor is 0.215 for a single test, 0.290 once
+-- corrected for testing six fields at once.
 SELECT 'character_presence' AS field,
-       round(rankCorr(character_presence, attention_raw), 3) AS vs_raw,
-       round(rankCorr(character_presence, attention_res), 3) AS vs_residual,
-       round(rankCorr(character_presence, bin), 3)           AS vs_position
-FROM segments WHERE film = 'tos' AND is_edge = 0
+       round(corr(r_f, r_raw), 3)  AS vs_raw,
+       round(corr(r_f, r_res), 3)  AS vs_residual,
+       round(corr(r_f, r_pos), 3)  AS vs_position
+FROM (SELECT rank() OVER (ORDER BY character_presence) + (count() OVER (PARTITION BY character_presence) - 1) / 2 AS r_f,
+             rank() OVER (ORDER BY attention_raw) + (count() OVER (PARTITION BY attention_raw) - 1) / 2 AS r_raw,
+             rank() OVER (ORDER BY attention_res) + (count() OVER (PARTITION BY attention_res) - 1) / 2 AS r_res,
+             rank() OVER (ORDER BY bin)           + (count() OVER (PARTITION BY bin) - 1) / 2           AS r_pos
+      FROM segments WHERE film = 'tos' AND is_edge = 0)
 UNION ALL
 SELECT 'score_intensity',
-       round(rankCorr(score_intensity, attention_raw), 3),
-       round(rankCorr(score_intensity, attention_res), 3),
-       round(rankCorr(score_intensity, bin), 3)
-FROM segments WHERE film = 'tos' AND is_edge = 0
+       round(corr(r_f, r_raw), 3),
+       round(corr(r_f, r_res), 3),
+       round(corr(r_f, r_pos), 3)
+FROM (SELECT rank() OVER (ORDER BY score_intensity) + (count() OVER (PARTITION BY score_intensity) - 1) / 2 AS r_f,
+             rank() OVER (ORDER BY attention_raw) + (count() OVER (PARTITION BY attention_raw) - 1) / 2 AS r_raw,
+             rank() OVER (ORDER BY attention_res) + (count() OVER (PARTITION BY attention_res) - 1) / 2 AS r_res,
+             rank() OVER (ORDER BY bin)           + (count() OVER (PARTITION BY bin) - 1) / 2           AS r_pos
+      FROM segments WHERE film = 'tos' AND is_edge = 0)
 UNION ALL
 SELECT 'visual_event_density',
-       round(rankCorr(visual_event_density, attention_raw), 3),
-       round(rankCorr(visual_event_density, attention_res), 3),
-       round(rankCorr(visual_event_density, bin), 3)
-FROM segments WHERE film = 'tos' AND is_edge = 0;
+       round(corr(r_f, r_raw), 3),
+       round(corr(r_f, r_res), 3),
+       round(corr(r_f, r_pos), 3)
+FROM (SELECT rank() OVER (ORDER BY visual_event_density) + (count() OVER (PARTITION BY visual_event_density) - 1) / 2 AS r_f,
+             rank() OVER (ORDER BY attention_raw) + (count() OVER (PARTITION BY attention_raw) - 1) / 2 AS r_raw,
+             rank() OVER (ORDER BY attention_res) + (count() OVER (PARTITION BY attention_res) - 1) / 2 AS r_res,
+             rank() OVER (ORDER BY bin)           + (count() OVER (PARTITION BY bin) - 1) / 2           AS r_pos
+      FROM segments WHERE film = 'tos' AND is_edge = 0);
 
 -- Q3 — the scale join: where do sessions actually leave, and what is playing
 -- there? 4.2M events aggregated against 95 dimension rows.
