@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second Pass</title>
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --panel: #131519;
+    --panel-2: #191c22;
+    --line: #262a33;
+    --text: #e7e9ef;
+    --dim: #8b92a3;
+    --dimmer: #5b6273;
+    --raw: #f0a24a;
+    --base: #6b7488;
+    --pos: #4ec9a5;
+    --neg: #e3596a;
+    --warn: #e0a33c;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  header {
+    display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+  }
+  header h1 {
+    margin: 0; font-size: 15px; letter-spacing: .16em; text-transform: uppercase;
+    font-weight: 600;
+  }
+  header p { margin: 0; color: var(--dim); font-size: 13px; max-width: 62ch; }
+  .chip {
+    margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--dimmer);
+    border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; white-space: nowrap;
+  }
+
+  main {
+    display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(340px, 1fr);
+    gap: 1px; background: var(--line);
+  }
+  @media (max-width: 1080px) { main { grid-template-columns: minmax(0, 1fr); } }
+  .col { background: var(--bg); min-width: 0; }
+
+  section { padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  h2 {
+    margin: 0 0 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--dim); font-weight: 600;
+  }
+  .sub { margin: 0 0 16px; color: var(--dimmer); font-size: 12.5px; max-width: 70ch; }
+
+  /* player */
+  .player { position: relative; width: 100%; aspect-ratio: 16/9; background: #000;
+            border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .player iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* chart */
+  .chart-wrap { position: relative; margin-top: 18px; }
+  svg { display: block; width: 100%; overflow: visible; cursor: crosshair; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px;
+            font-size: 11.5px; color: var(--dim); font-family: var(--mono); }
+  .legend i { display: inline-block; width: 16px; height: 2px; vertical-align: middle;
+              margin-right: 6px; border-radius: 2px; }
+
+  .card {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 10px 12px; width: 300px; z-index: 5;
+    box-shadow: 0 12px 32px rgba(0,0,0,.55);
+  }
+  .card.on { opacity: 1; }
+  .card .t { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .card .l { margin: 6px 0 8px; font-size: 12.5px; line-height: 1.45; }
+  .card table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 11px; }
+  .card td { padding: 1px 0; color: var(--dim); }
+  .card td + td { text-align: right; color: var(--text); }
+
+  /* ask */
+  .askbox { display: flex; gap: 8px; }
+  input[type=text] {
+    flex: 1; min-width: 0; background: var(--panel); color: var(--text);
+    border: 1px solid var(--line); border-radius: 5px; padding: 9px 11px; font: inherit;
+  }
+  input[type=text]:focus { outline: none; border-color: var(--dimmer); }
+  button {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 5px; padding: 9px 14px; font: inherit; cursor: pointer;
+  }
+  button:hover:not(:disabled) { border-color: var(--dimmer); }
+  button:disabled { opacity: .45; cursor: default; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .presets button { font-size: 12px; padding: 5px 10px; color: var(--dim); text-align: left; }
+
+  .log { margin-top: 18px; }
+  .callrow {
+    font-family: var(--mono); font-size: 11.5px; color: var(--dim);
+    background: var(--panel); border: 1px solid var(--line); border-left: 2px solid var(--raw);
+    border-radius: 4px; padding: 7px 10px; margin-bottom: 6px; word-break: break-word;
+  }
+  .callrow b { color: var(--raw); font-weight: 600; }
+  .callrow span { color: var(--dimmer); }
+  .answer { margin-top: 14px; white-space: pre-wrap; font-size: 13.5px; line-height: 1.62; }
+  .answer .moment {
+    font-family: var(--mono); color: var(--raw); cursor: pointer;
+    border-bottom: 1px dotted currentColor;
+  }
+  .status { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer); margin-top: 12px; }
+  .err { color: var(--neg); }
+
+  /* proof */
+  .headline {
+    font-size: 15px; line-height: 1.6; margin: 0 0 16px; max-width: 78ch;
+  }
+  .headline b { color: var(--warn); font-weight: 600; }
+  table.proof { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.proof th {
+    text-align: right; font-weight: 500; color: var(--dim); font-size: 11px;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 0 10px 8px; border-bottom: 1px solid var(--line);
+  }
+  table.proof th:first-child, table.proof td:first-child { text-align: left; }
+  table.proof th:last-child, table.proof td:last-child { text-align: left; }
+  table.proof td {
+    padding: 8px 10px; border-bottom: 1px solid var(--line);
+    font-family: var(--mono); text-align: right;
+  }
+  table.proof td:first-child { font-family: inherit; }
+  .sig { color: var(--text); font-weight: 600; }
+  .insig { color: var(--dimmer); }
+  .badge {
+    font-family: inherit; font-size: 11px; padding: 2px 8px; border-radius: 99px;
+    border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-artifact { color: var(--neg); }
+  .b-marginal { color: var(--warn); }
+  .b-none { color: var(--dimmer); }
+  .b-holds { color: var(--pos); }
+  .note { margin-top: 16px; color: var(--dimmer); font-size: 12px; max-width: 80ch; }
+
+  .prov {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+    border-radius: 6px; margin-top: 22px; overflow: hidden;
+  }
+  .prov > div { background: var(--panel); padding: 14px 16px; }
+  .prov h3 {
+    margin: 0 0 6px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--dim); font-weight: 600;
+  }
+  .prov p { margin: 0; font-size: 12.5px; color: var(--dimmer); line-height: 1.55; }
+  .prov b { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Second Pass</h1>
+  <p>Audience attention and shot-level content analysis in one queryable place &mdash;
+     and an honest report of how weakly they actually relate.</p>
+  <div class="chip" id="chip">connecting&hellip;</div>
+</header>
+
+<main>
+  <div class="col">
+    <section>
+      <h2>The film</h2>
+      <p class="sub" id="filmsub">&nbsp;</p>
+      <div class="player"><div id="player"></div></div>
+
+      <div class="chart-wrap">
+        <!-- Uniform scaling. preserveAspectRatio="none" would stretch the width to
+             fill the column and squash the stroke weights and axis labels with it. -->
+        <svg id="chart" viewBox="0 0 1000 400"></svg>
+        <div class="card" id="card"></div>
+      </div>
+
+      <div class="legend">
+        <span><i style="background:var(--base);height:0;border-top:2px dashed var(--base)"></i>expected for position</span>
+        <span><i style="background:var(--pos)"></i>watched more than position predicts</span>
+        <span><i style="background:var(--neg)"></i>watched less</span>
+        <span style="color:var(--dimmer)">shaded = edge bins, excluded from claims</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section>
+      <h2>Ask</h2>
+      <p class="sub">Gemini picks one of four parameterised questions and fills in its
+         arguments. The SQL is composed server-side and executed by the
+         <code>mcp-clickhouse</code> MCP server. Every query it runs is listed below the
+         answer it produced.</p>
+      <div class="askbox">
+        <input type="text" id="q" placeholder="Ask about the film&hellip;"
+               autocomplete="off" spellcheck="false">
+        <button id="go">Ask</button>
+      </div>
+      <div class="presets" id="presets"></div>
+      <div class="log" id="log"></div>
+      <div class="status" id="status"></div>
+    </section>
+  </div>
+</main>
+
+<section>
+  <h2>Proof &mdash; what this system can and cannot claim</h2>
+  <p class="headline" id="headline">&nbsp;</p>
+  <table class="proof" id="prooftable"></table>
+  <p class="note">
+    Rank correlation of each content feature against measured attention, against the
+    position-corrected residual, and against position itself. <code>significant_above</code>
+    is the value a correlation must beat at this sample size to be distinguishable from
+    noise; it and the verdict are computed in SQL, not written here. Edge bins excluded.
+  </p>
+
+  <!-- Provenance belongs on the page, not only in whatever the agent happens to say
+       about it. A viewer who reads one number and closes the tab should still know
+       which of these three things was measured and which was manufactured. -->
+  <div class="prov">
+    <div>
+      <h3>Attention &mdash; measured</h3>
+      <p>YouTube's most-replayed heatmap for this upload. Always exactly 100 buckets,
+         min-max normalised by YouTube. It records <b>rewatching</b>, not retention:
+         a peak means people went back, not that people stayed.</p>
+    </div>
+    <div>
+      <h3>Content &mdash; measured</h3>
+      <p>Six scores per segment from Gemini, scored from the clip itself with a blind
+         prompt that never sees an attention value and is told not to guess what
+         viewers preferred.</p>
+    </div>
+    <div>
+      <h3>Playback events &mdash; synthetic</h3>
+      <p>4.2M generated events, because per-viewer playback data is something only a
+         platform owner has. They are derived <b>from</b> the attention curve, so they
+         demonstrate the query workload and cannot corroborate the curve.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+const FILM = "tos";
+const $ = (id) => document.getElementById(id);
+
+let DATA = null;      // {film, columns, rows}
+let COL = {};         // column name -> index
+let player = null;
+let playheadBin = -1;
+
+// ---------------------------------------------------------------- data load
+
+async function load() {
+  const [health, film, proof] = await Promise.all([
+    fetch("/api/health").then(r => r.json()),
+    fetch("/api/film/" + FILM).then(r => r.json()),
+    fetch("/api/proof/" + FILM).then(r => r.json()),
+  ]);
+
+  $("chip").textContent =
+    health.model + " · " + health.mcp + " · " + health.clickhouse;
+
+  DATA = film;
+  film.columns.forEach((c, i) => COL[c] = i);
+
+  const f = film.film;
+  $("filmsub").innerHTML =
+    f.title + " — " + film.rows.length + " segments of "
+    + Math.round(f.duration_s / f.bin_count) + "s. Attention is YouTube's "
+    + "most-replayed heatmap for this upload, which measures rewatching, not retention. "
+    // Float32 out of ClickHouse arrives as 3.390000104904175; rounding in SQL does
+    // not survive the widening, so it is formatted here.
+    + "Second-half attention runs <b>" + Number(f.position_bias).toFixed(2) + "×</b> the first half "
+    + "on content alone — that trend is what the residual removes.";
+
+  drawChart();
+  drawProof(proof);
+  startPolling();
+}
+
+// ---------------------------------------------------------------- the chart
+
+// The residual panel gets nearly as much height as the attention panel. It is the
+// only one of the two that carries a claim — the raw curve mostly draws the film's
+// position trend — so sizing it as a footnote would be the chart arguing against
+// the thing the page exists to say.
+const W = 1000, H = 400, PAD_L = 58, PAD_R = 10, PAD_T = 22;
+const H_RAW = 168, GAP = 44, H_RES = 128;
+const FS = 13;
+
+function xOf(bin) {
+  return PAD_L + (bin / (DATA.rows.length - 1)) * (W - PAD_L - PAD_R);
+}
+
+function drawChart() {
+  const rows = DATA.rows;
+  const raw = rows.map(r => r[COL.raw]);
+  const base = rows.map(r => r[COL.base]);
+  const res = rows.map(r => r[COL.res]);
+
+  const hi = Math.max(...raw, ...base);
+  const yRaw = (v) => PAD_T + H_RAW - (v / hi) * H_RAW;
+
+  const resMax = Math.max(...res.map(Math.abs)) || 1;
+  const zero = PAD_T + H_RAW + GAP + H_RES / 2;
+  const yRes = (v) => zero - (v / resMax) * (H_RES / 2);
+
+  const parts = [];
+
+  // edge shading first, so everything else sits on top of it
+  rows.forEach((r, i) => {
+    if (!r[COL.is_edge]) return;
+    const x0 = i === 0 ? PAD_L : (xOf(i) + xOf(i - 1)) / 2;
+    const x1 = i === rows.length - 1 ? W - PAD_R : (xOf(i) + xOf(i + 1)) / 2;
+    parts.push(`<rect x="${x0}" y="${PAD_T}" width="${x1 - x0}"
+      height="${H_RAW + GAP + H_RES}" fill="#ffffff" opacity="0.028"/>`);
+  });
+
+  // y gridlines on the attention panel
+  for (let k = 0; k <= 2; k++) {
+    const v = (hi * k) / 2, y = yRaw(v);
+    parts.push(`<line x1="${PAD_L}" y1="${y}" x2="${W - PAD_R}" y2="${y}"
+      stroke="#262a33" stroke-width="1"/>`);
+    parts.push(`<text x="${PAD_L - 10}" y="${y + 4.5}" text-anchor="end"
+      fill="#5b6273" font-size="${FS}" font-family="ui-monospace,monospace"
+      >${v.toFixed(2)}</text>`);
+  }
+
+  parts.push(panelLabel(PAD_T - 8, "measured attention"));
+  parts.push(panelLabel(PAD_T + H_RAW + GAP - 8, "residual — more or less watched than position predicts"));
+
+  // residual bars
+  rows.forEach((r, i) => {
+    const v = r[COL.res], y = yRes(v);
+    const w = Math.max(2, (W - PAD_L - PAD_R) / rows.length - 1.6);
+    parts.push(`<rect x="${xOf(i) - w / 2}" y="${Math.min(y, zero)}" width="${w}"
+      height="${Math.max(1, Math.abs(y - zero))}"
+      fill="${v >= 0 ? "#4ec9a5" : "#e3596a"}"
+      opacity="${r[COL.is_edge] ? 0.3 : 0.85}"/>`);
+  });
+  parts.push(`<line x1="${PAD_L}" y1="${zero}" x2="${W - PAD_R}" y2="${zero}"
+    stroke="#3a3f4c" stroke-width="1"/>`);
+  [resMax, 0, -resMax].forEach(v => {
+    parts.push(`<text x="${PAD_L - 10}" y="${yRes(v) + 4.5}" text-anchor="end"
+      fill="#5b6273" font-size="${FS}" font-family="ui-monospace,monospace"
+      >${v > 0 ? "+" : ""}${v.toFixed(2)}</text>`);
+  });
+
+  // baseline then measured attention
+  parts.push(`<path d="${linePath(base, yRaw)}" fill="none" stroke="#6b7488"
+    stroke-width="1.6" stroke-dasharray="5 4"/>`);
+  parts.push(`<path d="${linePath(raw, yRaw)}" fill="none" stroke="#f0a24a"
+    stroke-width="2" stroke-linejoin="round"/>`);
+
+  // time axis
+  const dur = DATA.film.duration_s;
+  for (let s = 0; s <= dur; s += 120) {
+    const i = nearestBinForSecond(s);
+    parts.push(`<text x="${xOf(i)}" y="${H - 6}" text-anchor="middle" fill="#5b6273"
+      font-size="${FS}" font-family="ui-monospace,monospace">${fmtTime(s)}</text>`);
+  }
+
+  parts.push(`<line id="playhead" x1="0" y1="${PAD_T}" x2="0"
+    y2="${PAD_T + H_RAW + GAP + H_RES}" stroke="#ffffff" stroke-width="1"
+    opacity="0"/>`);
+  parts.push(`<line id="hoverline" x1="0" y1="${PAD_T}" x2="0"
+    y2="${PAD_T + H_RAW + GAP + H_RES}" stroke="#8b92a3" stroke-width="1"
+    stroke-dasharray="3 3" opacity="0"/>`);
+
+  $("chart").innerHTML = parts.join("");
+}
+
+// Right-aligned: the left gutter belongs to the value labels, and a panel title
+// sitting on top of "+0.03" is worse than no panel title.
+function panelLabel(y, text) {
+  return `<text x="${W - PAD_R}" y="${y}" text-anchor="end" fill="#8b92a3"
+    font-size="${FS}" font-family="ui-monospace,monospace"
+    letter-spacing="0.06em">${text}</text>`;
+}
+
+function linePath(values, y) {
+  return values.map((v, i) => (i ? "L" : "M") + xOf(i).toFixed(2) + " " + y(v).toFixed(2)).join(" ");
+}
+
+function nearestBinForSecond(s) {
+  const rows = DATA.rows;
+  let best = 0, bestD = Infinity;
+  rows.forEach((r, i) => {
+    const d = Math.abs(r[COL.start_s] - s);
+    if (d < bestD) { bestD = d; best = i; }
+  });
+  return best;
+}
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60), sec = Math.round(s % 60);
+  return m + ":" + String(sec).padStart(2, "0");
+}
+
+// ---------------------------------------------------------------- hover + seek
+
+const chart = $("chart");
+
+function binFromEvent(e) {
+  const box = chart.getBoundingClientRect();
+  const x = ((e.clientX - box.left) / box.width) * W;
+  const frac = (x - PAD_L) / (W - PAD_L - PAD_R);
+  return Math.max(0, Math.min(DATA.rows.length - 1, Math.round(frac * (DATA.rows.length - 1))));
+}
+
+chart.addEventListener("mousemove", (e) => {
+  if (!DATA) return;
+  const i = binFromEvent(e);
+  showCard(i, e);
+  const hl = document.getElementById("hoverline");
+  if (hl) { hl.setAttribute("x1", xOf(i)); hl.setAttribute("x2", xOf(i)); hl.setAttribute("opacity", ".5"); }
+});
+
+chart.addEventListener("mouseleave", () => {
+  $("card").classList.remove("on");
+  const hl = document.getElementById("hoverline");
+  if (hl) hl.setAttribute("opacity", "0");
+});
+
+chart.addEventListener("click", (e) => { if (DATA) seekToBin(binFromEvent(e)); });
+
+function showCard(i, e) {
+  const r = DATA.rows[i];
+  const fields = ["visual_event_density", "story_information", "character_presence",
+                  "speech_density", "score_intensity", "inertness"];
+  const rowsHtml = fields
+    .map(f => `<tr><td>${f.replace(/_/g, " ")}</td><td>${r[COL[f]]}</td></tr>`)
+    .join("");
+
+  const card = $("card");
+  card.innerHTML =
+    `<div class="t">bin ${r[COL.bin]} &middot; ${fmtTime(r[COL.start_s])}`
+    + (r[COL.is_edge] ? ' &middot; <span style="color:#8b92a3">edge bin</span>' : "")
+    + `</div><div class="l">${escapeHtml(r[COL.one_line])}</div>`
+    + `<table><tr><td>measured</td><td>${r[COL.raw].toFixed(3)}</td></tr>`
+    + `<tr><td>expected for position</td><td>${r[COL.base].toFixed(3)}</td></tr>`
+    + `<tr><td>residual</td><td style="color:${r[COL.res] >= 0 ? "#4ec9a5" : "#e3596a"}">`
+    + `${r[COL.res] >= 0 ? "+" : ""}${r[COL.res].toFixed(3)}</td></tr>`
+    + rowsHtml + `</table>`;
+
+  const wrap = chart.parentElement.getBoundingClientRect();
+  let left = e.clientX - wrap.left + 16;
+  if (left + 316 > wrap.width) left = e.clientX - wrap.left - 316;
+  card.style.left = Math.max(0, left) + "px";
+  card.style.top = Math.min(wrap.height - 20, e.clientY - wrap.top + 14) + "px";
+  card.classList.add("on");
+}
+
+// The segments an answer names get marked on the curve. Without this the answer
+// and the chart are two things on a page; with it, a claim about bin 61 points at
+// the place in the film it is a claim about, and a wrong one is obvious.
+let marked = [];
+
+function markBins(bins, replace) {
+  marked = replace ? bins : [...new Set([...marked, ...bins])];
+  bins = marked;
+
+  const old = document.getElementById("marks");
+  if (old) old.remove();
+  if (!bins.length) return;
+
+  // A band through both panels rather than a marker above one of them: the same
+  // moment has an attention value and a residual, and a triangle pointing at one
+  // of the two also collided with the panel label sitting at that height.
+  const w = Math.max(3, (W - PAD_L - PAD_R) / DATA.rows.length);
+  const marks = bins
+    .filter(b => b >= 0 && b < DATA.rows.length)
+    .map(b => `<rect x="${xOf(b) - w / 2}" y="${PAD_T}" width="${w}"
+      height="${H_RAW + GAP + H_RES}" fill="#f0a24a" opacity="0.16"/>`)
+    .join("");
+
+  $("chart").insertAdjacentHTML("beforeend", `<g id="marks">${marks}</g>`);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function seekToBin(i) {
+  const r = DATA.rows[i];
+  if (player && player.seekTo) { player.seekTo(r[COL.start_s], true); player.playVideo(); }
+}
+
+// ---------------------------------------------------------------- player
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("player", {
+    videoId: "R6MlUcmOul8",
+    playerVars: { rel: 0, modestbranding: 1 },
+  });
+}
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+function startPolling() {
+  setInterval(() => {
+    if (!player || !player.getCurrentTime || !DATA) return;
+    const t = player.getCurrentTime();
+    if (typeof t !== "number") return;
+    const i = nearestBinForSecond(t);
+    const ph = document.getElementById("playhead");
+    if (ph) { ph.setAttribute("x1", xOf(i)); ph.setAttribute("x2", xOf(i)); ph.setAttribute("opacity", ".65"); }
+    playheadBin = i;
+  }, 250);
+}
+
+// ---------------------------------------------------------------- proof panel
+
+function drawProof(proof) {
+  const c = {};
+  proof.columns.forEach((n, i) => c[n] = i);
+  const rows = proof.rows;
+  const floor = rows[0][c.significant_above];
+
+  const sigRaw = rows.filter(r => Math.abs(r[c.vs_raw]) > floor).length;
+  const survive = rows.filter(r => r[c.verdict] === "holds up after correcting for position").length;
+  const marginal = rows.filter(r => String(r[c.verdict]).startsWith("marginal"));
+
+  $("headline").innerHTML =
+    `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of 6</b> content features `
+    + `correlate significantly with measured attention. After correcting for where they `
+    + `sit in the film, <b>${survive} of those ${sigRaw}</b> survive.`
+    + (marginal.length
+        ? ` One feature clears the noise floor by ${(Math.abs(marginal[0][c.vs_residual]) - floor).toFixed(3)} `
+          + `&mdash; too little to believe from a single film.`
+        : "");
+
+  // A feature that is significant against measured attention and not against the
+  // residual is the case worth naming out loud, so it gets its own badge rather
+  // than being filed under the generic "no relationship shown" its verdict says.
+  const badge = (r) => {
+    const v = String(r[c.verdict]);
+    if (String(r[c.position_artifact]).startsWith("yes")) {
+      return `<span class="badge b-artifact">position artifact</span>`;
+    }
+    const cls = v.startsWith("marginal") ? "b-marginal"
+      : v.startsWith("holds") ? "b-holds" : "b-none";
+    const label = v.startsWith("marginal") ? "marginal" : v;
+    return `<span class="badge ${cls}">${escapeHtml(label)}</span>`;
+  };
+  const num = (v) => {
+    const cls = Math.abs(v) > floor ? "sig" : "insig";
+    return `<span class="${cls}">${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(3)}</span>`;
+  };
+
+  $("prooftable").innerHTML =
+    `<thead><tr><th>feature</th><th>vs measured</th><th>vs residual</th>`
+    + `<th>vs position</th><th>verdict</th></tr></thead><tbody>`
+    + rows.map(r =>
+        `<tr><td>${r[c.feature].replace(/_/g, " ")}</td>`
+        + `<td>${num(r[c.vs_raw])}</td><td>${num(r[c.vs_residual])}</td>`
+        + `<td>${num(r[c.vs_position])}</td>`
+        + `<td>${badge(r)}</td></tr>`).join("")
+    + `</tbody>`;
+}
+
+// ---------------------------------------------------------------- ask
+
+const PRESETS = [
+  "Which content features actually explain attention, and which only look like they do?",
+  "Which stretches of tos lose people, and what is on screen there?",
+  "Where do viewing sessions drop out, and what was playing there?",
+];
+
+$("presets").innerHTML = PRESETS
+  .map((p, i) => `<button data-i="${i}">${escapeHtml(p)}</button>`).join("");
+$("presets").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (b) { $("q").value = PRESETS[+b.dataset.i]; runAsk(); }
+});
+$("go").addEventListener("click", runAsk);
+$("q").addEventListener("keydown", (e) => { if (e.key === "Enter") runAsk(); });
+
+let busy = false;
+
+async function runAsk() {
+  const question = $("q").value.trim();
+  if (!question || busy) return;
+  busy = true;
+  $("go").disabled = true;
+  $("log").innerHTML = "";
+  markBins([], true);
+  $("status").className = "status";
+  $("status").textContent = "querying…";
+
+  try {
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+    });
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const chunks = buf.split("\n\n");
+      buf = chunks.pop();
+      for (const chunk of chunks) {
+        if (!chunk.startsWith("data: ")) continue;
+        handleEvent(JSON.parse(chunk.slice(6)));
+      }
+    }
+  } catch (err) {
+    $("status").className = "status err";
+    $("status").textContent = String(err);
+  } finally {
+    busy = false;
+    $("go").disabled = false;
+  }
+}
+
+function handleEvent(ev) {
+  if (ev.type === "tool") {
+    const args = Object.entries(ev.args)
+      .map(([k, v]) => k + "=" + JSON.stringify(v)).join(", ");
+    const div = document.createElement("div");
+    div.className = "callrow";
+    div.innerHTML = `<span>mcp run_query →</span> <b>${escapeHtml(ev.name)}</b>`
+      + `<span>(${escapeHtml(args)})</span>`;
+    $("log").appendChild(div);
+    $("status").textContent = "reading result…";
+  } else if (ev.type === "bins") {
+    // Marks come from the query result, not from the answer text. The chart lights
+    // up the moment the database replies, before a single word is written about it.
+    markBins(ev.bins);
+  } else if (ev.type === "answer") {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.innerHTML = linkMoments(escapeHtml(ev.text));
+    $("log").appendChild(div);
+  } else if (ev.type === "error") {
+    $("status").className = "status err";
+    $("status").textContent = ev.text;
+  } else if (ev.type === "done") {
+    if (!$("status").classList.contains("err")) $("status").textContent = "";
+  }
+}
+
+// Every moment an answer names becomes a seek. Told to write for a director rather
+// than a DBA, the model stopped saying "bin 8" and started saying "59 seconds in" —
+// which is the better sentence and broke the link when only bin numbers were
+// matched. Timecode is the film-native reference; the bin is an implementation
+// detail. One pass with one alternation, because chaining replaces would re-match
+// inside the markup the previous replace just inserted.
+const MOMENT_RE =
+  /\b(\d{1,2}):([0-5]\d)\b|\bseconds? (\d{1,4})\b|\b(\d{1,4}) seconds\b|\bbin (\d{1,2})\b/gi;
+
+function linkMoments(html) {
+  return html.replace(MOMENT_RE, (match, mm, ss, secA, secB, bin) => {
+    let sec;
+    if (mm !== undefined) sec = +mm * 60 + +ss;
+    else if (secA !== undefined) sec = +secA;
+    else if (secB !== undefined) sec = +secB;
+    else {
+      const row = DATA.rows[Math.min(DATA.rows.length - 1, +bin)];
+      sec = row ? row[COL.start_s] : null;
+    }
+    if (sec === null || sec > DATA.film.duration_s) return match;
+    return `<span class="moment" data-sec="${sec}">${match}</span>`;
+  });
+}
+
+$("log").addEventListener("click", (e) => {
+  const m = e.target.closest(".moment");
+  if (m && player && player.seekTo) {
+    player.seekTo(+m.dataset.sec, true);
+    player.playVideo();
+  }
+});
+
+load().catch(err => {
+  $("chip").textContent = "error";
+  $("status").className = "status err";
+  $("status").textContent = String(err);
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

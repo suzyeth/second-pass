@@ -21,6 +21,7 @@
 # WHERE clause" are one careless f-string apart.
 
 import asyncio
+import json
 import os
 import sys
 import time
@@ -32,9 +33,16 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
+NEWLINE = chr(10)
 
 # Allow-lists. A value not in one of these never reaches a query.
+#
+# FILMS is what the corpus may ever contain; LOADED is what is actually in the
+# database right now, read at startup. Validating against the first alone let the
+# model sweep all three films and get NaN back from two of them, which it reported
+# honestly and which should never have been askable in the first place.
 FILMS = {"tos", "bbb", "sintel"}
+LOADED = set()
 FIELDS = {
     "visual_event_density",
     "story_information",
@@ -124,7 +132,9 @@ class ClickHouseMCP:
         looks like the agent has hung.
         """
         started = time.monotonic()
-        await self.run_query("SELECT count() FROM segments")
+        catalog = json.loads(await self.run_query("SELECT film FROM films ORDER BY film"))
+        LOADED.clear()
+        LOADED.update(row[0] for row in catalog["rows"])
         return time.monotonic() - started
 
     async def aclose(self):
@@ -139,8 +149,9 @@ MCP = ClickHouseMCP()
 
 
 def _film(value):
-    if value not in FILMS:
-        raise ValueError(f"unknown film {value!r}; known: {sorted(FILMS)}")
+    allowed = LOADED or FILMS
+    if value not in allowed:
+        raise ValueError(f"{value!r} is not in the corpus; loaded: {sorted(allowed)}")
     return value
 
 
@@ -168,7 +179,7 @@ async def underperforming_stretches(film: str, limit: int = 5) -> str:
     its density scores. Do not follow up with content_at for the rows it returns.
 
     Args:
-        film: which film, one of tos, bbb, sintel.
+        film: which film. Your instructions name the ones in the corpus.
         limit: how many stretches, at most 10.
     """
     sql = (
@@ -187,7 +198,7 @@ async def content_at(film: str, bin: int) -> str:
     — not to expand rows another tool already returned with their content attached.
 
     Args:
-        film: which film, one of tos, bbb, sintel.
+        film: which film. Your instructions name the ones in the corpus.
         bin: the segment index, 0-99.
     """
     sql = (
@@ -216,7 +227,7 @@ async def correlation_table(film: str) -> str:
     answer a question about which features relate to attention.
 
     Args:
-        film: which film, one of tos, bbb, sintel.
+        film: which film. Your instructions name the ones in the corpus.
     """
     f = _film(film)
     parts = [
@@ -265,7 +276,7 @@ async def exit_hotspots(film: str, limit: int = 5) -> str:
     film comes from the segment columns.
 
     Args:
-        film: which film, one of tos, bbb, sintel.
+        film: which film. Your instructions name the ones in the corpus.
         limit: how many segments, at most 10.
     """
     sql = (
@@ -315,21 +326,43 @@ from the data. Report what they say. Do not upgrade a verdict of "marginal" into
 a finding, and do not file a marginal result under the same heading as one that
 holds up.
 
+Refer to a film by its id, exactly as given. Do not translate an id into a title
+— you have not been told what these films are called, and guessing produces a
+confident wrong name attached to correct numbers.
+
 Plain text only. No LaTeX, no dollar signs around numbers, no backslash commands
 — the answer is read in a terminal and in a web panel, and both render them raw.
 
-Be brief. Numbers and specifics, not adjectives."""
+Attention here is a normalised rewatch score, never a count of people. Do not
+describe it as viewers, counts, or numbers watching. Only exit_hotspots counts
+sessions, and those are synthetic.
+
+When several rows share a verdict, say they share the verdict. Do not claim they
+share a shape their numbers do not: three features can all be position artifacts
+while only two of them correlate more strongly with position than with attention.
+A generalisation no single row supports is the same error as an unsourced claim.
+
+Write for the person who cut the film, not for whoever built the database. Never
+print a column name. Say what the number measures: "correlates 0.366 with how much
+a segment was watched, but 0.377 with how late it falls in the film" — not "vs_raw
+is 0.366, vs_position is 0.377". The caveats stay; the vocabulary changes.
+
+At most three short paragraphs. Numbers and specifics, not adjectives."""
 
 
-async def ask(question):
-    elapsed = await MCP.prewarm()
-    print(f"[clickhouse ready in {elapsed:.1f}s]")
+def build_agent():
+    """The agent, built fresh per question but from one definition.
 
-    agent = LlmAgent(
+    The CLI and the web server both come through here, so there is no second
+    copy of the tool list or the instruction to drift out of sync.
+    """
+    corpus = ", ".join(sorted(LOADED)) or "nothing yet"
+    return LlmAgent(
         name="second_pass",
         model=MODEL,
         description="Answers questions about attention and content across a film corpus.",
-        instruction=INSTRUCTION,
+        instruction=INSTRUCTION + f"{NEWLINE}{NEWLINE}The corpus holds exactly one "
+        f"film id per entry, and right now that is: {corpus}. Never query any other.",
         tools=[
             underperforming_stretches,
             content_at,
@@ -338,23 +371,54 @@ async def ask(question):
         ],
     )
 
-    runner = InMemoryRunner(agent=agent, app_name="second-pass")
+
+async def stream(question):
+    """Yield ("tool", name, args) as each query is issued, then ("answer", text).
+
+    Also yields ("result", name, {"result": <json string>}) for each tool return,
+    so the caller can drive the interface from what the database actually said
+    rather than from the model's prose about it. Parsing the answer text for
+    segment references was the first attempt and it failed the way that always
+    fails: the model says "bin 8" one run, "segment 8" the next, and "fifty-nine
+    seconds in" the run after that.
+
+    The tool events are not progress decoration. They are the audit trail: the
+    viewer sees which question was asked of the database before they see the
+    sentence built on it, which is the difference between a grounded answer and
+    one that merely sounds grounded.
+    """
+    runner = InMemoryRunner(agent=build_agent(), app_name="second-pass")
     session = await runner.session_service.create_session(
         app_name="second-pass", user_id="local"
     )
-
     message = types.Content(role="user", parts=[types.Part(text=question)])
-    try:
-        async for event in runner.run_async(
-            user_id="local", session_id=session.id, new_message=message
-        ):
-            for part in (event.content.parts if event.content else []) or []:
-                if getattr(part, "function_call", None):
-                    call = part.function_call
-                    print(f"  -> {call.name}({dict(call.args)})")
-                elif getattr(part, "text", None) and event.is_final_response():
-                    print("\n" + part.text.strip())
 
+    async for event in runner.run_async(
+        user_id="local", session_id=session.id, new_message=message
+    ):
+        for part in (event.content.parts if event.content else []) or []:
+            if getattr(part, "function_call", None):
+                call = part.function_call
+                yield ("tool", call.name, dict(call.args))
+            elif getattr(part, "function_response", None):
+                got = part.function_response
+                yield ("result", got.name, dict(got.response or {}))
+            elif getattr(part, "text", None) and event.is_final_response():
+                yield ("answer", part.text.strip(), None)
+
+
+async def ask(question):
+    elapsed = await MCP.prewarm()
+    print(f"[clickhouse ready in {elapsed:.1f}s]")
+    try:
+        async for kind, a, b in stream(question):
+            if kind == "result":
+                continue
+            if kind == "tool":
+                print(f"  -> {a}({b})")
+            else:
+                print()
+                print(a)
     finally:
         await MCP.aclose()
 

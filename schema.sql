@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS films
     youtube_id      String,
     duration_s      Float32,
     bin_count       UInt16,
-    -- How much of this film's attention is explained by position alone. The
-    -- ratio of second-half to first-half mean attention: 4.4 on Tears of Steel,
-    -- 1.9 on Sintel. Stored because it is the confound every naive analysis of
-    -- this data walks into, and a query should be able to select for it.
+    -- How much of this film's attention is explained by position alone: the
+    -- ratio of second-half to first-half mean attention. 3.39 on Tears of Steel
+    -- over its 95 scored segments. Stored because it is the confound every naive
+    -- analysis of this data walks into, and a query should be able to select for it.
     position_bias   Float32
 )
 ENGINE = MergeTree
