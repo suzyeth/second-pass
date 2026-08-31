@@ -228,11 +228,22 @@ def _correlation_select(field, film, shift=None):
         ])
         + " FROM (" + _pairs(field, film, shift) + ")"
     )
+    # A feature that does not vary has no correlation, and ClickHouse says so
+    # with NaN. Two things then go wrong. NaN is not valid JSON, so the web layer
+    # 500s. And `abs(NaN) < floor` is false, so the verdict fell through every
+    # branch to the last one and Big Buck Bunny - a film with no dialogue at all -
+    # was reported as "speech density holds up after correcting for position".
+    # A confident finding about a column of identical zeroes is precisely the
+    # failure this project exists to catch, produced by this project.
+    #
+    # NULL instead, and a verdict that says undefined rather than nothing: "no
+    # relationship shown" would claim a measurement that was never possible.
+    varies = "uniqExact(r_f) > 1"
     return (
         f"SELECT '{field}' AS feature, "
-        "round(corr(r_f, r_raw), 3) AS vs_raw, "
-        "round(corr(r_f, r_res), 3) AS vs_residual, "
-        "round(corr(r_f, r_pos), 3) AS vs_position, "
+        f"if({varies}, round(corr(r_f, r_raw), 3), NULL) AS vs_raw, "
+        f"if({varies}, round(corr(r_f, r_res), 3), NULL) AS vs_residual, "
+        f"if({varies}, round(corr(r_f, r_pos), 3), NULL) AS vs_position, "
         "count() AS n, "
         # Two floors, because there are two different questions. 1.96 is the
         # single-test threshold and answers "is THIS feature related to
@@ -326,13 +337,16 @@ def _with_verdicts(parts):
     return (
         "SELECT feature, vs_raw, vs_residual, vs_position, n, "
         "significant_above_one_test, significant_above, "
-        "multiIf(abs(vs_residual) < significant_above, 'no relationship shown', "
+        "multiIf(vs_residual IS NULL, "
+        "'undefined - this feature does not vary in this film', "
+        "abs(vs_residual) < significant_above, 'no relationship shown', "
         "abs(vs_residual) < significant_above * 1.5, "
         "'marginal - clears the floor by too little to believe from one film', "
         "'holds up after correcting for position') AS verdict, "
-        "multiIf(abs(vs_raw) > significant_above AND abs(vs_residual) < significant_above, "
+        "multiIf(vs_raw IS NULL OR vs_residual IS NULL, 'undefined', "
+        "abs(vs_raw) > significant_above AND abs(vs_residual) < significant_above, "
         "'yes - looks real against raw attention, is not', 'no') AS position_artifact "
-        "FROM (" + " UNION ALL ".join(parts) + ") ORDER BY abs(vs_raw) DESC"
+        "FROM (" + " UNION ALL ".join(parts) + ") ORDER BY vs_raw IS NULL, abs(vs_raw) DESC"
     )
 
 

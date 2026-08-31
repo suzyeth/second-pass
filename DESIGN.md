@@ -50,47 +50,76 @@ told explicitly not to guess whether viewers liked the clip.
 
 ### The result
 
-The pilot scored 24 position-matched extremes (17 after excluding edge bins) and found
-all six fields pointing the same way with the strongest |rho| at 0.316 — consistent
-direction, insufficient power. Then all 100 segments were scored and loaded, and the
-full sample says something sharper.
+The pilot scored 24 position-matched extremes and found all six fields pointing the same
+way with the strongest |rho| at 0.316 — consistent direction, insufficient power. Both
+films are now fully scored, and the full sample says something sharper.
 
-Across every non-edge segment of Tears of Steel (n=84, so a rank correlation has to
-clear **0.215** to be distinguishable from noise):
+A correlation has to clear **0.290** to stand out from noise at n=84: the single-test
+floor of 0.215, corrected for testing six fields at once. An earlier version of this
+document judged six results against the one-test floor, which is how a null gets
+reported as a finding.
 
-| field | vs raw attention | vs residual | vs position | verdict |
+**Tears of Steel** (n=84, position bias 4.40×):
+
+| field | vs raw | vs residual | vs position | verdict |
 | --- | --- | --- | --- | --- |
-| character_presence | **−0.382** | −0.154 | **−0.270** | position artifact |
+| character_presence | **−0.382** | −0.154 | −0.270 | position artifact |
 | score_intensity | **+0.354** | +0.144 | **+0.365** | position artifact |
 | inertness | +0.205 | +0.048 | +0.167 | nothing shown |
-| story_information | −0.188 | −0.028 | **−0.269** | nothing shown |
+| story_information | −0.188 | −0.028 | −0.269 | nothing shown |
 | visual_event_density | +0.172 | +0.213 | +0.178 | nothing shown |
 | speech_density | −0.096 | +0.082 | −0.159 | nothing shown |
 
-Read the first two numeric columns against each other. **Two fields clear the
-significance threshold against raw attention and neither survives the correction.**
+Two fields clear the floor against raw attention and **neither survives the correction**.
 Their correlation with position is as large as their correlation with attention, or
 larger. "Louder score means more watched" is significant, is the kind of finding a deck
 gets built on, and is entirely an artifact of where those segments sit in the film.
+Nothing takes their place: the largest residual is +0.213, below even the uncorrected
+floor.
 
-Nothing takes their place. The largest residual correlation of any field is
-visual_event_density at +0.213, against a 0.215 floor — a miss by 0.002, which is not a
-finding in waiting but a number that needs a second film before it means anything.
+**Big Buck Bunny** (n=84, position bias 3.00×):
 
-An earlier version of this table read 0.366 / 0.224 / and a marginal survivor, because
-the numbers came from ClickHouse's `rankCorr`, which does not average tied ranks. The
-content scores take seven to nine distinct values across eighty-four segments, so ties
-are most of the data and the two methods disagree by up to 0.083 — enough to move a
-field across the floor. `analyze-film.py` had it right all along and the disagreement is
-what surfaced it.
+| field | vs raw | vs residual | vs position | verdict |
+| --- | --- | --- | --- | --- |
+| story_information | **−0.333** | −0.059 | **−0.343** | position artifact |
+| score_intensity | **+0.315** | **+0.317** | +0.176 | marginal |
+| inertness | +0.256 | +0.039 | **+0.299** | nothing shown |
+| character_presence | −0.106 | −0.096 | −0.091 | nothing shown |
+| visual_event_density | −0.004 | +0.243 | −0.157 | nothing shown |
+| speech_density | n/a | n/a | n/a | **undefined** |
 
-The pilot's "all six point the right way" was itself a small-sample accident; at n=84
-the directions disagree. Keeping both numbers in this document is the point.
+The film has no dialogue. speech_density is a column of identical zeroes, so it has no
+correlation at all — undefined, not zero. Before this was handled, ClickHouse returned
+NaN, `abs(NaN) < floor` was false, the verdict fell through every branch to the last,
+and the system reported that speech density *holds up after correcting for position* on
+a film with no speech in it. A confident finding about a constant column is exactly the
+failure this project exists to catch, produced by this project.
+
+One field clears the residual floor here: score_intensity at +0.317, beating 0.290 by
+0.027. Marginal, and not to be believed from one film.
+
+**Across both:** five of five comparable fields point the same direction. Two-tailed
+sign test, **p = 0.063** — suggestive, not significant. And direction is the weak form of
+the claim; score_intensity's residual is +0.144 on one film and +0.317 on the other, so
+the magnitudes disagree by more than two-fold. Per-film n is capped near 84 because the
+heatmap is always exactly 100 buckets whatever the runtime, so single-film significance
+at these effect sizes is unreachable by construction. Cross-film direction consistency is
+the only statistical story left and two films cannot carry it. A third would settle it.
+
+Both films are Blender open movies scored by the same prompt, so they are not
+independent in the way two unrelated productions would be.
+
+An earlier version of this table read 0.366 / 0.224 and reported a marginal survivor on
+Tears of Steel, because the numbers came from ClickHouse's `rankCorr`, which does not
+average tied ranks. The content scores take seven to nine distinct values across
+eighty-four segments, so ties are most of the data and the two methods disagree by up to
+0.083 — enough to move a field across the floor. `analyze-film.py` had it right all
+along, and the disagreement between the two is what surfaced it.
 
 Two supporting details worth keeping:
 
-- On the **full** sample including edges, four of six fields are significant against raw
-  attention and zero against the residual — the same story, louder.
+- The pilot's "all six point the right way" was a small-sample accident; at n=84 the
+  directions within a single film disagree.
 - Three clips are title or credit cards — near-identical content — and they landed in
   **both** extreme groups (bin 0 HIGH, bin 9 LOW, bin 96 HIGH). Nothing demonstrates
   edge noise more cheaply than that.
@@ -111,11 +140,12 @@ The falsification machinery was always the differentiator. The day-1 result make
 product:
 
 > **Proof panel, first entry.** On Tears of Steel (n=84), two content fields correlate
-> significantly with raw attention and neither survives correcting for position. Nothing
-> takes their place: the largest residual correlation misses the noise floor by 0.002.
-> Position explains more than content does. Here is the method, here is the data, here
-> is the script that reproduces it, and here is the same query against shuffled
-> attention finding nothing at all.
+> significantly with raw attention and neither survives correcting for position; nothing
+> takes their place. On Big Buck Bunny one field clears the corrected floor by 0.027,
+> which is marginal. Five of five comparable fields agree in direction across the two
+> films at p = 0.063 — suggestive, not significant. Position explains more than content
+> does. Here is the method, here is the data, here is the script that reproduces it, and
+> here is the same query against shuffled attention finding nothing at all.
 
 A system willing to show that about itself is more credible than one that claims
 prediction. And the claim it *does* make — that the two datasets belong together and

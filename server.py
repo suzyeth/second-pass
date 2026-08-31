@@ -90,6 +90,15 @@ async def health():
     }
 
 
+@app.get("/api/films")
+async def films():
+    """What is actually in the corpus, in the order the page should offer it."""
+    return json.loads(await MCP.run_query(
+        "SELECT film, title, youtube_id, round(duration_s) AS duration_s, bin_count, "
+        "round(position_bias, 2) AS position_bias FROM films ORDER BY film"
+    ))
+
+
 @app.get("/api/film/{film}")
 async def film(film: str):
     """Everything the chart and the hover card need, in one query.

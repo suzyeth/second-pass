@@ -143,7 +143,9 @@
   .b-artifact { color: var(--neg); }
   .b-marginal { color: var(--warn); }
   .b-none { color: var(--dimmer); }
+  .b-undef { color: var(--dimmer); border-style: dashed; }
   .b-holds { color: var(--pos); }
+  .agree { color: var(--pos); font-weight: 600; }
   .toggle { display: inline-flex; margin: 2px 0 14px; border: 1px solid var(--line);
             border-radius: 5px; overflow: hidden; }
   .toggle button {
@@ -182,6 +184,7 @@
   <div class="col">
     <section>
       <h2>The film</h2>
+      <div class="toggle" id="filmpick"></div>
       <p class="sub" id="filmsub">&nbsp;</p>
       <div class="player"><div id="player"></div></div>
 
@@ -228,6 +231,7 @@
   </div>
   <p class="headline" id="headline">&nbsp;</p>
   <table class="proof" id="prooftable"></table>
+  <p class="headline" id="crossfilm" style="margin-top:16px"></p>
   <p class="note">
     Spearman rank correlation with tie-averaged ranks, of each content feature against
     measured attention, against the position-corrected residual, and against position
@@ -269,8 +273,11 @@
 </section>
 
 <script>
-const FILM = "tos";
 const $ = (id) => document.getElementById(id);
+
+let FILM = null;      // the film on screen; set from the corpus, not hard-coded
+let CORPUS = [];      // every film actually loaded, from the films table
+let PROOFS = {};      // film id -> its correlation table, so the panel can compare
 
 let DATA = null;      // {film, columns, rows}
 let COL = {};         // column name -> index
@@ -280,21 +287,52 @@ let playheadBin = -1;
 // ---------------------------------------------------------------- data load
 
 async function load() {
-  const [health, film, proof] = await Promise.all([
+  const [health, corpus] = await Promise.all([
     fetch("/api/health").then(r => r.json()),
-    fetch("/api/film/" + FILM).then(r => r.json()),
-    fetch("/api/proof/" + FILM).then(r => r.json()),
+    fetch("/api/films").then(r => r.json()),
   ]);
 
   $("chip").textContent =
     health.model + " · " + health.mcp + " · " + health.clickhouse;
 
-  DATA = film;
-  film.columns.forEach((c, i) => COL[c] = i);
+  const ci = {};
+  corpus.columns.forEach((c, i) => ci[c] = i);
+  CORPUS = corpus.rows.map(r => Object.fromEntries(
+    corpus.columns.map((c, i) => [c, r[i]])));
 
-  const f = film.film;
+  // Every film's correlation table is fetched up front, not just the one on
+  // screen. One film cannot show direction consistency, and comparing across
+  // films is the only statistical claim left once per-film n is capped at
+  // eighty-odd segments by the heatmap always having a hundred buckets.
+  const proofs = await Promise.all(
+    CORPUS.map(f => fetch("/api/proof/" + f.film).then(r => r.json())));
+  CORPUS.forEach((f, i) => PROOFS[f.film] = proofs[i]);
+
+  $("filmpick").innerHTML = CORPUS
+    .map((f, i) => `<button data-film="${f.film}"${i ? "" : ' class="on"'}>`
+                   + escapeHtml(f.title) + `</button>`).join("");
+
+  startPolling();
+  await showFilm(CORPUS[0].film);
+}
+
+$("filmpick").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (b && b.dataset.film !== FILM) showFilm(b.dataset.film);
+});
+
+async function showFilm(id) {
+  FILM = id;
+  [...$("filmpick").children].forEach(
+    b => b.classList.toggle("on", b.dataset.film === id));
+
+  DATA = await fetch("/api/film/" + id).then(r => r.json());
+  COL = {};
+  DATA.columns.forEach((c, i) => COL[c] = i);
+
+  const f = DATA.film;
   $("filmsub").innerHTML =
-    f.title + " — " + film.rows.length + " segments of "
+    f.title + " — " + DATA.rows.length + " segments of "
     + Math.round(f.duration_s / f.bin_count) + "s. Attention is YouTube's "
     + "most-replayed heatmap for this upload, which measures rewatching, not retention. "
     // Float32 out of ClickHouse arrives as 3.390000104904175; rounding in SQL does
@@ -302,9 +340,13 @@ async function load() {
     + "Second-half attention runs <b>" + Number(f.position_bias).toFixed(2) + "×</b> the first half "
     + "on content alone — that trend is what the residual removes.";
 
+  if (player && player.loadVideoById) player.loadVideoById(f.youtube_id);
+  else PENDING_VIDEO = f.youtube_id;
+
   drawChart();
-  drawProof(proof, false);
-  startPolling();
+  markBins([], true);
+  drawProof(PROOFS[id], false);
+  [...$("toggle").children].forEach((b, i) => b.classList.toggle("on", i === 0));
 }
 
 // ---------------------------------------------------------------- the chart
@@ -518,11 +560,17 @@ function seekToBin(i) {
 
 // ---------------------------------------------------------------- player
 
+// The corpus and the YouTube API race: whichever lands second uses what the
+// first left behind. The video id comes from the films table either way, so no
+// film is hard-coded into the page.
+let PENDING_VIDEO = null;
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
-    videoId: "R6MlUcmOul8",
+    videoId: PENDING_VIDEO || (DATA && DATA.film.youtube_id) || "",
     playerVars: { rel: 0, modestbranding: 1 },
   });
+  PENDING_VIDEO = null;
 }
 window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
@@ -555,27 +603,61 @@ function drawProof(proof, shuffled) {
   const rows = proof.rows;
   const floor = rows[0][c.significant_above];
 
-  const sigRaw = rows.filter(r => Math.abs(r[c.vs_raw]) > floor).length;
+  const defined = rows.filter(r => r[c.vs_residual] !== null);
+  const sigRaw = defined.filter(r => Math.abs(r[c.vs_raw]) > floor).length;
   const survive = rows.filter(r => r[c.verdict] === "holds up after correcting for position").length;
   const marginal = rows.filter(r => String(r[c.verdict]).startsWith("marginal"));
-  const best = Math.max(...rows.map(r => Math.abs(r[c.vs_residual])));
+  const best = defined.length
+    ? Math.max(...defined.map(r => Math.abs(r[c.vs_residual]))) : 0;
+  const undef = rows.length - defined.length;
 
   // The control's headline is a pass/fail statement about the method, not a
   // finding about the film. Reusing the real one would read as a second result.
+  //
+  // The real headline counts two different things and must not conflate them.
+  // "Significant against measured attention" and "clears the floor on the
+  // residual" are different sets: on Big Buck Bunny one feature is in the second
+  // and the first, and an earlier version of this sentence said none survived
+  // while the next clause quoted a residual above the floor. A headline that
+  // argues with itself is worse than no headline.
+  const clearing = defined
+    .filter(r => Math.abs(r[c.vs_residual]) > floor)
+    .sort((a, b) => Math.abs(b[c.vs_residual]) - Math.abs(a[c.vs_residual]));
+
+  const undefNote = undef
+    ? ` ${undef} feature${undef > 1 ? "s do" : " does"} not vary in this film at all, `
+      + `so ${undef > 1 ? "they have" : "it has"} no correlation to report `
+      + `&mdash; undefined, not zero.`
+    : "";
+
+  let real =
+    `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of ${rows.length}</b> content `
+    + `features correlate significantly with measured attention.`;
+
+  if (!clearing.length) {
+    real += ` After correcting for where they sit in the film, <b>none</b> still do: `
+      + `the largest residual correlation of any feature is <b>${best.toFixed(3)}</b>, `
+      + `against a floor of ${floor}.`;
+  } else {
+    const top = clearing[0];
+    const name = top[c.feature].replace(/_/g, " ");
+    const v = Math.abs(top[c.vs_residual]);
+    real += ` After correcting for where they sit in the film, `
+      + `<b>${clearing.length}</b> still clear${clearing.length > 1 ? "" : "s"} the `
+      + `${floor} floor &mdash; the largest is ${name} at <b>${v.toFixed(3)}</b>`
+      + (String(top[c.verdict]).startsWith("marginal")
+          ? `, which beats the floor by ${(v - floor).toFixed(3)} and is too little to `
+            + `believe from a single film.`
+          : `.`);
+  }
+
   $("headline").innerHTML = shuffled
     ? `Each feature paired with a <b>different</b> segment's attention. `
-      + `The method now finds <b>${sigRaw === 0 && survive === 0 ? "nothing" : sigRaw + " thing(s)"}</b>`
+      + `The method now finds <b>${clearing.length === 0 ? "nothing" : clearing.length + " thing(s)"}</b>`
       + ` &mdash; every correlation below the ${floor} noise floor. `
       + `A method that still found structure here would be manufacturing it, `
       + `and no result from it could be trusted.`
-    : `Across ${rows[0][c.n]} non-edge segments, <b>${sigRaw} of 6</b> content features `
-      + `correlate significantly with measured attention. After correcting for where they `
-      + `sit in the film, <b>${survive} of those ${sigRaw}</b> survive.`
-      + ` The largest residual correlation of any feature is `
-      + `<b>${best.toFixed(3)}</b>, against a floor of ${floor}.`
-      + (marginal.length
-          ? ` It clears by too little to believe from a single film.`
-          : "");
+    : real + undefNote;
 
   // A feature that is significant against measured attention and not against the
   // residual is the case worth naming out loud, so it gets its own badge rather
@@ -586,11 +668,16 @@ function drawProof(proof, shuffled) {
       return `<span class="badge b-artifact">position artifact</span>`;
     }
     const cls = v.startsWith("marginal") ? "b-marginal"
-      : v.startsWith("holds") ? "b-holds" : "b-none";
-    const label = v.startsWith("marginal") ? "marginal" : v;
+      : v.startsWith("holds") ? "b-holds"
+      : v.startsWith("undefined") ? "b-undef" : "b-none";
+    const label = v.startsWith("marginal") ? "marginal"
+      : v.startsWith("undefined") ? "undefined - does not vary" : v;
     return `<span class="badge ${cls}">${escapeHtml(label)}</span>`;
   };
+  // null means the feature does not vary in this film, so there is no
+  // correlation to report. Rendering it as 0.000 would claim a measurement.
   const num = (v) => {
+    if (v === null || v === undefined) return `<span class="insig">n/a</span>`;
     const cls = Math.abs(v) > floor ? "sig" : "insig";
     return `<span class="${cls}">${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(3)}</span>`;
   };
@@ -601,22 +688,104 @@ function drawProof(proof, shuffled) {
     + `testing all six features at once. Judging six results against a one-test floor is `
     + `how a null gets reported as a finding.`;
 
+  // One extra column per other film in the corpus, showing that film's residual
+  // for the same feature. Per-film n is capped near eighty-four whatever the
+  // runtime, because the heatmap is always a hundred buckets — so single-film
+  // significance at these effect sizes is out of reach by construction, and
+  // whether two films at least point the same way is the only question the data
+  // can still answer. Shuffled mode drops the column: there is nothing to agree
+  // with.
+  const others = shuffled ? [] : CORPUS.filter(f => f.film !== FILM);
+  const otherRes = (film, feature) => {
+    const t = PROOFS[film];
+    if (!t) return null;
+    const ci = {};
+    t.columns.forEach((n, i) => ci[n] = i);
+    const row = t.rows.find(r => r[ci.feature] === feature);
+    return row ? row[ci.vs_residual] : null;
+  };
+
   $("prooftable").innerHTML =
     `<thead><tr><th>feature</th><th>vs measured</th><th>vs residual</th>`
-    + `<th>vs position</th><th>verdict</th></tr></thead><tbody>`
-    + rows.map(r =>
-        `<tr><td>${r[c.feature].replace(/_/g, " ")}</td>`
-        + `<td>${num(r[c.vs_raw])}</td><td>${num(r[c.vs_residual])}</td>`
-        + `<td>${num(r[c.vs_position])}</td>`
-        + `<td>${badge(r)}</td></tr>`).join("")
+    + `<th>vs position</th>`
+    + others.map(f => `<th>residual on ${escapeHtml(f.title)}</th>`).join("")
+    + `<th>verdict</th></tr></thead><tbody>`
+    + rows.map(r => {
+        const mine = r[c.vs_residual];
+        return `<tr><td>${r[c.feature].replace(/_/g, " ")}</td>`
+          + `<td>${num(r[c.vs_raw])}</td><td>${num(mine)}</td>`
+          + `<td>${num(r[c.vs_position])}</td>`
+          + others.map(f => {
+              const v = otherRes(f.film, r[c.feature]);
+              if (v === null || v === undefined || mine === null) {
+                return `<td>${num(v === undefined ? null : v)}</td>`;
+              }
+              // Agreement in sign is the thing worth seeing, so it is marked
+              // rather than left for the reader to work out from two signs.
+              const agrees = v !== 0 && mine !== 0 && (v > 0) === (mine > 0);
+              return `<td>${num(v)}`
+                + (agrees ? ` <span class="agree" title="same direction">=</span>` : "")
+                + `</td>`;
+            }).join("")
+          + `<td>${badge(r)}</td></tr>`;
+      }).join("")
     + `</tbody>`;
+
+  drawCrossFilm(rows, c, shuffled);
+}
+
+// Two-tailed sign test. Five features agreeing in direction across two films
+// looks like a result and is not one: it is p = 0.0625, which the page has to
+// say out loud, because the tick marks in that column are exactly the kind of
+// pattern a reader promotes to evidence on their own.
+function signTestP(agree, total) {
+  if (!total) return 1;
+  const choose = (n, k) => {
+    let v = 1;
+    for (let i = 0; i < k; i++) v = v * (n - i) / (i + 1);
+    return v;
+  };
+  let tail = 0;
+  for (let i = agree; i <= total; i++) tail += choose(total, i);
+  return Math.min(1, 2 * tail / Math.pow(2, total));
+}
+
+function drawCrossFilm(rows, c, shuffled) {
+  const others = shuffled ? [] : CORPUS.filter(f => f.film !== FILM);
+  if (!others.length) { $("crossfilm").innerHTML = ""; return; }
+
+  const other = others[0];
+  const t = PROOFS[other.film];
+  const ci = {};
+  t.columns.forEach((n, i) => ci[n] = i);
+
+  let comparable = 0, agree = 0;
+  for (const r of rows) {
+    const mine = r[c.vs_residual];
+    const row = t.rows.find(x => x[ci.feature] === r[c.feature]);
+    const theirs = row ? row[ci.vs_residual] : null;
+    if (mine === null || theirs === null || !mine || !theirs) continue;
+    comparable++;
+    if ((mine > 0) === (theirs > 0)) agree++;
+  }
+  if (!comparable) { $("crossfilm").innerHTML = ""; return; }
+
+  const p = signTestP(agree, comparable);
+  $("crossfilm").innerHTML =
+    `<b>${agree} of ${comparable}</b> comparable features point the same way on both `
+    + `films. Under a two-tailed sign test that is <b>p = ${p.toFixed(3)}</b>`
+    + (p > 0.05
+        ? ` &mdash; suggestive, not significant. Two films is the smallest number `
+          + `that can agree at all, and agreeing in direction is a much weaker claim `
+          + `than agreeing in size, which these do not.`
+        : ` &mdash; and it would still need a third film before it was a finding.`);
 }
 
 // ---------------------------------------------------------------- ask
 
 const PRESETS = [
   "Which content features actually explain attention, and which only look like they do?",
-  "Which stretches of tos lose people, and what is on screen there?",
+  "Which stretches lose people, and what is on screen there?",
   "Where do viewing sessions drop out, and what was playing there?",
 ];
 

@@ -161,6 +161,17 @@ def main():
         if statement.strip():
             client.command(statement)
 
+    # The database is a function of the scored files, so it is rebuilt rather
+    # than appended to. Without this, a second run inserts every film again:
+    # MergeTree does not deduplicate, so the tables silently double and every
+    # correlation the agent reports is computed over each segment twice. Nothing
+    # errors, nothing looks wrong, and the numbers are quietly meaningless.
+    #
+    # TRUNCATE is instant at any size, so the cheap correct thing and the cheap
+    # fast thing are the same thing here.
+    for table in ("playback_events", "segments", "films"):
+        client.command(f"TRUNCATE TABLE IF EXISTS {table}")
+
     for film, _count in loaded:
         client.insert(
             "films",
@@ -211,7 +222,27 @@ def main():
             written += len(batch)
         print(f"{film['id']}: inserted {written:,} events")
 
-    print("\ncounts:", client.query("SELECT film, count() FROM playback_events GROUP BY film").result_rows)
+    # Verify what would have caught the bug the TRUNCATE above exists to prevent:
+    # if any film's segment rows outnumber its distinct bins, the table has been
+    # loaded more than once and every statistic downstream is wrong.
+    print()
+    rows = client.query(
+        "SELECT film, count() AS rows, uniqExact(bin) AS bins, "
+        "countIf(is_edge = 0) AS usable FROM segments GROUP BY film ORDER BY film"
+    ).result_rows
+    for film, n, bins, usable in rows:
+        print(f"{film}: {n} segment rows, {bins} distinct bins, {usable} usable")
+
+    bad = [r for r in rows if r[1] != r[2]]
+    if bad:
+        raise SystemExit(
+            "DUPLICATE ROWS: "
+            + ", ".join(f"{r[0]} has {r[1]} rows for {r[2]} bins" for r in bad)
+        )
+
+    print("events:", client.query(
+        "SELECT film, count() FROM playback_events GROUP BY film ORDER BY film"
+    ).result_rows)
 
 
 if __name__ == "__main__":

@@ -26,9 +26,10 @@ CREATE TABLE IF NOT EXISTS films
     duration_s      Float32,
     bin_count       UInt16,
     -- How much of this film's attention is explained by position alone: the
-    -- ratio of second-half to first-half mean attention. 3.39 on Tears of Steel
-    -- over its 95 scored segments. Stored because it is the confound every naive
-    -- analysis of this data walks into, and a query should be able to select for it.
+    -- ratio of second-half to first-half mean attention. 4.40 on Tears of Steel,
+    -- 3.00 on Big Buck Bunny, both over 100 scored segments. Stored because it is
+    -- the confound every naive analysis of this data walks into, and a query
+    -- should be able to select for it.
     position_bias   Float32
 )
 ENGINE = MergeTree
