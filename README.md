@@ -90,7 +90,7 @@ agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse Cloud
 ui        player, attention curve, residual, proof panel
 ```
 
-**The model does not write SQL.** It picks one of five parameterised questions and
+**The model does not write SQL.** It picks one of six parameterised questions and
 fills in its arguments; the SQL is composed in `agent.py` from a template and executed
 through MCP's `run_query`. That keeps MCP genuinely on the runtime path — the track's
 requirement — while keeping the statements deterministic, which matters when the demo
@@ -124,6 +124,14 @@ collapses:
 Nothing clears the floor. A method that still found structure there would be
 manufacturing it, and no result from it could be trusted. The proof panel runs this
 live, on a toggle.
+
+**Cross-film agreement is a query, not an eyeball.** `direction_agreement` puts every
+feature's residual side by side across films and computes the two-tailed sign test in
+SQL, with the direction, the p-value and the verdict as columns. Asked whether the films
+agreed before this existed, the model compared two tables by eye, called five agreeing
+features a match, and filed a feature with two positive residuals under negative. Five
+of five agreeing is p = 0.063, and the number has to come from the query for the sentence
+to be worth anything.
 
 ---
 

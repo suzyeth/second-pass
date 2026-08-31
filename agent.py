@@ -350,6 +350,84 @@ def _with_verdicts(parts):
     )
 
 
+# Exact small binomial coefficients, to row six. Six features is the most this
+# can ever compare, so a literal Pascal's triangle beats a gamma-function
+# approximation and cannot drift.
+PASCAL = "[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1],[1,5,10,10,5,1],[1,6,15,20,15,6,1]]"
+
+
+async def direction_agreement() -> str:
+    """Whether the films in the corpus point the same way, and whether that means anything.
+
+    Per-film sample size is capped near eighty-four because the heatmap is always
+    exactly a hundred buckets whatever the runtime, so single-film significance
+    at the effect sizes here is out of reach by construction. What is left to ask
+    is whether separate films at least agree in direction.
+
+    Returns each feature's residual correlation on every film side by side, and
+    the two-tailed sign test over how many of them agree — computed in SQL, so
+    the count and its p-value cannot come apart. Features that do not vary on
+    some film are excluded, because a constant column has no direction.
+
+    Use this for any question about whether the finding replicates, generalises,
+    or holds across films. Do not answer such a question from two separate
+    correlation tables by eye: five features agreeing looks like a result and is
+    p = 0.06.
+    """
+    films = sorted(LOADED)
+    if len(films) < 2:
+        return json.dumps({
+            "columns": ["note"],
+            "rows": [[f"only {len(films)} film loaded; agreement needs at least two"]],
+        })
+
+    parts = []
+    for film in films:
+        for field in sorted(FIELDS):
+            ranked = (
+                "SELECT " + _avg_rank(field, "r_f") + ", "
+                + _avg_rank("attention_res", "r_res")
+                + f" FROM ({_population(film)})"
+            )
+            parts.append(
+                f"SELECT '{film}' AS film, '{field}' AS feature, "
+                "if(uniqExact(r_f) > 1, round(corr(r_f, r_res), 3), NULL) AS vs_residual "
+                f"FROM ({ranked})"
+            )
+
+    # direction and verdict are columns for the same reason every other judgement
+    # here is: asked to read five sign pairs out of an array, the model put a
+    # feature with two positive residuals in the negative group, and reported
+    # p = 0.0625 without noticing it does not clear 0.05.
+    sql = (
+        # A bare [0.039, 0.048] does not say which film is which, and the model
+        # read one straight past its own direction column and filed a feature
+        # with two positive residuals under negative. Pair the numbers to their
+        # films in the string itself; there is then nothing left to infer.
+        "SELECT feature, "
+        "multiIf(NOT same_direction, 'mixed', residuals[1] > 0, "
+        "'positive on every film', 'negative on every film') AS direction, "
+        "arrayStringConcat(arrayMap((f, v) -> concat(f, ' ', "
+        "if(v > 0, '+', ''), toString(v)), films, residuals), ', ') AS residual_by_film, "
+        "comparable, agreeing, sign_test_p, "
+        "if(sign_test_p > 0.05, "
+        "'suggestive, not significant - and agreeing in direction is a weaker claim "
+        "than agreeing in size, which these do not', "
+        "'directions agree beyond chance; magnitudes may still differ') AS verdict "
+        "FROM (SELECT *, "
+        f"least(1.0, 2 * arraySum(arraySlice({PASCAL}[comparable + 1], agreeing + 1)) "
+        "/ pow(2, comparable)) AS sign_test_p FROM ("
+        "SELECT feature, groupArray(film) AS films, groupArray(vs_residual) AS residuals, "
+        "uniqExact(sign(vs_residual)) = 1 AS same_direction, "
+        "count() OVER () AS comparable, "
+        "countIf(uniqExact(sign(vs_residual)) = 1) OVER () AS agreeing "
+        "FROM (" + " UNION ALL ".join(parts) + ") "
+        "WHERE vs_residual IS NOT NULL AND vs_residual != 0 "
+        f"GROUP BY feature HAVING count() = {len(films)})) ORDER BY feature"
+    )
+    return await MCP.run_query(sql)
+
+
 async def negative_control(film: str) -> str:
     """The same correlation table, computed against SHUFFLED attention.
 
@@ -449,6 +527,17 @@ confident wrong name attached to correct numbers.
 Plain text only. No LaTeX, no dollar signs around numbers, no backslash commands
 — the answer is read in a terminal and in a web panel, and both render them raw.
 
+Where a row already states a direction or a verdict, quote that word. Do not
+re-derive it from the numbers beside it: a row that says "positive on every film"
+is not open to interpretation, and re-deriving is where transcription errors come
+from.
+
+A question about whether a result replicates, generalises, or holds up across
+films is answered with direction_agreement, never by comparing two correlation
+tables by eye. Reporting that films "agree" or "disagree" without that tool is
+reading a pattern out of six numbers, which is the thing this system is for
+preventing.
+
 Attention here is a normalised rewatch score, never a count of people. Do not
 describe it as viewers, counts, or numbers watching. Only exit_hotspots counts
 sessions, and those are synthetic.
@@ -484,6 +573,7 @@ def build_agent():
             content_at,
             correlation_table,
             negative_control,
+            direction_agreement,
             exit_hotspots,
         ],
     )
