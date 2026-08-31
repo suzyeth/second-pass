@@ -1,6 +1,8 @@
 # Second Pass — attention and content, in one queryable place
 
-Target: **Agentic Cinema**, ClickHouse track. Deadline **2026-09-07 14:00 PT**.
+Target: **Agentic Cinema**, ClickHouse track. Deadline **2026-09-09 14:00 PDT**
+(verified against the Devpost page 2026-08-31; an earlier draft of this document
+said 09-07, which was wrong by two days).
 Written 2026-08-27, after the day-1 gate was run and did not pass.
 Supersedes the 2026-08-08 concept, which is kept outside this repository.
 
@@ -168,7 +170,11 @@ Day 1 (done): gate run, result recorded, `analyze.py` reproduces it.
 - [ ] Score all 100 bins on Tears of Steel, then two more films. ~300 video calls
       against a quota that dies at ~20 — this is the schedule's real constraint.
       Run it as a background trickle from day 2, not the night before.
-- [ ] $100 Agentic Cinema credit form — **coupon must be redeemed by 8/31**
+- [ ] $100 **Google Cloud** hackathon credit form (https://forms.gle/XPe837tzogh8L5sX6)
+      — 1-5 business days, while supplies last, no stated expiry. Optional: the
+      deploy project already carries credit. An earlier draft of this line called
+      it a ClickHouse coupon expiring 8/31; there is no such offer. ClickHouse's
+      side is the standard $300 Cloud trial, claimed at signup, nothing to file.
 - [ ] ClickHouse Cloud trial
 
 **D4–D5 — ClickHouse**
