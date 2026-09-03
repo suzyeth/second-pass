@@ -16,9 +16,12 @@ $env:CLICKHOUSE_PORT     = '8443'
 $env:CLICKHOUSE_USER     = 'default'
 $env:CLICKHOUSE_SECURE   = 'true'
 
-if (-not $env:GOOGLE_API_KEY) {
+# The GCP project is not hard-coded here: this file is public, and the project
+# also hosts an unrelated entry whose name has no business being in this repo.
+# Set GCP_PROJECT, or just export GOOGLE_API_KEY yourself and skip Secret Manager.
+if (-not $env:GOOGLE_API_KEY -and $env:GCP_PROJECT) {
     $env:GOOGLE_API_KEY = (gcloud secrets versions access latest `
-        --secret=gemini-api-key --project=YOUR_GCP_PROJECT 2>$null)
+        --secret=gemini-api-key --project=$env:GCP_PROJECT 2>$null)
 }
 # ADK reads GOOGLE_API_KEY; it must also be told not to route via Vertex.
 $env:GOOGLE_GENAI_USE_VERTEXAI = 'FALSE'
@@ -27,6 +30,6 @@ $env:GOOGLE_GENAI_USE_VERTEXAI = 'FALSE'
 $env:GEMINI_API_KEY = $env:GOOGLE_API_KEY
 
 if (-not $env:CLICKHOUSE_HOST)  { Write-Error 'CLICKHOUSE_HOST not in registry'; exit 1 }
-if (-not $env:GOOGLE_API_KEY)   { Write-Error 'could not read gemini-api-key from Secret Manager'; exit 1 }
+if (-not $env:GOOGLE_API_KEY)   { Write-Error 'set GOOGLE_API_KEY, or set GCP_PROJECT to pull it from Secret Manager'; exit 1 }
 
 & $args[0] @($args[1..($args.Count-1)])
