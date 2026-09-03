@@ -731,54 +731,37 @@ function drawProof(proof, shuffled) {
       }).join("")
     + `</tbody>`;
 
-  drawCrossFilm(rows, c, shuffled);
+  drawCrossFilm(shuffled);
 }
 
-// Two-tailed sign test. Five features agreeing in direction across two films
-// looks like a result and is not one: it is p = 0.0625, which the page has to
-// say out loud, because the tick marks in that column are exactly the kind of
-// pattern a reader promotes to evidence on their own.
-function signTestP(agree, total) {
-  if (!total) return 1;
-  const choose = (n, k) => {
-    let v = 1;
-    for (let i = 0; i < k; i++) v = v * (n - i) / (i + 1);
-    return v;
-  };
-  let tail = 0;
-  for (let i = agree; i <= total; i++) tail += choose(total, i);
-  return Math.min(1, 2 * tail / Math.pow(2, total));
-}
+// Cross-film agreement is read from the server, not recomputed here. The page
+// used to run its own sign test in JavaScript against one other film while the
+// agent's tool compared all of them — two implementations of one statistic, which
+// is how a page and an agent end up telling a visitor different things about the
+// same corpus. The agreement count, the p-value and the verdict now all come from
+// the same query the agent calls.
+async function drawCrossFilm(shuffled) {
+  const el = $("crossfilm");
+  if (shuffled || CORPUS.length < 2) { el.innerHTML = ""; return; }
 
-function drawCrossFilm(rows, c, shuffled) {
-  const others = shuffled ? [] : CORPUS.filter(f => f.film !== FILM);
-  if (!others.length) { $("crossfilm").innerHTML = ""; return; }
+  const t = await fetch("/api/agreement").then(r => r.json());
+  const c = {};
+  t.columns.forEach((n, i) => c[n] = i);
+  if (!t.rows.length) { el.innerHTML = ""; return; }
 
-  const other = others[0];
-  const t = PROOFS[other.film];
-  const ci = {};
-  t.columns.forEach((n, i) => ci[n] = i);
+  const r = t.rows[0];
+  const agreeing = r[c.agreeing], comparable = r[c.comparable];
+  const p = r[c.sign_test_p], verdict = String(r[c.verdict]);
+  const films = CORPUS.length;
 
-  let comparable = 0, agree = 0;
-  for (const r of rows) {
-    const mine = r[c.vs_residual];
-    const row = t.rows.find(x => x[ci.feature] === r[c.feature]);
-    const theirs = row ? row[ci.vs_residual] : null;
-    if (mine === null || theirs === null || !mine || !theirs) continue;
-    comparable++;
-    if ((mine > 0) === (theirs > 0)) agree++;
-  }
-  if (!comparable) { $("crossfilm").innerHTML = ""; return; }
-
-  const p = signTestP(agree, comparable);
-  $("crossfilm").innerHTML =
-    `<b>${agree} of ${comparable}</b> comparable features point the same way on both `
-    + `films. Under a two-tailed sign test that is <b>p = ${p.toFixed(3)}</b>`
-    + (p > 0.05
-        ? ` &mdash; suggestive, not significant. Two films is the smallest number `
-          + `that can agree at all, and agreeing in direction is a much weaker claim `
-          + `than agreeing in size, which these do not.`
-        : ` &mdash; and it would still need a third film before it was a finding.`);
+  el.innerHTML =
+    `<b>${agreeing} of ${comparable}</b> comparable features point the same way on `
+    + `all ${films} films. Two-tailed sign test: <b>p = ${Number(p).toFixed(3)}</b> `
+    + `&mdash; ${escapeHtml(verdict)}.`
+    + (agreeing < comparable
+        ? ` Two of these films agreed on all five before the third was scored, at `
+          + `p = 0.063. That was two films' worth of noise.`
+        : "");
 }
 
 // ---------------------------------------------------------------- ask

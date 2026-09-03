@@ -13,5 +13,13 @@
   "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov.zip",
   "meta": "bbb.json",
   "video": "big_buck_bunny_480p_h264.mov"
+ },
+ "sintel": {
+  "title": "Sintel",
+  "youtube": "eRsGyueVLvQ",
+  "source": "https://archive.org/download/Sintel/sintel-2048-stereo.mp4",
+  "note": "Blender hosts only a 1.1GB 1080p mkv for this one, and that download died twice at ~500MB. The archive.org mirror of the Blender release is 270MB and arrived in a minute. Its 74MB sibling is NOT usable despite being named 2048: it decodes at 564x240, and cutting 360p clips from it would mean upscaling Sintel while tos and bbb are downscaled from 1280 and 853 - a picture-quality difference between films, in the one comparison the third film exists to make. Duration 888.064s matches the heatmap's 888s.",
+  "meta": "sintel.json",
+  "video": "sintel.mp4"
  }
 }

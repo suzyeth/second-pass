@@ -47,6 +47,36 @@ Return only JSON: {"visual_event_density":n,"story_information":n,
 "character_presence":n,"speech_density":n,"score_intensity":n,"inertness":n,
 "one_line":"..."}`;
 
+const FIELDS = [
+  "visual_event_density",
+  "story_information",
+  "character_presence",
+  "speech_density",
+  "score_intensity",
+  "inertness",
+];
+
+const hasScores = (o) =>
+  o && typeof o === "object" && FIELDS.every((f) => typeof o[f] === "number");
+
+// Twice in a hundred clips, the model returned the six scores wrapped one level
+// deeper - {"0": {...}} instead of {...}. Nothing threw. The row was written with
+// the fields nested where nothing would look for them, the log printed
+// "evt=undefined", and the run still reported 100/100. A scorer that reports
+// success on output it did not understand is the exact failure this project
+// exists to catch, so it now checks what it got: unwrap a single nested object
+// if that is all that is wrong, and otherwise throw so the retry loop runs.
+function normalise(parsed) {
+  if (hasScores(parsed)) return parsed;
+
+  const nested = Object.values(parsed || {}).filter(hasScores);
+  if (nested.length === 1) return nested[0];
+
+  throw new Error(
+    `response has no score fields (keys: ${Object.keys(parsed || {}).join(",")})`,
+  );
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const stamp = () => new Date().toISOString().slice(11, 19);
 
@@ -73,7 +103,9 @@ async function scoreClip(file) {
 
       const text = response?.text;
       if (!text) throw new Error("no content");
-      return JSON.parse(text.trim().replace(/^```(?:json)?\s*|\s*```$/g, ""));
+      return normalise(
+        JSON.parse(text.trim().replace(/^```(?:json)?\s*|\s*```$/g, "")),
+      );
     } catch (error) {
       const status = error && typeof error.status === "number" ? error.status : null;
 
@@ -90,6 +122,17 @@ async function scoreClip(file) {
       if (status !== null && status >= 500 && quotaHits < 3) {
         quotaHits += 1;
         await sleep(15_000);
+        continue;
+      }
+
+      // A response we could not read is a resampling problem, not a bug in the
+      // request - the same prompt succeeded on the ninety-eight clips either
+      // side of it. Worth asking again before giving up on the clip.
+      if (status === null && /no score fields|no content/.test(error.message)
+          && quotaHits < 3) {
+        quotaHits += 1;
+        process.stdout.write(`retrying (${error.message}) `);
+        await sleep(5_000);
         continue;
       }
       throw error;
@@ -138,7 +181,7 @@ async function scoreClip(file) {
     await sleep(BASE_DELAY_MS);
   }
 
-  const ok = results.filter((r) => !r.error).length;
+  const ok = results.filter(hasScores).length;
   const mins = Math.round((Date.now() - started) / 60000);
   console.log(`\n${filmId}: ${ok}/${bins.length} scored, ${scored} this run, ${mins} min`);
 })();

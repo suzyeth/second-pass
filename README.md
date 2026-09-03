@@ -4,10 +4,11 @@ Every attention-analytics product promises to tell you which stretches lose your
 audience, and why. We built the machinery to test that claim, pointed it at our own
 hypothesis first, and it did not survive.
 
-What is left is the machinery, and it turned out to be the better product: two films'
+What is left is the machinery, and it turned out to be the better product: three films'
 measured attention and Gemini's blind shot-level scores in one queryable place, with an
 agent that reports the strength of what it finds — including when that strength is
-nothing.
+nothing. Scoring the third film destroyed the last pattern the first two had; the page
+says so.
 
 **[Live demo](https://second-pass-334984245629.us-central1.run.app)** · **[3-minute video](<YOUTUBE URL>)** · [How it
 works](#how-it-works), including the negative control — the part that makes the rest
@@ -21,61 +22,49 @@ ClickHouse query executed by the official `mcp-clickhouse` MCP server.
 ## The finding this is built around
 
 The obvious product here is "we predict which stretches lose your audience." That
-claim was tested on day one and it does not survive.
+claim was tested on day one, and then tested twice more as the corpus grew. It does
+not survive any of them.
 
-Attention rises toward the end of almost every film regardless of what is on screen.
-On Tears of Steel, second-half attention runs **4.40×** the first half; on Big Buck
-Bunny, **3.00×**. Correlate any content feature against raw attention and you are
-mostly measuring position.
+Attention rises toward the end of most films regardless of what is on screen. Second-half
+attention runs **4.40×** the first half on Tears of Steel, **3.00×** on Big Buck Bunny,
+**1.91×** on Sintel. Correlate a content feature against raw attention and you are
+mostly measuring position in the runtime.
 
 A correlation has to clear **0.290** to stand out from noise here — the single-test
 floor of 0.215 at n=84, corrected for testing all six features at once. Judging six
 results against a one-test floor is how a null gets reported as a finding.
 
-### Tears of Steel, 84 non-edge segments
+| feature | Tears of Steel | Big Buck Bunny | Sintel |
+| --- | --- | --- | --- |
+| | *raw / residual* | *raw / residual* | *raw / residual* |
+| character presence | **−0.382** / −0.154 | −0.106 / −0.096 | −0.063 / +0.189 |
+| score intensity | **+0.354** / +0.144 | **+0.315** / **+0.317** | +0.171 / +0.032 |
+| story information | −0.188 / −0.028 | **−0.333** / −0.059 | +0.015 / +0.215 |
+| inertness | +0.205 / +0.048 | +0.256 / +0.039 | +0.000 / −0.114 |
+| visual event density | +0.172 / +0.213 | −0.004 / +0.243 | +0.034 / +0.093 |
+| speech density | −0.096 / +0.082 | n/a — no dialogue | +0.074 / +0.212 |
 
-| feature | vs measured | vs residual | vs position | |
-| --- | --- | --- | --- | --- |
-| character presence | **−0.382** | −0.154 | −0.270 | position artifact |
-| score intensity | **+0.354** | +0.144 | **+0.365** | position artifact |
-| inertness | +0.205 | +0.048 | +0.167 | nothing shown |
-| story information | −0.188 | −0.028 | −0.269 | nothing shown |
-| visual event density | +0.172 | +0.213 | +0.178 | nothing shown |
-| speech density | −0.096 | +0.082 | −0.159 | nothing shown |
+Across three films and eighteen tests, **exactly one residual correlation clears the
+corrected floor**: score intensity on Big Buck Bunny, at +0.317, beating 0.290 by 0.027.
+On the other two films the same feature reads +0.144 and +0.032. It does not replicate.
 
-Two features clear the floor against measured attention. **Neither survives correcting
-for position, and nothing takes their place** — the largest residual correlation is
-+0.213, below even the uncorrected floor.
+Big Buck Bunny has no dialogue, so speech density there is a column of identical zeroes.
+It has no correlation — undefined, not zero, and the difference matters: "no relationship
+shown" would claim a measurement that was never possible.
 
-### Big Buck Bunny, 84 non-edge segments
+### What the third film did
 
-| feature | vs measured | vs residual | vs position | |
-| --- | --- | --- | --- | --- |
-| story information | **−0.333** | −0.059 | **−0.343** | position artifact |
-| score intensity | **+0.315** | **+0.317** | +0.176 | marginal |
-| inertness | +0.256 | +0.039 | **+0.299** | nothing shown |
-| character presence | −0.106 | −0.096 | −0.091 | nothing shown |
-| visual event density | −0.004 | +0.243 | −0.157 | nothing shown |
-| speech density | n/a | n/a | n/a | **undefined** |
+With two films, all five comparable features pointed the same direction. A two-tailed
+sign test put that at **p = 0.063** — suggestive, not significant, and the README said so
+while noting a third film would settle it.
 
-The film has no dialogue, so speech density is a column of identical zeroes. It has no
-correlation — undefined, not zero, and the difference matters: "no relationship shown"
-would claim a measurement that was never possible.
+The third film settled it. Agreement dropped to **2 of 5**, sign test **p = 1.000**:
+the directions are now as consistent as coin flips. Story information, character presence
+and inertness all flip sign on Sintel.
 
-One feature clears the residual floor here, score intensity at +0.317. It beats 0.290
-by 0.027, which is marginal and not something to believe from one film.
-
-### Across both
-
-Five of five comparable features point the same direction on both films. Under a
-two-tailed sign test that is **p = 0.063** — suggestive, not significant. And direction
-is the weak version of the claim: score intensity's residual is +0.144 on one film and
-+0.317 on the other, so the magnitudes disagree by more than a factor of two.
-
-Per-film n is capped near 84 by construction, because the heatmap is always exactly 100
-buckets whatever the runtime. Single-film significance at these effect sizes is out of
-reach. Cross-film direction consistency is the only statistical story left, and with two
-films it cannot reach significance either. A third film would settle it.
+**The two-film consistency was two films' worth of noise.** That is the finding, and it
+is the one the machinery was built to be able to produce. A system that could only ever
+confirm would have reported the p = 0.063 and stopped.
 
 "Louder score means more watched" is significant, is the kind of result a deck gets
 built on, and is entirely an artifact of where those segments sit in the film.
@@ -95,7 +84,7 @@ ingest    yt-dlp -> YouTube most-replayed heatmap (100 bins, always)
 prepare   bins + detrend against a +-8-bin moving average -> residual
 score     each segment at 360p/2fps with audio, inline to Gemini, blind prompt:
           it never sees an attention value and is told not to guess preferences
-store     ClickHouse. 2 films, 200 segments, 8.3M synthetic playback events
+store     ClickHouse. 3 films, 300 segments, 13.3M synthetic playback events
 agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse Cloud
 ui        player, attention curve, residual, proof panel
 ```
@@ -139,9 +128,10 @@ live, on a toggle.
 feature's residual side by side across films and computes the two-tailed sign test in
 SQL, with the direction, the p-value and the verdict as columns. Asked whether the films
 agreed before this existed, the model compared two tables by eye, called five agreeing
-features a match, and filed a feature with two positive residuals under negative. Five
-of five agreeing is p = 0.063, and the number has to come from the query for the sentence
-to be worth anything.
+features a match, and filed a feature with two positive residuals under negative. The
+page reads the same endpoint rather than recomputing: two implementations of one
+statistic is how a page and an agent end up telling a visitor different things about the
+same corpus.
 
 ---
 
@@ -151,13 +141,13 @@ to be worth anything.
 | --- | --- | --- |
 | attention | YouTube most-replayed heatmap | **measured**, and it records rewatching, not retention |
 | content | six scores per segment from Gemini | **measured**, blind to attention |
-| playback events | 8.3M session events | **synthetic**, generated from the attention curve |
+| playback events | 13.3M session events | **synthetic**, generated from the attention curve |
 
 The events are synthetic because per-viewer playback data is something only a platform
 owner has. They are derived *from* the attention curve, so they demonstrate the query
 workload and cannot corroborate the curve. Every claim about the film comes from the
 `segments` table. `load.py` verifies the generator by aggregating its output back into
-the curve it came from (rho = +0.849 and +0.739) rather than asserting it.
+the curve it came from (rho = +0.849, +0.739 and +0.500) rather than asserting it.
 
 ---
 
@@ -198,13 +188,13 @@ Credentials come from Secret Manager; nothing is baked into the image.
   and is what a production version would use.
 - It measures **rewatch, not exit**. A peak means people went back, not that they
   stayed.
-- Two films, 84 usable segments each. Per-film n is structurally capped near this,
+- Three films, 84 usable segments each. Per-film n is structurally capped near this,
   because the heatmap is always 100 bins whatever the runtime, so single-film
-  significance at these effect sizes is out of reach. Two films is also the smallest
-  number that can agree about anything, and 5-of-5 direction agreement is p = 0.063.
-  A third film is the next thing this needs, ahead of any feature.
-- Both films are Blender open movies scored by the same prompt, so they are not
-  independent in the way two unrelated productions would be.
+  significance at these effect sizes is out of reach. Three films reach p = 1.000 on
+  direction; a fourth would not rescue that, it would test it again.
+- All three are Blender open movies scored by the same prompt, so they are not
+  independent in the way three unrelated productions would be. That makes the
+  disagreement between them more striking, not less.
 - Bins near either end have a one-sided moving-average baseline, so their residual is
   an artifact of the window. They are kept in the table, drawn differently in the UI,
   and excluded from every claim.

@@ -410,9 +410,14 @@ async def direction_agreement() -> str:
         "arrayStringConcat(arrayMap((f, v) -> concat(f, ' ', "
         "if(v > 0, '+', ''), toString(v)), films, residuals), ', ') AS residual_by_film, "
         "comparable, agreeing, sign_test_p, "
-        "if(sign_test_p > 0.05, "
+        # Three bands, not two. At p = 1.0 the earlier wording still said
+        # "suggestive", which is the opposite of what a sign test returning 1.0
+        # means: the directions are as consistent as coin flips.
+        "multiIf(sign_test_p > 0.5, "
+        "'no agreement beyond chance - the directions are as consistent as coin flips', "
+        "sign_test_p > 0.05, "
         "'suggestive, not significant - and agreeing in direction is a weaker claim "
-        "than agreeing in size, which these do not', "
+        "than agreeing in size', "
         "'directions agree beyond chance; magnitudes may still differ') AS verdict "
         "FROM (SELECT *, "
         f"least(1.0, 2 * arraySum(arraySlice({PASCAL}[comparable + 1], agreeing + 1)) "

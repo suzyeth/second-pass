@@ -98,16 +98,28 @@ failure this project exists to catch, produced by this project.
 One field clears the residual floor here: score_intensity at +0.317, beating 0.290 by
 0.027. Marginal, and not to be believed from one film.
 
-**Across both:** five of five comparable fields point the same direction. Two-tailed
-sign test, **p = 0.063** — suggestive, not significant. And direction is the weak form of
-the claim; score_intensity's residual is +0.144 on one film and +0.317 on the other, so
-the magnitudes disagree by more than two-fold. Per-film n is capped near 84 because the
-heatmap is always exactly 100 buckets whatever the runtime, so single-film significance
-at these effect sizes is unreachable by construction. Cross-film direction consistency is
-the only statistical story left and two films cannot carry it. A third would settle it.
+**Across three films:** two of five comparable fields point the same direction.
+Two-tailed sign test, **p = 1.000** — the directions are as consistent as coin flips.
 
-Both films are Blender open movies scored by the same prompt, so they are not
-independent in the way two unrelated productions would be.
+That number replaced a much more flattering one. With tos and bbb alone, all five agreed
+and the sign test read p = 0.063, which this document called "suggestive, not
+significant" and said a third film would settle. Sintel settled it: story_information,
+character_presence and inertness all flip sign there, and the agreement collapses.
+**The two-film consistency was two films' worth of noise.**
+
+Sintel is also the cleanest single test in the corpus. Its position bias is 1.91× against
+4.40× and 3.00× for the others — far less of the confound that dominates the other two —
+and **not one of its six fields clears even the uncorrected floor against raw attention.**
+Where position explains less, content does not step in to explain more.
+
+Per-film n is capped near 84 because the heatmap is always exactly 100 buckets whatever
+the runtime, so single-film significance at these effect sizes is unreachable by
+construction. Cross-film direction was the last statistical story available and three
+films retire it.
+
+All three are Blender open movies scored by the same prompt, so they are not independent
+in the way three unrelated productions would be — which makes the disagreement between
+them more striking, not less.
 
 An earlier version of this table read 0.366 / 0.224 and reported a marginal survivor on
 Tears of Steel, because the numbers came from ClickHouse's `rankCorr`, which does not
@@ -139,11 +151,11 @@ relationship actually is, including when the answer is "weak".*
 The falsification machinery was always the differentiator. The day-1 result makes it the
 product:
 
-> **Proof panel, first entry.** On Tears of Steel (n=84), two content fields correlate
-> significantly with raw attention and neither survives correcting for position; nothing
-> takes their place. On Big Buck Bunny one field clears the corrected floor by 0.027,
-> which is marginal. Five of five comparable fields agree in direction across the two
-> films at p = 0.063 — suggestive, not significant. Position explains more than content
+> **Proof panel, first entry.** Across three films and eighteen tests, exactly one
+> residual correlation clears the multiplicity-corrected floor — score_intensity on Big
+> Buck Bunny, by 0.027 — and the same field reads +0.144 and +0.032 on the other two. It
+> does not replicate. Direction agreement across the three is 2 of 5, sign test p = 1.000.
+> The p = 0.063 that two films produced was noise. Position explains more than content
 > does. Here is the method, here is the data, here is the script that reproduces it, and
 > here is the same query against shuffled attention finding nothing at all.
 

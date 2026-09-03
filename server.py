@@ -27,6 +27,7 @@ from agent import (
     MODEL,
     _film,
     correlation_table,
+    direction_agreement,
     negative_control,
     stream,
 )
@@ -148,6 +149,18 @@ async def proof(film: str, shuffled: bool = False):
         return json.loads(await table)
     except ValueError as exc:
         raise HTTPException(404, str(exc))
+
+
+@app.get("/api/agreement")
+async def agreement():
+    """Cross-film direction agreement — the same tool the agent calls.
+
+    The page used to compute this itself, in JavaScript, against one other film
+    while the agent's tool compared all of them. Two implementations of one
+    statistic is how a page and an agent end up telling a visitor different
+    things about the same corpus.
+    """
+    return json.loads(await direction_agreement())
 
 
 @app.post("/api/ask")
