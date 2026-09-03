@@ -65,7 +65,23 @@ def run(film_id, exclude_edges):
         if "inertness" in r and (not exclude_edges or not r.get("edge"))
     ]
     n = len(rows)
-    crit = 1.96 / (n - 1) ** 0.5
+
+    # Two floors, because there are two different questions, and this script used
+    # to report only the first — which made it disagree with the README and with
+    # the agent about how many features survive.
+    #
+    #   one_test   1.96, the single-test threshold: "is THIS feature related to
+    #              attention", asked about one feature decided on in advance.
+    #   crit       2.6383, the same threshold with Bonferroni applied over the six
+    #              features: "did we find ANYTHING", which is the question actually
+    #              being asked when all six are printed at once — as they are here.
+    #
+    # The verdict uses the corrected floor because this table shows all six.
+    # Judging six results against a one-test floor is how a null gets reported as
+    # a finding. The constants match `correlation_table` in agent.py exactly, so
+    # the repro script and the live agent cannot drift apart.
+    one_test = 1.96 / (n - 1) ** 0.5
+    crit = 2.6383 / (n - 1) ** 0.5
 
     label = "excluding edge bins" if exclude_edges else "all bins"
     print(f"\n=== {film_id} — {label} — n={n} ===")
@@ -74,22 +90,49 @@ def run(film_id, exclude_edges):
     hits = []
     for f in FIELDS:
         vals = [r[f] for r in rows]
+        # A feature that never varies has no correlation. Printing +0.000 for it
+        # claims a measurement that was never possible - Big Buck Bunny has no
+        # dialogue, so speech_density is a column of identical zeroes. The agent
+        # returns NULL and a verdict of undefined for exactly this case, and a repro
+        # script the README invites judges to run must not say something different.
+        if len(set(vals)) < 2:
+            print(f"{f:<24}{'n/a':>12}{'n/a':>9}{'n/a':>13}   undefined - does not vary")
+            continue
+        
         r_res = spearman(vals, [r["res"] for r in rows])
         r_raw = spearman(vals, [r["raw"] for r in rows])
         r_pos = spearman(vals, [r["bin"] for r in rows])
 
         sig = abs(r_res) > crit
+        weak = abs(r_res) > one_test
         right = r_res * EXPECTED[f] > 0
-        verdict = "SIGNIFICANT" if sig and right else ("sig, WRONG WAY" if sig else "")
+
+        # A feature between the two floors is not nothing and not a finding. It is
+        # named as what it is rather than rounded to either neighbour.
         if sig and right:
+            verdict = "SIGNIFICANT"
             hits.append((f, r_res))
+        elif sig:
+            verdict = "sig, WRONG WAY"
+        elif weak and right:
+            verdict = "uncorrected only"
+        elif weak:
+            verdict = "uncorrected, WRONG WAY"
+        else:
+            verdict = ""
+
         print(f"{f:<24}{r_res:+12.3f}{r_raw:+9.3f}{r_pos:+13.3f}   {verdict}")
 
-    print(f"\n|rho| > {crit:.3f} is p<0.05 at n={n}")
+    print(f"\n|rho| > {crit:.3f} is p<0.05 at n={n}, corrected for testing all "
+          f"{len(FIELDS)} features")
+    print(f"|rho| > {one_test:.3f} is the uncorrected single-test floor — shown "
+          f"because it is what a one-feature question would use, not what this "
+          f"table is entitled to")
     if hits:
         print("SIGNAL:", ", ".join(f"{f} ({r:+.3f})" for f, r in hits))
     else:
-        print("NO SIGNAL: nothing clears the threshold in the expected direction")
+        print("NO SIGNAL: nothing clears the corrected threshold in the expected "
+              "direction")
 
 
 film = sys.argv[1] if len(sys.argv) > 1 else "tos"

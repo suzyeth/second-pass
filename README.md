@@ -1,10 +1,20 @@
 # Second Pass
 
-Audience attention and shot-level content analysis in one queryable place — and an
-honest report of how weakly they actually relate.
+Every attention-analytics product promises to tell you which stretches lose your
+audience, and why. We built the machinery to test that claim, pointed it at our own
+hypothesis first, and it did not survive.
 
-Built for **Agentic Cinema**, ClickHouse track. Gemini via Google ADK, every answer
-grounded in a ClickHouse query executed by the official `mcp-clickhouse` MCP server.
+What is left is the machinery, and it turned out to be the better product: two films'
+measured attention and Gemini's blind shot-level scores in one queryable place, with an
+agent that reports the strength of what it finds — including when that strength is
+nothing.
+
+**[Live demo](https://second-pass-334984245629.us-central1.run.app)** · **[3-minute video](<YOUTUBE URL>)** · [How it
+works](#how-it-works), including the negative control — the part that makes the rest
+worth trusting.
+
+Built for **Agentic Cinema**, ClickHouse track. Gemini via Google ADK; every answer is a
+ClickHouse query executed by the official `mcp-clickhouse` MCP server.
 
 ---
 
