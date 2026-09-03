@@ -12,3 +12,14 @@ films/*/clips/
 node_modules/
 __pycache__/
 *.pyc
+
+# Internal working notes: sprint plan, deploy runbook, audit, submission drafts.
+# They name a GCP project that also hosts an unrelated competition entry, and a
+# credit balance, neither of which belongs in a public repo. Kept on disk and
+# mirrored in ../second-pass-notes/.
+CLAUDE.md
+DEPLOY.md
+SPRINT-to-0907.md
+SUBMISSION.md
+DEMO-SCRIPT.md
+AUDIT-*.md
