@@ -25,6 +25,7 @@ from agent import (
     FIELDS,
     MCP,
     MODEL,
+    MODELS,
     _film,
     correlation_table,
     direction_agreement,
@@ -85,6 +86,7 @@ async def index():
 async def health():
     return {
         "model": MODEL,
+        "models": MODELS,
         "clickhouse": os.environ.get("CLICKHOUSE_HOST", "").split(".")[0],
         "mcp": "mcp-clickhouse",
         "revision": os.environ.get("K_REVISION", "local"),
@@ -176,11 +178,25 @@ async def ask(body: Question):
                     payload = {"type": "tool", "name": a, "args": b}
                 elif kind == "result":
                     payload = {"type": "bins", "bins": bins_in(b)}
+                elif kind == "model":
+                    payload = {"type": "model", "name": a}
                 else:
                     payload = {"type": "answer", "text": a}
                 yield "data: " + json.dumps(payload) + "\n\n"
         except Exception as exc:  # noqa: BLE001 - surfaced to the page
-            yield "data: " + json.dumps({"type": "error", "text": str(exc)}) + "\n\n"
+            # agent.py already retried the transient ones. Anything reaching
+            # here is worth showing, but a raw provider traceback where the
+            # answer goes is not an explanation - say which side failed.
+            raw = str(exc)
+            friendly = (
+                "The model is refusing requests right now (upstream 503 after "
+                "retries). The data is fine - reload and ask again."
+                if any(m in raw for m in ("503", "UNAVAILABLE", "high demand"))
+                else raw
+            )
+            yield "data: " + json.dumps(
+                {"type": "error", "text": friendly}
+            ) + "\n\n"
         yield "data: " + json.dumps({"type": "done"}) + "\n\n"
 
     return StreamingResponse(

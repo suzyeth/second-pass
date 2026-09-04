@@ -32,7 +32,25 @@ from google.genai import types
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
+# A chain, not a model. Two days before recording, gemini-3.5-flash-lite returned
+# 503 "experiencing high demand" on four consecutive attempts over thirty-seven
+# seconds — not a blip. A demo that claims to be unedited cannot depend on one
+# upstream being healthy at the moment the camera rolls, so the retry ladder walks
+# down this list. Which model actually answered is reported rather than assumed:
+# the page updates its chip from the run, because a chip naming a model that did
+# not answer is a small lie told on camera.
+MODELS = [
+    m for m in dict.fromkeys(
+        # Measured 2026-09-04 on one full question: flash-lite 503, 2.5-flash
+        # 4.4s, 3.5-flash 43s. The fallbacks are ordered by how fast they answer,
+        # not by how new they are — a demo that recovers in seventeen seconds is
+        # worth more than one that recovers in sixty with a shinier model.
+        [os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite"),
+         "gemini-2.5-flash",
+         "gemini-3.5-flash"]
+    ) if m
+]
+MODEL = MODELS[0]
 NEWLINE = chr(10)
 
 # Allow-lists. A value not in one of these never reaches a query.
@@ -560,7 +578,7 @@ is 0.366, vs_position is 0.377". The caveats stay; the vocabulary changes.
 At most three short paragraphs. Numbers and specifics, not adjectives."""
 
 
-def build_agent():
+def build_agent(model=None):
     """The agent, built fresh per question but from one definition.
 
     The CLI and the web server both come through here, so there is no second
@@ -569,7 +587,7 @@ def build_agent():
     corpus = ", ".join(sorted(LOADED)) or "nothing yet"
     return LlmAgent(
         name="second_pass",
-        model=MODEL,
+        model=model or MODEL,
         description="Answers questions about attention and content across a film corpus.",
         instruction=INSTRUCTION + f"{NEWLINE}{NEWLINE}The corpus holds exactly one "
         f"film id per entry, and right now that is: {corpus}. Never query any other.",
@@ -599,7 +617,57 @@ async def stream(question):
     sentence built on it, which is the difference between a grounded answer and
     one that merely sounds grounded.
     """
-    runner = InMemoryRunner(agent=build_agent(), app_name="second-pass")
+    async for item in _run_with_retry(question):
+        yield item
+
+
+TRANSIENT = ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "500", "INTERNAL")
+
+# (model index, seconds to wait first). The primary gets a second chance before
+# the chain moves on, because most 503s are momentary; after that, waiting longer
+# on a congested model is worse than asking a different one.
+LADDER = ((0, 0), (0, 3), (1, 1), (2, 1))
+
+
+async def _run_with_retry(question):
+    """Run the turn, retrying the transient upstream failures.
+
+    Gemini returns 503 "experiencing high demand" often enough to hit a recording,
+    and ADK propagates it straight out of run_async. Before this, the page showed
+    a raw Python exception string where the answer goes — during a demo whose
+    whole claim is that it is unedited.
+
+    Retrying is only safe before anything has been yielded: once tool rows are on
+    screen, a second attempt would duplicate them. That is also the case that
+    matters, because these failures land on the first model call. A failure after
+    events have been emitted is surfaced instead.
+    """
+    last = len(LADDER) - 1
+    for step, (index, wait) in enumerate(LADDER):
+        model = MODELS[min(index, len(MODELS) - 1)]
+        if wait:
+            await asyncio.sleep(wait)
+
+        emitted = False
+        try:
+            async for item in _run_once(question, model):
+                if not emitted:
+                    emitted = True
+                    yield ("model", model, None)
+                yield item
+            return
+        except Exception as exc:  # noqa: BLE001 - classified below
+            text = str(exc)
+            transient = any(marker in text for marker in TRANSIENT)
+            if emitted or not transient or step == last:
+                raise
+            nxt = MODELS[min(LADDER[step + 1][0], len(MODELS) - 1)]
+            action = "retrying" if nxt == model else f"falling back to {nxt}"
+            print(f"[{model} unavailable, {action}] {text[:100]}", flush=True)
+
+
+async def _run_once(question, model):
+    runner = InMemoryRunner(agent=build_agent(model), app_name="second-pass")
     session = await runner.session_service.create_session(
         app_name="second-pass", user_id="local"
     )
@@ -625,6 +693,10 @@ async def ask(question):
     try:
         async for kind, a, b in stream(question):
             if kind == "result":
+                continue
+            if kind == "model":
+                if a != MODELS[0]:
+                    print(f"[{MODELS[0]} unavailable — answered by {a}]")
                 continue
             if kind == "tool":
                 print(f"  -> {a}({b})")

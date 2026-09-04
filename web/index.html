@@ -833,6 +833,16 @@ function handleEvent(ev) {
       + `<span>(${escapeHtml(args)})</span>`;
     $("log").appendChild(div);
     $("status").textContent = "reading result…";
+  } else if (ev.type === "model") {
+    // The chip names the model that actually answered. It advertises a primary
+    // that was 503ing two days before the recording, and a chip naming a model
+    // that did not answer is a small lie told on camera.
+    const chip = $("chip");
+    if (!chip.dataset.primary) chip.dataset.primary = chip.textContent.split(" · ")[0];
+    const rest = chip.textContent.split(" · ").slice(1).join(" · ");
+    chip.textContent = ev.name + (rest ? " · " + rest : "");
+    chip.title = ev.name === chip.dataset.primary
+      ? "" : chip.dataset.primary + " was unavailable; answered by " + ev.name;
   } else if (ev.type === "bins") {
     // Marks come from the query result, not from the answer text. The chart lights
     // up the moment the database replies, before a single word is written about it.
