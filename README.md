@@ -210,4 +210,13 @@ Credentials come from Secret Manager; nothing is baked into the image.
 
 ## Licence
 
-MIT. Tears of Steel and Big Buck Bunny are © Blender Foundation, CC-BY 3.0.
+The code is MIT.
+
+The three films — **Tears of Steel**, **Big Buck Bunny** and **Sintel** — are
+© copyright Blender Foundation, licensed **CC-BY 3.0**
+(<https://creativecommons.org/licenses/by/3.0/>). They are used here under that
+licence, which is why the corpus is these three and not whatever had the best
+heatmap: everything downstream — the clips, the scores, the frames in the demo
+video — is a derivative work, and only an open licence makes publishing it
+possible. The attention data is YouTube's public most-replayed heatmap for each
+upload, read with `yt-dlp`.
