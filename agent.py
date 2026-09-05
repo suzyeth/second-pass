@@ -392,7 +392,17 @@ async def direction_agreement() -> str:
     correlation tables by eye: five features agreeing looks like a result and is
     p = 0.06.
     """
-    films = sorted(LOADED)
+    # Read the corpus from the database, not from the module global. LOADED is
+    # filled by prewarm at startup, and prewarm is deliberately allowed to fail
+    # without taking the service down — so an instance that started while
+    # ClickHouse was suspended served every other route correctly and answered
+    # this one with "only 0 films loaded". On the page that rendered as
+    # "undefined of undefined ... p = NaN", and it went into a recording before
+    # anyone noticed. Every other tool already falls back; this one asked a
+    # cached global a question the database can answer.
+    catalog = json.loads(await MCP.run_query("SELECT film FROM films ORDER BY film"))
+    films = [row[0] for row in catalog["rows"]]
+    LOADED.update(films)
     if len(films) < 2:
         return json.dumps({
             "columns": ["note"],

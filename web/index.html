@@ -265,7 +265,7 @@
     </div>
     <div>
       <h3>Playback events &mdash; synthetic</h3>
-      <p>4.2M generated events, because per-viewer playback data is something only a
+      <p>13.3M generated events, because per-viewer playback data is something only a
          platform owner has. They are derived <b>from</b> the attention curve, so they
          demonstrate the query workload and cannot corroborate the curve.</p>
     </div>
@@ -756,8 +756,13 @@ async function drawCrossFilm(shuffled) {
 
   const t = await fetch("/api/agreement").then(r => r.json());
   const c = {};
-  t.columns.forEach((n, i) => c[n] = i);
-  if (!t.rows.length) { el.innerHTML = ""; return; }
+  (t.columns || []).forEach((n, i) => c[n] = i);
+  // Say nothing rather than say nonsense. When this endpoint degraded, the
+  // sentence rendered as "undefined of undefined ... p = NaN" and stayed on
+  // screen looking like a result.
+  const usable = t.rows && t.rows.length
+    && ["agreeing", "comparable", "sign_test_p", "verdict"].every(k => k in c);
+  if (!usable) { el.innerHTML = ""; return; }
 
   const r = t.rows[0];
   const agreeing = r[c.agreeing], comparable = r[c.comparable];
