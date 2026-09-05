@@ -292,8 +292,12 @@ async function load() {
     fetch("/api/films").then(r => r.json()),
   ]);
 
-  $("chip").textContent =
-    health.model + " · " + health.mcp + " · " + health.clickhouse;
+  // The revision is on the chip rather than behind a tab switch. K_REVISION is
+  // injected by Cloud Run and by nothing else, so it is the one field that
+  // proves this is really deployed there — and a demo shot in one take cannot
+  // afford to leave the page to show it.
+  $("chip").textContent = [health.model, health.mcp, health.clickhouse, health.revision]
+    .filter(Boolean).join(" · ");
 
   const ci = {};
   corpus.columns.forEach((c, i) => ci[c] = i);
