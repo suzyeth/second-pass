@@ -59,6 +59,7 @@ app = FastAPI(title="Second Pass", lifespan=lifespan)
 
 class Question(BaseModel):
     question: str
+    film: str | None = None
 
 
 def bins_in(response):
@@ -98,7 +99,7 @@ async def films():
     """What is actually in the corpus, in the order the page should offer it."""
     return json.loads(await MCP.run_query(
         "SELECT film, title, youtube_id, round(duration_s) AS duration_s, bin_count, "
-        "round(position_bias, 2) AS position_bias FROM films ORDER BY film"
+        "round(position_bias, 2) AS position_bias FROM films ORDER BY position_bias DESC"
     ))
 
 
@@ -171,9 +172,17 @@ async def ask(body: Question):
     if not question:
         raise HTTPException(400, "empty question")
 
+    # Validated, because it reaches a prompt and an allow-list check either way.
+    film = None
+    if body.film:
+        try:
+            film = _film(body.film)
+        except ValueError:
+            film = None
+
     async def events():
         try:
-            async for kind, a, b in stream(question):
+            async for kind, a, b in stream(question, film):
                 if kind == "tool":
                     payload = {"type": "tool", "name": a, "args": b}
                 elif kind == "result":

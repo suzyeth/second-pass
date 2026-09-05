@@ -578,7 +578,7 @@ is 0.366, vs_position is 0.377". The caveats stay; the vocabulary changes.
 At most three short paragraphs. Numbers and specifics, not adjectives."""
 
 
-def build_agent(model=None):
+def build_agent(model=None, film=None):
     """The agent, built fresh per question but from one definition.
 
     The CLI and the web server both come through here, so there is no second
@@ -589,8 +589,16 @@ def build_agent(model=None):
         name="second_pass",
         model=model or MODEL,
         description="Answers questions about attention and content across a film corpus.",
-        instruction=INSTRUCTION + f"{NEWLINE}{NEWLINE}The corpus holds exactly one "
-        f"film id per entry, and right now that is: {corpus}. Never query any other.",
+        instruction=INSTRUCTION
+        + f"{NEWLINE}{NEWLINE}The corpus holds exactly one film id per entry, and right "
+        f"now that is: {corpus}. Never query any other."
+        # Without this the model picked a film at random for any question that did
+        # not name one. On camera that means selecting Tears of Steel, asking which
+        # features explain attention, and being told about Big Buck Bunny.
+        + (f"{NEWLINE}{NEWLINE}The person asking is looking at '{film}' right now. A "
+           f"question that does not name a film is about '{film}'. Only query a "
+           "different film when the question names it, or when the question is about "
+           "the corpus as a whole." if film else ""),
         tools=[
             underperforming_stretches,
             content_at,
@@ -602,7 +610,7 @@ def build_agent(model=None):
     )
 
 
-async def stream(question):
+async def stream(question, film=None):
     """Yield ("tool", name, args) as each query is issued, then ("answer", text).
 
     Also yields ("result", name, {"result": <json string>}) for each tool return,
@@ -617,7 +625,7 @@ async def stream(question):
     sentence built on it, which is the difference between a grounded answer and
     one that merely sounds grounded.
     """
-    async for item in _run_with_retry(question):
+    async for item in _run_with_retry(question, film):
         yield item
 
 
@@ -629,7 +637,7 @@ TRANSIENT = ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "500", "INTERNAL
 LADDER = ((0, 0), (0, 3), (1, 1), (2, 1))
 
 
-async def _run_with_retry(question):
+async def _run_with_retry(question, film=None):
     """Run the turn, retrying the transient upstream failures.
 
     Gemini returns 503 "experiencing high demand" often enough to hit a recording,
@@ -650,7 +658,7 @@ async def _run_with_retry(question):
 
         emitted = False
         try:
-            async for item in _run_once(question, model):
+            async for item in _run_once(question, model, film):
                 if not emitted:
                     emitted = True
                     yield ("model", model, None)
@@ -666,8 +674,8 @@ async def _run_with_retry(question):
             print(f"[{model} unavailable, {action}] {text[:100]}", flush=True)
 
 
-async def _run_once(question, model):
-    runner = InMemoryRunner(agent=build_agent(model), app_name="second-pass")
+async def _run_once(question, model, film=None):
+    runner = InMemoryRunner(agent=build_agent(model, film), app_name="second-pass")
     session = await runner.session_service.create_session(
         app_name="second-pass", user_id="local"
     )

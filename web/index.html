@@ -207,7 +207,7 @@
   <div class="col">
     <section>
       <h2>Ask</h2>
-      <p class="sub">Gemini picks one of four parameterised questions and fills in its
+      <p class="sub">Gemini picks one of six parameterised questions and fills in its
          arguments. The SQL is composed server-side and executed by the
          <code>mcp-clickhouse</code> MCP server. Every query it runs is listed below the
          answer it produced.</p>
@@ -340,7 +340,10 @@ async function showFilm(id) {
     + "Second-half attention runs <b>" + Number(f.position_bias).toFixed(2) + "×</b> the first half "
     + "on content alone — that trend is what the residual removes.";
 
-  if (player && player.loadVideoById) player.loadVideoById(f.youtube_id);
+  // cue, not load: loadVideoById autoplays, and a film soundtrack starting
+  // under the narration is not something you can fix in the edit of an
+  // explicitly unedited demo.
+  if (player && player.cueVideoById) player.cueVideoById(f.youtube_id);
   else PENDING_VIDEO = f.youtube_id;
 
   drawChart();
@@ -797,7 +800,11 @@ async function runAsk() {
     const res = await fetch("/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question }),
+      // The film on screen goes with the question. Without it a question that
+      // does not name a film had the model pick one, and selecting Tears of
+      // Steel then being answered about Big Buck Bunny is the kind of
+      // incoherence this page exists to not have.
+      body: JSON.stringify({ question, film: FILM }),
     });
     const reader = res.body.getReader();
     const dec = new TextDecoder();
