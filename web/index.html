@@ -571,7 +571,10 @@ let PENDING_VIDEO = null;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: PENDING_VIDEO || (DATA && DATA.film.youtube_id) || "",
-    playerVars: { rel: 0, modestbranding: 1 },
+    // hl=en pins the player's own chrome to English. Without it YouTube
+    // follows the viewer's locale, and a demo recorded on a zh-CN machine
+    // shows a Chinese 'Watch on YouTube' inside an English submission.
+    playerVars: { rel: 0, modestbranding: 1, hl: "en", cc_lang_pref: "en" },
   });
   PENDING_VIDEO = null;
 }
