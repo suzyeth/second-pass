@@ -16,7 +16,7 @@ credits, scored as film — which is where "second-half attention runs 4.40x the
 half" came from, and where the only correlation that ever cleared the floor came from.
 The page says all three.
 
-**[Live demo](https://second-pass-334984245629.us-central1.run.app)** · **[3-minute video](<YOUTUBE URL>)** · [How it
+**[Live demo](https://second-pass-334984245629.us-central1.run.app)** · **[3-minute video](https://youtu.be/_0st89JhTWw)** · [How it
 works](#how-it-works), including the negative control — the part that makes the rest
 worth trusting.
 
