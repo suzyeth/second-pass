@@ -1,195 +1,202 @@
 1
-00:00:00,000 --> 00:00:03,449
+00:00:00,000 --> 00:00:04,105
 Every attention-analytics product promises
 to tell you
 
 2
-00:00:03,449 --> 00:00:06,260
+00:00:04,105 --> 00:00:07,450
 which stretches lose your audience, and
 why.
 
 3
-00:00:06,260 --> 00:00:10,460
+00:00:07,450 --> 00:00:12,540
 We built that, tested the premise, and it
 did not survive.
 
 4
-00:00:10,460 --> 00:00:12,460
+00:00:12,540 --> 00:00:14,200
 This is Second Pass.
 
 5
-00:00:12,460 --> 00:00:15,279
+00:00:14,200 --> 00:00:17,650
 Not the predictor — the machine that
 catches
 
 6
-00:00:15,279 --> 00:00:18,931
+00:00:17,650 --> 00:00:22,120
 the predictor lying, pointed first at our
 own hypothesis.
 
 7
-00:00:18,931 --> 00:00:21,731
+00:00:22,120 --> 00:00:25,370
 Attention climbs toward the end of a
 runtime.
 
 8
-00:00:21,731 --> 00:00:26,181
+00:00:25,370 --> 00:00:30,420
 On Tears of Steel it looked like
 four-point-four times the first half.
 
 9
-00:00:26,181 --> 00:00:28,511
+00:00:30,420 --> 00:00:33,210
 Then we checked what was in those
 segments.
 
 10
-00:00:28,511 --> 00:00:31,414
+00:00:33,210 --> 00:00:36,443
 A fifth of this upload is end credits, and
 the
 
 11
-00:00:31,414 --> 00:00:35,011
+00:00:36,443 --> 00:00:40,450
 most replayed moment in the file is a
 post-credits scene.
 
 12
-00:00:35,011 --> 00:00:37,151
+00:00:40,450 --> 00:00:43,300
 On the film itself it is
 one-point-two-eight.
 
 13
-00:00:37,151 --> 00:00:39,797
+00:00:43,300 --> 00:00:46,201
 And the one correlation that used to clear
 
 14
-00:00:39,797 --> 00:00:43,262
+00:00:46,201 --> 00:00:50,000
 our significance floor did not survive
 taking them out.
 
 15
-00:00:43,262 --> 00:00:46,420
+00:00:50,000 --> 00:00:53,679
 Every number you just saw came out of
 ClickHouse,
 
 16
-00:00:46,420 --> 00:00:50,352
+00:00:53,679 --> 00:00:58,260
 through the official mcp-clickhouse MCP
 server, on Cloud Run.
 
 17
-00:00:50,352 --> 00:00:51,662
+00:00:58,260 --> 00:01:01,250
 The model does not write SQL.
 
 18
-00:00:51,662 --> 00:00:57,050
+00:01:01,250 --> 00:01:06,112
 It picks one of seven parameterised
 questions and fills in the arguments,
 
 19
-00:00:57,050 --> 00:01:02,513
+00:01:06,112 --> 00:01:11,040
 so the statements stay deterministic —
 which is why this demo is unedited.
 
 20
-00:01:02,513 --> 00:01:04,873
-Here is what makes the rest worth
-trusting.
+00:01:11,040 --> 00:01:15,400
+Here is how you would know if we were
+fooling ourselves.
 
 21
-00:01:04,873 --> 00:01:07,656
+00:01:15,400 --> 00:01:20,900
 The same query, every feature paired
+against the wrong segment's attention.
 
 22
-00:01:07,656 --> 00:01:10,979
-against a different segment's attention —
-a
+00:01:20,900 --> 00:01:22,800
+Everything collapses to nothing.
 
 23
-00:01:10,979 --> 00:01:16,933
-fixed permutation, because a control that
-moves between runs is not a control.
+00:01:22,800 --> 00:01:26,651
+A method that still found structure in
+that would be
 
 24
-00:01:16,933 --> 00:01:19,283
-Plus zero-four-three-two becomes minus
-zero-zero-nine.
+00:01:26,651 --> 00:01:30,280
+manufacturing it — and it runs live, on a
+toggle.
 
 25
-00:01:19,283 --> 00:01:20,924
-Nothing survives.
+00:01:30,280 --> 00:01:35,670
+Across three films the directions agree no
+better than coin flips.
 
 26
-00:01:20,924 --> 00:01:22,872
-Two films used to agree on
+00:01:35,670 --> 00:01:41,870
+One correlation clears its floor at all,
+and the column itself calls it marginal.
 
 27
-00:01:22,872 --> 00:01:26,994
-all five features, sign test
-zero-point-zero-six-three.
+00:01:41,870 --> 00:01:44,950
+None of this is really about film.
 
 28
-00:01:26,994 --> 00:01:31,484
-That is what made us score a third.
+00:01:44,950 --> 00:01:48,333
+Every sequence has this confound in it —
 
 29
-00:01:31,484 --> 00:01:34,714
-Corrected, those two agree on three of
-five —
+00:01:48,333 --> 00:01:53,660
+retention curves, funnels, onboarding, any
+test read over time.
 
 30
-00:01:34,714 --> 00:01:37,944
-the reason we kept going was credits as
-well.
+00:01:53,660 --> 00:01:57,948
+Something always rises toward the end, and
+correlating
 
 31
-00:01:37,944 --> 00:01:40,794
-Across all three: two of five, p equals
-one.
+00:01:57,948 --> 00:02:01,600
+against it hands you a confident wrong
+answer.
 
 32
-00:01:40,794 --> 00:01:44,562
-One correlation clears its floor at all,
-the
+00:02:01,600 --> 00:02:04,258
+So we pointed the same discipline at
 
 33
-00:01:44,562 --> 00:01:49,015
-column calls it marginal, and it does not
-replicate.
+00:02:04,258 --> 00:02:08,910
+something completely different:
+seventy-three real demo videos.
 
 34
-00:01:49,015 --> 00:01:55,155
-The same discipline moves to a second
-corpus: seventy-three real demo videos.
+00:02:08,910 --> 00:02:13,843
+Ask how long yours should be and it tells
+you where you sit and
 
 35
-00:01:55,155 --> 00:02:00,708
-Ask where a three-minute cut sits and it
-gives a percentile and the range —
+00:02:13,843 --> 00:02:19,010
+how wide the spread is — then refuses to
+say anything is too long.
 
 36
-00:02:00,708 --> 00:02:06,705
-eight seconds to just under nine minutes —
-and refuses to call anything too long.
+00:02:19,010 --> 00:02:20,360
+A median is not a rule.
 
 37
-00:02:06,705 --> 00:02:09,066
-A median is not a threshold.
+00:02:20,360 --> 00:02:23,700
+Four checks a dashboard does not run.
 
 38
-00:02:09,066 --> 00:02:19,286
-Three films, eighteen tests, one marginal
-result that does not replicate.
+00:02:23,700 --> 00:02:25,290
+Detrend before claiming.
 
 39
-00:02:19,286 --> 00:02:22,296
-Seventy-three videos, no thresholds.
+00:02:25,290 --> 00:02:27,340
+Correct for multiplicity.
 
 40
-00:02:22,296 --> 00:02:29,416
+00:02:27,340 --> 00:02:31,880
+Shuffle the outcome and confirm the
+finding dies.
+
+41
+00:02:31,880 --> 00:02:34,110
+Test whether it replicates.
+
+42
+00:02:34,110 --> 00:02:37,400
 The machine that catches the predictor
 lying.
 
-41
-00:02:29,416 --> 00:02:33,837
-It has now caught us three times.
+43
+00:02:37,400 --> 00:02:39,560
+It has caught us three times.
 
