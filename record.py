@@ -62,59 +62,83 @@ async (marks) => {
   const log = [];
   const mark = (what) => log.push(((Date.now() - t0) / 1000).toFixed(1) + "  " + what);
 
-  const [b1, b2, b3, b4, b5, b6] = marks;
+  const [b1, b2, b3, b4, b5, b6, b7] = marks;
 
-  // 1 — the page, unhurried. The chart comes into view under the hook.
+  // 1 - the page, unhurried. The chart comes into view under the hook.
+  //
+  // Tears of Steel is selected explicitly and not assumed. The film list is
+  // ordered by position_bias, and correcting that figure for the end credits
+  // reordered it: Sintel now leads at 1.59 against Tears of Steel's 1.28, so the
+  // page opens on Sintel. A take recorded on the old assumption showed Sintel for
+  // two minutes while the narration talked about Tears of Steel.
+  el("#filmpick button[data-film='tos']").click();
   mark("open on Tears of Steel");
   await at(b1 + 9);
   glide(top(".chart-wrap") - 140);
 
-  // 2 — the false positive. Ask, let it answer, then go to the table it used.
+  // 2 - the credits. The blurb under the title carries the whole beat: how many
+  // segments are film, how many are credits, 1.28x against 4.40x. The question is
+  // fired at the start of this beat rather than during beat 3, because beat 3
+  // points at the MCP rows it produces and an empty log there would be a claim
+  // about queries that had not run.
   await at(b2);
-  glide(0);
+  glide(top("#filmsub") - 90);
+  mark("the blurb: 80 film segments, 20 of end credits, 1.28x vs 4.40x");
   await at(b2 + 2);
-  document.querySelector("#presets button[data-i='0']").click();
+  el("#presets button[data-i='0']").click();
   mark("asked: which features explain attention");
-  await at(b2 + 16);
-  glide(top("#prooftable") - 200);
-  mark("correlation table");
+  await at(b2 + 12);
+  glide(top(".chart-wrap") - 120);
+  mark("the tail of the curve - that peak is the post-credits scene");
 
-  // 3 — where the numbers came from: the chip, the URL, the query rows.
+  // 3 - where the numbers came from: the chip, the URL, the query rows.
   await at(b3);
   glide(0);
   mark("chip: model, mcp, clickhouse, cloud run revision");
   await at(b3 + 9);
-  glide(top(".log") - 120);
+  glide(top("#log") - 120);
   mark("the mcp run_query rows");
 
-  // 4 — the negative control, and back again.
+  // 4 - the negative control, and back again.
   await at(b4);
   glide(top("#prooftable") - 220);
   await at(b4 + 4);
-  document.querySelector("#toggle button[data-shuffled='1']").click();
+  el("#toggle button[data-shuffled='1']").click();
   mark("shuffled");
-  await at(b4 + 26);
-  document.querySelector("#toggle button[data-shuffled='0']").click();
+  await at(b4 + 15);
+  el("#toggle button[data-shuffled='0']").click();
   mark("back to real attention");
 
-  // 5 — the third film, which is where the last pattern died.
+  // 5 - the third film, which is where the last pattern died.
   await at(b5);
   glide(top("#crossfilm") - 320);
   mark("cross-film sign test");
   await at(b5 + 14);
   glide(0);
   await at(b5 + 16);
-  document.querySelector("#filmpick button[data-film='sintel']").click();
+  el("#filmpick button[data-film='sintel']").click();
   mark("switch to Sintel");
   await at(b5 + 21);
   glide(top("#prooftable") - 200);
-  mark("Sintel's table: nothing clears anything");
+  mark("Sintel: story_information, verdict says marginal");
 
-  // 6 — out.
+  // 6 - the second corpus. A preset rather than typing, because the answer is the
+  // point and a live keystroke is thirty seconds of nothing.
   await at(b6);
   glide(0);
+  await at(b6 + 2);
+  el("#presets button[data-i='3']").click();
+  mark("asked: how long should my demo video be");
+  await at(b6 + 13);
+  const ans = el(".answer");
+  if (ans) glide(ans.getBoundingClientRect().top + window.scrollY - 150);
+  mark("percentile, median, full range, and the refusal");
+
+  // 7 - out.
+  await at(b7);
+  glide(0);
   mark("close");
-  await at(b6 + marks.tail);
+  await at(b7 + marks.tail);
 
   return log;
 }

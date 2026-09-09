@@ -207,7 +207,7 @@
   <div class="col">
     <section>
       <h2>Ask</h2>
-      <p class="sub">Gemini picks one of six parameterised questions and fills in its
+      <p class="sub">Gemini picks one of seven parameterised questions and fills in its
          arguments. The SQL is composed server-side and executed by the
          <code>mcp-clickhouse</code> MCP server. Every query it runs is listed below the
          answer it produced.</p>
@@ -334,15 +334,36 @@ async function showFilm(id) {
   COL = {};
   DATA.columns.forEach((c, i) => COL[c] = i);
 
+  // Second-half over first-half mean attention across ALL bins, credits and all.
+  // This is the figure the project was built around until the credits were
+  // separated out; keeping it visible next to the film-only number is the point.
+  const uploadBias = rows => {
+    const v = rows.map(r => r[COL.raw]);
+    const h = Math.floor(v.length / 2);
+    const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+    const first = mean(v.slice(0, h));
+    return first ? mean(v.slice(h)) / first : 0;
+  };
+
   const f = DATA.film;
+  // The grid covers the whole upload, and the upload ends with credits. Saying
+  // "100 segments" without saying how many are film is how a fifth of the corpus
+  // passed as content for as long as it did.
+  const nCred = DATA.rows.filter(r => r[COL.is_credits]).length;
   $("filmsub").innerHTML =
-    f.title + " — " + DATA.rows.length + " segments of "
-    + Math.round(f.duration_s / f.bin_count) + "s. Attention is YouTube's "
-    + "most-replayed heatmap for this upload, which measures rewatching, not retention. "
+    f.title + " — " + (DATA.rows.length - nCred) + " film segments of "
+    + Math.round(f.duration_s / f.bin_count) + "s, plus <b>" + nCred
+    + "</b> of end credits, kept in the chart and excluded from every claim. "
+    + "Attention is YouTube's most-replayed heatmap for this upload, which "
+    + "measures rewatching, not retention. "
     // Float32 out of ClickHouse arrives as 3.390000104904175; rounding in SQL does
     // not survive the widening, so it is formatted here.
-    + "Second-half attention runs <b>" + Number(f.position_bias).toFixed(2) + "×</b> the first half "
-    + "on content alone — that trend is what the residual removes.";
+    + "Across the film, second-half attention runs <b>" + Number(f.position_bias).toFixed(2)
+    + "×</b> the first half — that trend is what the residual removes. "
+    // Computed here rather than quoted, because it differs per film and a
+    // hard-coded figure would be right for one of the three and wrong for two.
+    + "Measured over the whole upload instead, credits included, it reads "
+    + uploadBias(DATA.rows).toFixed(2) + "×.";
 
   // cue, not load: loadVideoById autoplays, and a film soundtrack starting
   // under the narration is not something you can fix in the edit of an
@@ -785,6 +806,10 @@ const PRESETS = [
   "Which content features actually explain attention, and which only look like they do?",
   "Which stretches lose people, and what is on screen there?",
   "Where do viewing sessions drop out, and what was playing there?",
+  // A different corpus: 73 hackathon demo videos, nothing to do with the films.
+  // It is a preset rather than something to type because the answer is the point
+  // of the tool - a percentile and a range, and a refusal to call it too long.
+  "How long should my demo video be? Mine runs three minutes twelve.",
 ];
 
 $("presets").innerHTML = PRESETS

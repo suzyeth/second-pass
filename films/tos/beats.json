@@ -1,0 +1,411 @@
+[
+ {
+  "film": "tos",
+  "beat": 0,
+  "start": 0.0,
+  "end": 18.417,
+  "duration": 18.417,
+  "shots": 3,
+  "bins": [
+   0,
+   1,
+   2
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 1,
+  "start": 18.417,
+  "end": 40.25,
+  "duration": 21.833,
+  "shots": 2,
+  "bins": [
+   2,
+   3,
+   4,
+   5
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 2,
+  "start": 40.25,
+  "end": 56.667,
+  "duration": 16.417,
+  "shots": 6,
+  "bins": [
+   5,
+   6,
+   7
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 3,
+  "start": 56.667,
+  "end": 74.083,
+  "duration": 17.417,
+  "shots": 3,
+  "bins": [
+   7,
+   8,
+   9,
+   10
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 4,
+  "start": 74.083,
+  "end": 92.417,
+  "duration": 18.333,
+  "shots": 4,
+  "bins": [
+   10,
+   11,
+   12
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 5,
+  "start": 92.417,
+  "end": 116.708,
+  "duration": 24.292,
+  "shots": 4,
+  "bins": [
+   12,
+   13,
+   14,
+   15
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 6,
+  "start": 116.708,
+  "end": 134.917,
+  "duration": 18.208,
+  "shots": 2,
+  "bins": [
+   15,
+   16,
+   17,
+   18
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 7,
+  "start": 134.917,
+  "end": 158.542,
+  "duration": 23.625,
+  "shots": 4,
+  "bins": [
+   18,
+   19,
+   20,
+   21
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 8,
+  "start": 158.542,
+  "end": 183.25,
+  "duration": 24.708,
+  "shots": 2,
+  "bins": [
+   21,
+   22,
+   23,
+   24
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 9,
+  "start": 183.25,
+  "end": 198.5,
+  "duration": 15.25,
+  "shots": 3,
+  "bins": [
+   24,
+   25,
+   26,
+   27
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 10,
+  "start": 198.5,
+  "end": 213.917,
+  "duration": 15.417,
+  "shots": 5,
+  "bins": [
+   27,
+   28,
+   29
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 11,
+  "start": 213.917,
+  "end": 234.583,
+  "duration": 20.667,
+  "shots": 4,
+  "bins": [
+   29,
+   30,
+   31
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 12,
+  "start": 234.583,
+  "end": 253.417,
+  "duration": 18.833,
+  "shots": 2,
+  "bins": [
+   31,
+   32,
+   33,
+   34
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 13,
+  "start": 253.417,
+  "end": 289.542,
+  "duration": 36.125,
+  "shots": 2,
+  "bins": [
+   34,
+   35,
+   36,
+   37,
+   38,
+   39
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 14,
+  "start": 289.542,
+  "end": 307.708,
+  "duration": 18.167,
+  "shots": 7,
+  "bins": [
+   39,
+   40,
+   41
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 15,
+  "start": 307.708,
+  "end": 324.083,
+  "duration": 16.375,
+  "shots": 6,
+  "bins": [
+   41,
+   42,
+   43,
+   44
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 16,
+  "start": 324.083,
+  "end": 341.208,
+  "duration": 17.125,
+  "shots": 4,
+  "bins": [
+   44,
+   45,
+   46
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 17,
+  "start": 341.208,
+  "end": 356.333,
+  "duration": 15.125,
+  "shots": 5,
+  "bins": [
+   46,
+   47,
+   48
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 18,
+  "start": 356.333,
+  "end": 371.625,
+  "duration": 15.292,
+  "shots": 6,
+  "bins": [
+   48,
+   49,
+   50
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 19,
+  "start": 371.625,
+  "end": 386.958,
+  "duration": 15.333,
+  "shots": 8,
+  "bins": [
+   50,
+   51,
+   52
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 20,
+  "start": 386.958,
+  "end": 404.042,
+  "duration": 17.083,
+  "shots": 6,
+  "bins": [
+   52,
+   53,
+   54,
+   55
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 21,
+  "start": 404.042,
+  "end": 425.5,
+  "duration": 21.458,
+  "shots": 5,
+  "bins": [
+   55,
+   56,
+   57
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 22,
+  "start": 425.5,
+  "end": 441.208,
+  "duration": 15.708,
+  "shots": 5,
+  "bins": [
+   57,
+   58,
+   59,
+   60
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 23,
+  "start": 441.208,
+  "end": 461.792,
+  "duration": 20.583,
+  "shots": 2,
+  "bins": [
+   60,
+   61,
+   62
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 24,
+  "start": 461.792,
+  "end": 478.958,
+  "duration": 17.167,
+  "shots": 4,
+  "bins": [
+   62,
+   63,
+   64,
+   65
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 25,
+  "start": 478.958,
+  "end": 499.417,
+  "duration": 20.458,
+  "shots": 9,
+  "bins": [
+   65,
+   66,
+   67,
+   68
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 26,
+  "start": 499.417,
+  "end": 517.875,
+  "duration": 18.458,
+  "shots": 5,
+  "bins": [
+   68,
+   69,
+   70
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 27,
+  "start": 517.875,
+  "end": 537.708,
+  "duration": 19.833,
+  "shots": 4,
+  "bins": [
+   70,
+   71,
+   72,
+   73
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 28,
+  "start": 537.708,
+  "end": 552.833,
+  "duration": 15.125,
+  "shots": 3,
+  "bins": [
+   73,
+   74,
+   75
+  ]
+ },
+ {
+  "film": "tos",
+  "beat": 29,
+  "start": 552.833,
+  "end": 587.2,
+  "duration": 34.367,
+  "shots": 3,
+  "bins": [
+   75,
+   76,
+   77,
+   78,
+   79
+  ]
+ }
+]

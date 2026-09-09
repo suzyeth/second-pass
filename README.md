@@ -7,8 +7,14 @@ hypothesis first, and it did not survive.
 What is left is the machinery, and it turned out to be the better product: three films'
 measured attention and Gemini's blind shot-level scores in one queryable place, with an
 agent that reports the strength of what it finds — including when that strength is
-nothing. Scoring the third film destroyed the last pattern the first two had; the page
-says so.
+nothing.
+
+It has now caught us three times. Scoring the third film destroyed the last pattern the
+first two had. Correcting the tie handling in the rank correlation moved the headline
+finding across the significance floor. And a fifth of every upload turned out to be end
+credits, scored as film — which is where "second-half attention runs 4.40x the first
+half" came from, and where the only correlation that ever cleared the floor came from.
+The page says all three.
 
 **[Live demo](https://second-pass-334984245629.us-central1.run.app)** · **[3-minute video](<YOUTUBE URL>)** · [How it
 works](#how-it-works), including the negative control — the part that makes the rest
@@ -22,57 +28,120 @@ ClickHouse query executed by the official `mcp-clickhouse` MCP server.
 ## The finding this is built around
 
 The obvious product here is "we predict which stretches lose your audience." That
-claim was tested on day one, and then tested twice more as the corpus grew. It does
-not survive any of them.
+claim was tested on day one and has not survived any test since. What it has done
+instead is expose three of our own errors, each caught by the machinery rather than
+by us noticing.
 
-Attention rises toward the end of most films regardless of what is on screen. Second-half
-attention runs **4.40×** the first half on Tears of Steel, **3.00×** on Big Buck Bunny,
-**1.91×** on Sintel. Correlate a content feature against raw attention and you are
-mostly measuring position in the runtime.
+### The third one first, because it moved every number on this page
 
-A correlation has to clear **0.290** to stand out from noise here — the single-test
-floor of 0.215 at n=84, corrected for testing all six features at once. Judging six
-results against a one-test floor is how a null gets reported as a finding.
+The 100-bin grid covers the whole YouTube upload, and **the upload ends with
+credits**. Frame sampling pins the boundary at 588s on Tears of Steel, 489.5s on Big
+Buck Bunny, 744s on Sintel — roughly a fifth of each upload, scored as film and
+correlated against attention.
+
+On Tears of Steel the film averages 0.074 attention and the credits average
+**0.591**, and the upload's maximum sits at bin 97 — a post-credits scene people
+jump to. So "second-half attention runs 4.40x the first half," the number this
+project was built around, was mostly the credits. **On the film itself it is 1.28x.**
+
+Filtering those rows out of the correlation is not enough, and our first attempt did
+exactly that. `attention_base` is a moving average, so the window for the last
+stretch of *film* reaches into a region eight times higher and every residual near
+the end is an artifact of data that is not film. `prepare.py` truncates the curve
+**before** detrending.
+
+| | Tears of Steel | Big Buck Bunny | Sintel |
+| --- | --- | --- | --- |
+| film segments | 80 | 82 | 84 |
+| end credits | 20 | 18 | 16 |
+| usable after edges | **64** | **66** | **68** |
+| position bias, film only | **1.28x** | **1.55x** | **1.59x** |
+| position bias, whole upload | 4.40x | 3.00x | 1.91x |
+
+### The correlations
+
+A correlation has to clear the Bonferroni floor for six features at its film's n —
+**0.332, 0.327, 0.322**. Judging six results against the one-test floor (0.247,
+0.243, 0.239) is how a null gets reported as a finding, so both are columns.
 
 | feature | Tears of Steel | Big Buck Bunny | Sintel |
 | --- | --- | --- | --- |
 | | *raw / residual* | *raw / residual* | *raw / residual* |
-| character presence | **−0.382** / −0.154 | −0.106 / −0.096 | −0.063 / +0.189 |
-| score intensity | **+0.354** / +0.144 | **+0.315** / **+0.317** | +0.171 / +0.032 |
-| story information | −0.188 / −0.028 | **−0.333** / −0.059 | +0.015 / +0.215 |
-| inertness | +0.205 / +0.048 | +0.256 / +0.039 | +0.000 / −0.114 |
-| visual event density | +0.172 / +0.213 | −0.004 / +0.243 | +0.034 / +0.093 |
-| speech density | −0.096 / +0.082 | n/a — no dialogue | +0.074 / +0.212 |
+| visual event density | +0.400 / +0.239 | +0.429 / +0.174 | +0.269 / +0.138 |
+| story information | +0.321 / +0.199 | −0.015 / −0.037 | +0.309 / **+0.343** |
+| character presence | −0.040 / −0.093 | −0.094 / −0.116 | +0.225 / +0.309 |
+| score intensity | +0.432 / +0.290 | +0.258 / +0.213 | +0.239 / +0.022 |
+| speech density | +0.215 / +0.122 | n/a — no dialogue | +0.130 / +0.276 |
+| inertness | −0.291 / −0.087 | −0.020 / +0.035 | −0.249 / −0.171 |
 
-Across three films and eighteen tests, **exactly one residual correlation clears the
-corrected floor**: score intensity on Big Buck Bunny, at +0.317, beating 0.290 by 0.027.
-On the other two films the same feature reads +0.144 and +0.032. It does not replicate.
+Across three films and eighteen tests, **one residual clears its corrected floor**:
+story information on Sintel, at +0.343 against 0.322. The agent's own verdict column
+calls it *"marginal — clears the floor by too little to believe from one film"*, and
+it is right twice over:
 
-Big Buck Bunny has no dialogue, so speech density there is a column of identical zeroes.
-It has no correlation — undefined, not zero, and the difference matters: "no relationship
-shown" would claim a measurement that was never possible.
+- **It does not replicate.** The same feature reads +0.199 on Tears of Steel and
+  −0.037 on Big Buck Bunny.
+- **It rests on very few segments.** Moving the credits boundary by one bin drops it
+  back below the floor. That shift is not a real alternative — frame sampling pins
+  the boundary to within two seconds — but it measures how thin the result is, and
+  `analyze-credits.py` reports boundary *uncertainty* and *fragility* as two separate
+  lines for exactly this reason.
+
+The result that used to sit here was score intensity on Big Buck Bunny at +0.317.
+**That one was the credits**, and it is now +0.213 against a floor of 0.327.
+
+### Was the null just the segmentation?
+
+A bin is 7.34s on Tears of Steel and the median shot is 3.2s, so 69 of 100 bins
+straddle at least one cut and the average bin holds 2.4 shot fragments. Every content
+score is an average over heterogeneous material, and averaging heterogeneous material
+attenuates any correlation drawn from it. That is a third reading of the null, next to
+"content does not predict attention" and "the scores are too noisy" — and it is the
+only one of the three that is cheap to test.
+
+So the shots were detected with `ffmpeg` (threshold 0.3, chosen from a plateau: 0.2
+through 0.35 finds 131/125/122/119 cuts, and 0.45 falls off a cliff to 84), merged into
+82 beats across the three films whose boundaries are always real cuts, scored through
+the **same prompt, model, temperature and resolution** as the bins, and then each bin
+inherited the score of the beat its midpoint falls in. Same residuals, same rows, same
+floors — the only thing that changed is that x was measured on coherent material.
+
+**Nothing moved.** Across 17 comparable tests, 8 correlations got stronger and 9 got
+weaker; sign test p = 1.000, median change −0.008. The hypothesis predicted a
+systematic rise. There was no systematic anything.
+
+Two honest limits on that. The beat side carries only 21–25 *independent* content
+measurements spread over 64–68 rows, so its own floor is 0.539–0.590 rather than
+0.322–0.332 and it could never have produced a significant result on its own — which
+is why the test is the paired comparison, not either column. And neither scoring pass
+has a reliability estimate, so a difference here could still have been resampling
+noise. What can be said is narrow and real: **the prediction that segmentation was
+hiding a signal was tested and it failed.**
+
+`analyze-beats.py` reproduces this; `films/BEATS-ANALYSIS.txt` is the output.
 
 ### What the third film did
 
-With two films, all five comparable features pointed the same direction. A two-tailed
-sign test put that at **p = 0.063** — suggestive, not significant, and the README said so
-while noting a third film would settle it.
+With two films, all five comparable features pointed the same direction — a
+two-tailed sign test at p = 0.063, suggestive and not significant, and the README
+said a third film would settle it.
 
-The third film settled it. Agreement dropped to **2 of 5**, sign test **p = 1.000**:
-the directions are now as consistent as coin flips. Story information, character presence
-and inertness all flip sign on Sintel.
+**That p = 0.063 was credits too.** Recomputed on the film regions with the baseline
+rebuilt, those same two films agree on **3 of 5**, p = 1.000. The result that
+justified scoring a third film did not exist either.
 
-**The two-film consistency was two films' worth of noise.** That is the finding, and it
-is the one the machinery was built to be able to produce. A system that could only ever
-confirm would have reported the p = 0.063 and stopped.
+The third film was scored anyway, and across all three agreement is **2 of 5**, sign
+test **p = 1.000**: the directions are as consistent as coin flips. Story
+information, character presence and inertness all disagree.
 
-"Louder score means more watched" is significant, is the kind of result a deck gets
-built on, and is entirely an artifact of where those segments sit in the film.
+**The two-film consistency was two films' worth of noise.** That is the finding, and
+it is the one the machinery was built to be able to produce. A system that could only
+ever confirm would have reported the p = 0.063 and stopped — and would have reported
+4.40x, and +0.317, and never looked at what was actually in those segments.
 
 So the product is not prediction. It is the two datasets in one place, queryable in a
 conversation, reporting the strength of what it finds including when that strength is
-nothing. The falsification machinery was always the differentiator; the day-one result
-made it the product.
+nothing.
 
 ---
 
@@ -81,10 +150,12 @@ made it the product.
 ```
 ingest    yt-dlp -> YouTube most-replayed heatmap (100 bins, always)
           film from download.blender.org (CC-BY)
-prepare   bins + detrend against a +-8-bin moving average -> residual
+prepare   locate the credits by frame sampling, truncate the curve there,
+          THEN detrend against a +-8-bin moving average -> residual
 score     each segment at 360p/2fps with audio, inline to Gemini, blind prompt:
           it never sees an attention value and is told not to guess preferences
-store     ClickHouse. 3 films, 300 segments, 13.3M synthetic playback events
+store     ClickHouse. 3 films, 300 segments (246 film, 54 credits), 198 usable
+          after edges, 13.3M synthetic playback events
 agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse Cloud
 ui        player, attention curve, residual, proof panel
 ```
@@ -98,7 +169,7 @@ table at startup.
 
 **Correlations are computed with tie-averaged ranks.** ClickHouse's `rankCorr` does
 not average tied ranks, and with content scores taking seven to nine distinct values
-across eighty-four segments, ties are most of the data. The two methods disagree by up
+across sixty-odd segments, ties are most of the data. The two methods disagree by up
 to 0.083 — enough to move a feature across the significance floor and back. The SQL
 builds average ranks with window functions and correlates those, which reproduces
 `analyze-film.py` to three decimals on every field.
@@ -116,9 +187,9 @@ collapses:
 
 | feature (Tears of Steel) | real | shuffled |
 | --- | --- | --- |
-| character presence | −0.382 | −0.121 |
-| score intensity | +0.354 | +0.099 |
-| visual event density (residual) | +0.213 | −0.062 |
+| score intensity (raw) | +0.432 | −0.090 |
+| visual event density (raw) | +0.400 | −0.145 |
+| story information (residual) | +0.199 | −0.110 |
 
 Nothing clears the floor. A method that still found structure there would be
 manufacturing it, and no result from it could be trusted. The proof panel runs this
@@ -132,6 +203,35 @@ features a match, and filed a feature with two positive residuals under negative
 page reads the same endpoint rather than recomputing: two implementations of one
 statistic is how a page and an agent end up telling a visitor different things about the
 same corpus.
+
+---
+
+## The second corpus, and why it is here
+
+The same machinery, pointed at a completely different question, to show that the
+discipline is not specific to film.
+
+`craft_videos` holds **73 real hackathon demo videos** collected from Devpost, 56
+with usable English captions: runtime, words per minute, how many words land in the
+first fifteen seconds, when the first demo verb appears, whether the close speeds
+up. `craft_percentile` places a number in that distribution.
+
+**It cannot return a pass or a fail, and the tool is built so that it cannot.** Every
+answer carries the percentile, the median, the interquartile range *and* the full
+span, plus a column that says in words that this is descriptive. Ask it about a
+three-minute cut and it says 60th percentile, median 175 seconds, range 8 seconds to
+9 minutes — and refuses to call anything too long.
+
+That refusal is the point. The corpus was sampled in two batches, winners and
+non-winners of the same events, and the difference between them is weak and
+confounded: median duration 174s against 175s, and the winners' faster speech tracks
+their being more often teams (44% vs 23% multi-voice) rather than anything about
+pace. So the batches are pooled and `batch` survives only as provenance. A tool that
+turned these medians into thresholds would be doing exactly what this project exists
+to catch — dressing a correlation as a rule.
+
+The one thing that *may* fail a build is a competition's own written duration cap.
+A rule is a rule; a median is not.
 
 ---
 
@@ -188,16 +288,38 @@ Credentials come from Secret Manager; nothing is baked into the image.
   and is what a production version would use.
 - It measures **rewatch, not exit**. A peak means people went back, not that they
   stayed.
-- Three films, 84 usable segments each. Per-film n is structurally capped near this,
-  because the heatmap is always 100 bins whatever the runtime, so single-film
-  significance at these effect sizes is out of reach. Three films reach p = 1.000 on
-  direction; a fourth would not rescue that, it would test it again.
+- Three films, 64 / 66 / 68 usable segments. Per-film n is structurally capped near
+  this: the heatmap is always 100 bins whatever the runtime, a fifth of each upload
+  is credits, and 16 more go to the edge window. Single-film significance at these
+  effect sizes is out of reach. Three films reach p = 1.000 on direction; a fourth
+  would not rescue that, it would test it again.
+- **The credits boundary is measured, not exact.** Frame sampling pins it to within
+  two seconds on each film, and no verdict moves inside that window. Shifting it a
+  full bin does move one — Sintel's story information, the only result that clears
+  anything. That is not an alternative analysis, but it is a fair measure of how
+  little the result rests on, and `analyze-credits.py` prints both lines rather than
+  choosing the flattering one.
+- **Tears of Steel has a post-credits scene**, roughly 711–734s, which is film and is
+  excluded anyway: three bins cut off from the body by 123 seconds of credits have no
+  valid local baseline. It is also where the upload's highest attention sits.
 - All three are Blender open movies scored by the same prompt, so they are not
   independent in the way three unrelated productions would be. That makes the
   disagreement between them more striking, not less.
 - Bins near either end have a one-sided moving-average baseline, so their residual is
   an artifact of the window. They are kept in the table, drawn differently in the UI,
   and excluded from every claim.
+- **The detrend window is ±8 bins, which is a different amount of time on each
+  film**: 58.7s on Tears of Steel, 47.8s on Big Buck Bunny, 71.0s on Sintel, because
+  the heatmap is always 100 bins and the runtimes differ. Cross-film agreement
+  therefore compares residuals that were high-pass filtered at three different
+  timescales. Redoing it on a fixed ±60s window moves the one result that clears
+  anything — Sintel's story information reads +0.286 against a floor of 0.318, and
+  no longer clears. It still clears at ±45s and ±75s.
+  The ±8-bin choice was made in the original design, before any of these numbers
+  existed, so it stays the primary analysis and the others are reported as what they
+  are: a sensitivity check showing the result moves with an arbitrary choice. Picking
+  whichever window makes it significant would be the same error as judging six
+  features against a one-test floor, one level up.
 - The ±8-bin detrend window caps what is findable at all. A content effect lasting
   longer than about two minutes is absorbed into its own baseline, so "nothing in the
   residual" means nothing *on a short timescale*. Residualising against one monotone

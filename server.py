@@ -109,7 +109,9 @@ async def film(film: str):
 
     Edge bins are returned rather than filtered. They are drawn differently and
     excluded from claims, but hiding them would mean the page shows a cleaner
-    curve than the data actually is.
+    curve than the data actually is. The same goes for the end credits: on Tears
+    of Steel they carry the upload's highest attention, and a page that dropped
+    them would look like a film whose audience simply builds to the end.
     """
     try:
         name = _film(film)
@@ -119,7 +121,7 @@ async def film(film: str):
     sql = (
         "SELECT bin, start_s, end_s, "
         "round(attention_raw, 4) AS raw, round(attention_base, 4) AS base, "
-        "round(attention_res, 4) AS res, is_edge, "
+        "round(attention_res, 4) AS res, is_edge, is_credits, "
         + ", ".join(sorted(FIELDS))
         + ", one_line "
         f"FROM segments WHERE film = '{name}' ORDER BY bin"

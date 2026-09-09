@@ -39,7 +39,13 @@ def load_film(film_id, films):
     if not rows:
         return None
 
-    values = [r["raw"] for r in sorted(rows, key=lambda r: r["bin"])]
+    # position_bias is measured on the FILM, not the upload. Computed over all 100
+    # bins it read 4.40 on Tears of Steel - and that number was the end credits,
+    # which average 0.591 against the film's 0.074. On the film region alone it is
+    # 1.22. Position still explains some of the curve, which is why the residual
+    # exists; it explains far less than the whole-upload figure claimed.
+    film_rows = [r for r in sorted(rows, key=lambda r: r["bin"]) if not r.get("credits")]
+    values = [r["raw"] for r in film_rows]
     half = len(values) // 2
     first, last = st.mean(values[:half]), st.mean(values[half:])
 
@@ -157,7 +163,12 @@ def main():
         secure=os.environ.get("CLICKHOUSE_SECURE", "1") != "0",
     )
 
-    for statement in io.open("schema.sql", encoding="utf-8").read().split(";"):
+    # Strip -- comments before splitting. Splitting the raw text on ";" breaks the
+    # moment a comment contains one, and the error it produces points at the
+    # CREATE TABLE rather than at the prose that severed it.
+    schema = io.open("schema.sql", encoding="utf-8").read()
+    schema = chr(10).join(line.split("--")[0] for line in schema.splitlines())
+    for statement in schema.split(";"):
         if statement.strip():
             client.command(statement)
 
@@ -186,6 +197,7 @@ def main():
                 [
                     film["id"], r["bin"], r["start"], r["end"],
                     r["raw"], r["base"], r["res"], 1 if r.get("edge") else 0,
+                    1 if r.get("credits") else 0,
                     r["visual_event_density"], r["story_information"],
                     r["character_presence"], r["speech_density"],
                     r["score_intensity"], r["inertness"],
@@ -196,6 +208,7 @@ def main():
             column_names=[
                 "film", "bin", "start_s", "end_s",
                 "attention_raw", "attention_base", "attention_res", "is_edge",
+                "is_credits",
                 "visual_event_density", "story_information", "character_presence",
                 "speech_density", "score_intensity", "inertness",
                 "one_line", "scored_model",
@@ -228,10 +241,12 @@ def main():
     print()
     rows = client.query(
         "SELECT film, count() AS rows, uniqExact(bin) AS bins, "
-        "countIf(is_edge = 0) AS usable FROM segments GROUP BY film ORDER BY film"
+        "countIf(is_edge = 0) AS usable, countIf(is_credits = 1) AS credits "
+        "FROM segments GROUP BY film ORDER BY film"
     ).result_rows
-    for film, n, bins, usable in rows:
-        print(f"{film}: {n} segment rows, {bins} distinct bins, {usable} usable")
+    for film, n, bins, usable, credits in rows:
+        print(f"{film}: {n} segment rows, {bins} distinct bins, "
+              f"{credits} credits, {usable} usable")
 
     bad = [r for r in rows if r[1] != r[2]]
     if bad:

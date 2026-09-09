@@ -1,0 +1,195 @@
+1
+00:00:00,000 --> 00:00:03,449
+Every attention-analytics product promises
+to tell you
+
+2
+00:00:03,449 --> 00:00:06,260
+which stretches lose your audience, and
+why.
+
+3
+00:00:06,260 --> 00:00:10,460
+We built that, tested the premise, and it
+did not survive.
+
+4
+00:00:10,460 --> 00:00:12,460
+This is Second Pass.
+
+5
+00:00:12,460 --> 00:00:15,279
+Not the predictor — the machine that
+catches
+
+6
+00:00:15,279 --> 00:00:18,931
+the predictor lying, pointed first at our
+own hypothesis.
+
+7
+00:00:18,931 --> 00:00:21,731
+Attention climbs toward the end of a
+runtime.
+
+8
+00:00:21,731 --> 00:00:26,181
+On Tears of Steel it looked like
+four-point-four times the first half.
+
+9
+00:00:26,181 --> 00:00:28,511
+Then we checked what was in those
+segments.
+
+10
+00:00:28,511 --> 00:00:31,414
+A fifth of this upload is end credits, and
+the
+
+11
+00:00:31,414 --> 00:00:35,011
+most replayed moment in the file is a
+post-credits scene.
+
+12
+00:00:35,011 --> 00:00:37,151
+On the film itself it is
+one-point-two-eight.
+
+13
+00:00:37,151 --> 00:00:39,797
+And the one correlation that used to clear
+
+14
+00:00:39,797 --> 00:00:43,262
+our significance floor did not survive
+taking them out.
+
+15
+00:00:43,262 --> 00:00:46,420
+Every number you just saw came out of
+ClickHouse,
+
+16
+00:00:46,420 --> 00:00:50,352
+through the official mcp-clickhouse MCP
+server, on Cloud Run.
+
+17
+00:00:50,352 --> 00:00:51,662
+The model does not write SQL.
+
+18
+00:00:51,662 --> 00:00:57,050
+It picks one of seven parameterised
+questions and fills in the arguments,
+
+19
+00:00:57,050 --> 00:01:02,513
+so the statements stay deterministic —
+which is why this demo is unedited.
+
+20
+00:01:02,513 --> 00:01:04,873
+Here is what makes the rest worth
+trusting.
+
+21
+00:01:04,873 --> 00:01:07,656
+The same query, every feature paired
+
+22
+00:01:07,656 --> 00:01:10,979
+against a different segment's attention —
+a
+
+23
+00:01:10,979 --> 00:01:16,933
+fixed permutation, because a control that
+moves between runs is not a control.
+
+24
+00:01:16,933 --> 00:01:19,283
+Plus zero-four-three-two becomes minus
+zero-zero-nine.
+
+25
+00:01:19,283 --> 00:01:20,924
+Nothing survives.
+
+26
+00:01:20,924 --> 00:01:22,872
+Two films used to agree on
+
+27
+00:01:22,872 --> 00:01:26,994
+all five features, sign test
+zero-point-zero-six-three.
+
+28
+00:01:26,994 --> 00:01:31,484
+That is what made us score a third.
+
+29
+00:01:31,484 --> 00:01:34,714
+Corrected, those two agree on three of
+five —
+
+30
+00:01:34,714 --> 00:01:37,944
+the reason we kept going was credits as
+well.
+
+31
+00:01:37,944 --> 00:01:40,794
+Across all three: two of five, p equals
+one.
+
+32
+00:01:40,794 --> 00:01:44,562
+One correlation clears its floor at all,
+the
+
+33
+00:01:44,562 --> 00:01:49,015
+column calls it marginal, and it does not
+replicate.
+
+34
+00:01:49,015 --> 00:01:55,155
+The same discipline moves to a second
+corpus: seventy-three real demo videos.
+
+35
+00:01:55,155 --> 00:02:00,708
+Ask where a three-minute cut sits and it
+gives a percentile and the range —
+
+36
+00:02:00,708 --> 00:02:06,705
+eight seconds to just under nine minutes —
+and refuses to call anything too long.
+
+37
+00:02:06,705 --> 00:02:09,066
+A median is not a threshold.
+
+38
+00:02:09,066 --> 00:02:19,286
+Three films, eighteen tests, one marginal
+result that does not replicate.
+
+39
+00:02:19,286 --> 00:02:22,296
+Seventy-three videos, no thresholds.
+
+40
+00:02:22,296 --> 00:02:29,416
+The machine that catches the predictor
+lying.
+
+41
+00:02:29,416 --> 00:02:33,837
+It has now caught us three times.
+

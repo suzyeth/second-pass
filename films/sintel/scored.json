@@ -14,7 +14,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "An aerial shot tracks across a snowy mountain range, displaying the opening title credits."
+  "one_line": "An aerial shot tracks across a snowy mountain range, displaying the opening title credits.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -31,7 +32,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 9,
-  "one_line": "Opening titles appear over an aerial view of snow-covered mountains."
+  "one_line": "Opening titles appear over an aerial view of snow-covered mountains.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -48,7 +50,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A slow panning shot over a snowy mountain range accompanied by a melancholy string score and funding text."
+  "one_line": "A slow panning shot over a snowy mountain range accompanied by a melancholy string score and funding text.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -65,7 +68,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A lone traveler walks across a snowy landscape, coming into close-up view against a backdrop of mountains."
+  "one_line": "A lone traveler walks across a snowy landscape, coming into close-up view against a backdrop of mountains.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -82,7 +86,8 @@
   "speech_density": 0,
   "score_intensity": 6,
   "inertness": 4,
-  "one_line": "A hooded character in a snowy, desolate environment is suddenly attacked from behind by another person holding a weapon."
+  "one_line": "A hooded character in a snowy, desolate environment is suddenly attacked from behind by another person holding a weapon.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -99,7 +104,8 @@
   "speech_density": 0,
   "score_intensity": 9,
   "inertness": 3,
-  "one_line": "A fierce melee takes place in a snowy mountainous landscape as two characters fight each other."
+  "one_line": "A fierce melee takes place in a snowy mountainous landscape as two characters fight each other.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -116,7 +122,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A short-haired woman struggles against a bald man in a snowy landscape during an intense battle."
+  "one_line": "A short-haired woman struggles against a bald man in a snowy landscape during an intense battle.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -133,7 +140,8 @@
   "speech_density": 2,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A man attacks a woman with a spear in a snowy, mountainous landscape."
+  "one_line": "A man attacks a woman with a spear in a snowy, mountainous landscape.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -150,7 +158,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 3,
-  "one_line": "A woman in a brown coat lies breathing heavily in the snow as a man is slumped beside her."
+  "one_line": "A woman in a brown coat lies breathing heavily in the snow as a man is slumped beside her.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -167,7 +176,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "An animated character lying unconscious on a snowy surface is shown before cuts to a snowy mountain cabin and a metal staff."
+  "one_line": "An animated character lying unconscious on a snowy surface is shown before cuts to a snowy mountain cabin and a metal staff.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -184,7 +194,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A lone warrior stands in a snowy mountainous landscape as the title 'Sintel' appears on screen."
+  "one_line": "A lone warrior stands in a snowy mountainous landscape as the title 'Sintel' appears on screen.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -201,7 +212,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "Title card scene showing snowy mountains, followed by a cut to a dark interior with a fire."
+  "one_line": "Title card scene showing snowy mountains, followed by a cut to a dark interior with a fire.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -218,7 +230,8 @@
   "speech_density": 6,
   "score_intensity": 4,
   "inertness": 4,
-  "one_line": "An older man inside a tent menacingly inspects a spear with a dark past in front of a young woman."
+  "one_line": "An older man inside a tent menacingly inspects a spear with a dark past in front of a young woman.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -235,7 +248,8 @@
   "speech_density": 7,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "An older man ladles soup for a young woman who has arrived unprepared."
+  "one_line": "An older man ladles soup for a young woman who has arrived unprepared.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -252,7 +266,8 @@
   "speech_density": 3,
   "score_intensity": 2,
   "inertness": 3,
-  "one_line": "A young woman with red hair accepts a bowl from a large man sitting by a fire in a tent."
+  "one_line": "A young woman with red hair accepts a bowl from a large man sitting by a fire in a tent.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -269,7 +284,8 @@
   "speech_density": 7,
   "score_intensity": 3,
   "inertness": 3,
-  "one_line": "A young red-haired woman speaks with an older bearded man holding a bowl of glowing liquid."
+  "one_line": "A young red-haired woman speaks with an older bearded man holding a bowl of glowing liquid.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -286,7 +302,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A close-up of a young woman speaking quietly about a dragon and a dangerous quest."
+  "one_line": "A close-up of a young woman speaking quietly about a dragon and a dangerous quest.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -303,7 +320,8 @@
   "speech_density": 3,
   "score_intensity": 2,
   "inertness": 3,
-  "one_line": "An animated clip shows a sprawling city from above before zooming in on a lone woman walking through desolate streets."
+  "one_line": "An animated clip shows a sprawling city from above before zooming in on a lone woman walking through desolate streets.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -320,7 +338,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A short-haired woman moves debris in a destroyed alleyway under harsh sunlight."
+  "one_line": "A short-haired woman moves debris in a destroyed alleyway under harsh sunlight.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -337,7 +356,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A short-haired young woman in a tank top inspects a strange round object outdoors in a deserted, crumbling town."
+  "one_line": "A short-haired young woman in a tank top inspects a strange round object outdoors in a deserted, crumbling town.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -354,7 +374,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "An animated woman with red hair runs through an alleyway, scales a wall, and confronts a winged creature on a rooftop."
+  "one_line": "An animated woman with red hair runs through an alleyway, scales a wall, and confronts a winged creature on a rooftop.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -371,7 +392,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A young woman with red hair looks on in shock as a wounded creature bleeds on a rooftop."
+  "one_line": "A young woman with red hair looks on in shock as a wounded creature bleeds on a rooftop.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -388,7 +410,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 3,
-  "one_line": "A girl with short red hair reaches out her gloved hand to gently pet a small, injured, dragon-like creature resting on a rooftop."
+  "one_line": "A girl with short red hair reaches out her gloved hand to gently pet a small, injured, dragon-like creature resting on a rooftop.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -405,7 +428,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 3,
-  "one_line": "A young woman tends to a wounded creature resembling a baby dragon in a dimly lit, rustic interior."
+  "one_line": "A young woman tends to a wounded creature resembling a baby dragon in a dimly lit, rustic interior.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -422,7 +446,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A young woman affectionately holds a baby dragon, then offers it a small bowl of water."
+  "one_line": "A young woman affectionately holds a baby dragon, then offers it a small bowl of water.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -439,7 +464,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A figure gathers a small item from a woven mat near a bowl before a wider shot reveals a woman resting on a bed in a dark room."
+  "one_line": "A figure gathers a small item from a woven mat near a bowl before a wider shot reveals a woman resting on a bed in a dark room.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -456,7 +482,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A woman sleeps in a bed inside a dimly lit cabin while ambient music plays."
+  "one_line": "A woman sleeps in a bed inside a dimly lit cabin while ambient music plays.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -473,7 +500,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A woman sleeps peacefully next to a small dragon-like creature in a dimly lit room."
+  "one_line": "A woman sleeps peacefully next to a small dragon-like creature in a dimly lit room.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -490,7 +518,8 @@
   "speech_density": 3,
   "score_intensity": 8,
   "inertness": 6,
-  "one_line": "An animated chicken flees through an alley, dodging obstacles while people pursue it."
+  "one_line": "An animated chicken flees through an alley, dodging obstacles while people pursue it.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -507,7 +536,8 @@
   "speech_density": 3,
   "score_intensity": 6,
   "inertness": 5,
-  "one_line": "A woman in an outdoor market area accidentally knocks over a fruit stand, scattering apples as bystanders look on."
+  "one_line": "A woman in an outdoor market area accidentally knocks over a fruit stand, scattering apples as bystanders look on.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -524,7 +554,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 3,
-  "one_line": "A short-haired woman in an outdoor market is attacked by a small, winged creature."
+  "one_line": "A short-haired woman in an outdoor market is attacked by a small, winged creature.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -541,7 +572,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A short-haired red-headed woman looks up smiling at a strange flying creature perched on a wooden beam above."
+  "one_line": "A short-haired red-headed woman looks up smiling at a strange flying creature perched on a wooden beam above.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -558,7 +590,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 4,
-  "one_line": "An animated female character runs up a set of stone stairs amid ruins while birds fly overhead in a hazy sunset."
+  "one_line": "An animated female character runs up a set of stone stairs amid ruins while birds fly overhead in a hazy sunset.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -575,7 +608,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "An animated female character stands on a ruined rooftop overlooking a vast city at sunset."
+  "one_line": "An animated female character stands on a ruined rooftop overlooking a vast city at sunset.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -592,7 +626,8 @@
   "speech_density": 1,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "An animated young woman with pink hair yells out over a cityscape at sunset while winged creatures fly around."
+  "one_line": "An animated young woman with pink hair yells out over a cityscape at sunset while winged creatures fly around.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -609,7 +644,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "An animated pink-haired girl looks up in wonder as flying creature beasts soar across a hazy sunset sky."
+  "one_line": "An animated pink-haired girl looks up in wonder as flying creature beasts soar across a hazy sunset sky.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -626,7 +662,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A dragon approaches a young woman on a rooftop against a sunset sky."
+  "one_line": "A dragon approaches a young woman on a rooftop against a sunset sky.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -643,7 +680,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "A girl watches as a dragon drops a smaller creature, then dodges an attack as the scene erupts in chaotic motion."
+  "one_line": "A girl watches as a dragon drops a smaller creature, then dodges an attack as the scene erupts in chaotic motion.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -660,7 +698,8 @@
   "speech_density": 2,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "An animated female character looks out over a sunset-lit city landscape from a high fortification."
+  "one_line": "An animated female character looks out over a sunset-lit city landscape from a high fortification.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -677,7 +716,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "An animated character reacts intensely and runs through a desolate landscape."
+  "one_line": "An animated character reacts intensely and runs through a desolate landscape.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -694,7 +734,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "An animated film clip features a large, pensive face layered over a barren landscape scene with figures climbing a hill."
+  "one_line": "An animated film clip features a large, pensive face layered over a barren landscape scene with figures climbing a hill.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -711,7 +752,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A lone traveler walks across a vast desert under a bright sky, accompanied by an orchestral score."
+  "one_line": "A lone traveler walks across a vast desert under a bright sky, accompanied by an orchestral score.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -728,7 +770,8 @@
   "speech_density": 0,
   "score_intensity": 6,
   "inertness": 4,
-  "one_line": "A solitary figure walks across a vast desert before a translucent overlay of the character's face appears above the landscape."
+  "one_line": "A solitary figure walks across a vast desert before a translucent overlay of the character's face appears above the landscape.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -745,7 +788,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "An animated woman navigates a bamboo forest and battles a creature in a rocky canyon."
+  "one_line": "An animated woman navigates a bamboo forest and battles a creature in a rocky canyon.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -762,7 +806,8 @@
   "speech_density": 1,
   "score_intensity": 8,
   "inertness": 4,
-  "one_line": "An animated female character in a desert setting transitions to a cold, mountainous landscape holding a spear."
+  "one_line": "An animated female character in a desert setting transitions to a cold, mountainous landscape holding a spear.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -779,14 +824,15 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A weary woman in heavy winter gear struggles against a storm in a mountainous region."
+  "one_line": "A weary woman in heavy winter gear struggles against a storm in a mountainous region.",
+  "credits": false
  },
  {
   "film": "sintel",
   "bin": 46,
   "start": 408.48,
   "end": 417.36,
-  "raw": 0,
+  "raw": 0.0,
   "base": 0.1579772889556245,
   "res": -0.1579772889556245,
   "edge": false,
@@ -796,7 +842,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A lone figure climbs a snow-covered mountain against an expansive winter backdrop."
+  "one_line": "A lone figure climbs a snow-covered mountain against an expansive winter backdrop.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -813,7 +860,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A character climbs a snowy slope, slips into a whiteout, and then resumes walking across a snowy plain."
+  "one_line": "A character climbs a snowy slope, slips into a whiteout, and then resumes walking across a snowy plain.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -830,7 +878,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A person holding a staff walks through a snowy landscape while being observed."
+  "one_line": "A person holding a staff walks through a snowy landscape while being observed.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -847,7 +896,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 5,
-  "one_line": "A young woman with red hair and an older bearded man are shown in a dimly lit, atmospheric room."
+  "one_line": "A young woman with red hair and an older bearded man are shown in a dimly lit, atmospheric room.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -864,7 +914,8 @@
   "speech_density": 3,
   "score_intensity": 2,
   "inertness": 4,
-  "one_line": "An elderly man listens as a young woman says she has failed."
+  "one_line": "An elderly man listens as a young woman says she has failed.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -881,7 +932,8 @@
   "speech_density": 7,
   "score_intensity": 3,
   "inertness": 4,
-  "one_line": "An older man with tribal markings talks to a young woman named Sintel about dragon lands and hands her a weapon."
+  "one_line": "An older man with tribal markings talks to a young woman named Sintel about dragon lands and hands her a weapon.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -898,7 +950,8 @@
   "speech_density": 2,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A bearded man speaks to a young woman, who then touches an ornate metallic disc."
+  "one_line": "A bearded man speaks to a young woman, who then touches an ornate metallic disc.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -915,7 +968,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A golden seal transitions into a tree, and a young woman looks around a dark, barren landscape with a weapon."
+  "one_line": "A golden seal transitions into a tree, and a young woman looks around a dark, barren landscape with a weapon.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -932,7 +986,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A young female character in a cave holds a large staff as she looks out toward the moon and trees outside."
+  "one_line": "A young female character in a cave holds a large staff as she looks out toward the moon and trees outside.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -949,7 +1004,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A figure walks through a dark cave illuminated by glowing blue crystals."
+  "one_line": "A figure walks through a dark cave illuminated by glowing blue crystals.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -966,7 +1022,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A person in a dark cave observes a large creature feeding on meat."
+  "one_line": "A person in a dark cave observes a large creature feeding on meat.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -983,7 +1040,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "A short-haired woman looks around in a dark, cave-like environment."
+  "one_line": "A short-haired woman looks around in a dark, cave-like environment.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1000,7 +1058,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A red-haired character cautiously navigates a cavernous area as a large creature rests nearby."
+  "one_line": "A red-haired character cautiously navigates a cavernous area as a large creature rests nearby.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1017,7 +1076,8 @@
   "speech_density": 0,
   "score_intensity": 6,
   "inertness": 2,
-  "one_line": "A red-haired character with a spear navigates a dark, cavernous space and encounters a sleeping dragon-like creature."
+  "one_line": "A red-haired character with a spear navigates a dark, cavernous space and encounters a sleeping dragon-like creature.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1034,7 +1094,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 3,
-  "one_line": "A young woman with reddish hair discovers a sleeping baby dragon in a cave, only for it to screech and turn hostile."
+  "one_line": "A young woman with reddish hair discovers a sleeping baby dragon in a cave, only for it to screech and turn hostile.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1051,7 +1112,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A short-haired woman hides behind a rock in a dark cave while a creature breathes fire."
+  "one_line": "A short-haired woman hides behind a rock in a dark cave while a creature breathes fire.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1068,7 +1130,8 @@
   "speech_density": 2,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A short-haired woman battles a large scaly creature in a dark cave."
+  "one_line": "A short-haired woman battles a large scaly creature in a dark cave.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1085,7 +1148,8 @@
   "speech_density": 0,
   "score_intensity": 9,
   "inertness": 4,
-  "one_line": "A woman battles a giant dragon in a dark cave amidst fire and explosions."
+  "one_line": "A woman battles a giant dragon in a dark cave amidst fire and explosions.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1102,7 +1166,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 4,
-  "one_line": "A red-haired woman is thrown across a cavern by a dark, winged creature before landing on the ground."
+  "one_line": "A red-haired woman is thrown across a cavern by a dark, winged creature before landing on the ground.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1119,7 +1184,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "A woman fights a large bat-like creature in a dark cave before being knocked to the ground."
+  "one_line": "A woman fights a large bat-like creature in a dark cave before being knocked to the ground.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1136,7 +1202,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "A winged creature lands near a person in the dark, growling loudly."
+  "one_line": "A winged creature lands near a person in the dark, growling loudly.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1153,7 +1220,8 @@
   "speech_density": 1,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A large dragon investigates an unconscious woman in a cave who then wakes up and scrambles away."
+  "one_line": "A large dragon investigates an unconscious woman in a cave who then wakes up and scrambles away.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1170,14 +1238,15 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 4,
-  "one_line": "An animated red-haired warrior fights a large dragon in a dark cave."
+  "one_line": "An animated red-haired warrior fights a large dragon in a dark cave.",
+  "credits": false
  },
  {
   "film": "sintel",
   "bin": 69,
   "start": 612.72,
   "end": 621.6,
-  "raw": 1,
+  "raw": 1.0,
   "base": 0.5465454996092207,
   "res": 0.4534545003907793,
   "edge": false,
@@ -1187,7 +1256,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A frightened young woman stands in a dark cave looking nervously at a large creature wrapped in webbing."
+  "one_line": "A frightened young woman stands in a dark cave looking nervously at a large creature wrapped in webbing.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1204,7 +1274,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A young girl looks toward a massive, dark dragon lying near a pool of red liquid in a cave."
+  "one_line": "A young girl looks toward a massive, dark dragon lying near a pool of red liquid in a cave.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1221,7 +1292,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A young woman wakes up in a desolate landscape, looking around in bewilderment and fear."
+  "one_line": "A young woman wakes up in a desolate landscape, looking around in bewilderment and fear.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1238,7 +1310,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 6,
-  "one_line": "A frightened, bruised woman looks anxiously at her hand in a dark setting, accompanied by dramatic orchestral music."
+  "one_line": "A frightened, bruised woman looks anxiously at her hand in a dark setting, accompanied by dramatic orchestral music.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1255,7 +1328,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A woman stands quietly near a large, sleeping dragon in a dark, cavernous setting."
+  "one_line": "A woman stands quietly near a large, sleeping dragon in a dark, cavernous setting.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1272,7 +1346,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A frightened young woman looks up in a dark cave, revealing a large, horned creature with glowing red eyes."
+  "one_line": "A frightened young woman looks up in a dark cave, revealing a large, horned creature with glowing red eyes.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1289,7 +1364,8 @@
   "speech_density": 0,
   "score_intensity": 6,
   "inertness": 4,
-  "one_line": "A troubled young woman stands over a dead creature in a cave before running away."
+  "one_line": "A troubled young woman stands over a dead creature in a cave before running away.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1297,16 +1373,17 @@
   "start": 674.88,
   "end": 683.76,
   "raw": 0.34483195268461814,
-  "base": 0.535381891576368,
-  "res": -0.19054993889174981,
-  "edge": false,
+  "base": 0.5379385136614887,
+  "res": -0.19310656097687057,
+  "edge": true,
   "visual_event_density": 8,
   "story_information": 6,
   "character_presence": 5,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "An action sequence in a cave leads to a woman being crushed by falling boulders."
+  "one_line": "An action sequence in a cave leads to a woman being crushed by falling boulders.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1314,16 +1391,17 @@
   "start": 683.76,
   "end": 692.64,
   "raw": 0.19522584378853317,
-  "base": 0.501116588896598,
-  "res": -0.3058907451080649,
-  "edge": false,
+  "base": 0.512969363589261,
+  "res": -0.3177435198007279,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 3,
   "character_presence": 5,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A girl with short dark hair sits alone on a rocky cliff overlooking a vast mountain landscape."
+  "one_line": "A girl with short dark hair sits alone on a rocky cliff overlooking a vast mountain landscape.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1331,16 +1409,17 @@
   "start": 692.64,
   "end": 701.52,
   "raw": 0.1741238719064566,
-  "base": 0.4586672436567254,
-  "res": -0.2845433717502688,
-  "edge": false,
+  "base": 0.47818146098849396,
+  "res": -0.3040575890820374,
+  "edge": true,
   "visual_event_density": 1,
   "story_information": 1,
   "character_presence": 5,
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "A woman sits alone on a rocky cliff, crying and looking out at a mountainous landscape."
+  "one_line": "A woman sits alone on a rocky cliff, crying and looking out at a mountainous landscape.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1348,16 +1427,17 @@
   "start": 701.52,
   "end": 710.4,
   "raw": 0.2633520106920015,
-  "base": 0.4290810885495764,
-  "res": -0.1657290778575749,
-  "edge": false,
+  "base": 0.44945215348062234,
+  "res": -0.18610014278862086,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 2,
   "character_presence": 10,
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 5,
-  "one_line": "A weary, bruised animated female character breathes heavily with her head down."
+  "one_line": "A weary, bruised animated female character breathes heavily with her head down.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1365,16 +1445,17 @@
   "start": 710.4,
   "end": 719.28,
   "raw": 0.33889246052525845,
-  "base": 0.4137405004885661,
-  "res": -0.07484803996330763,
-  "edge": false,
+  "base": 0.4326760365828696,
+  "res": -0.09378357605761117,
+  "edge": true,
   "visual_event_density": 5,
   "story_information": 2,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A lone adventurer stands on a snowy mountain ridge near white flowers as the sun sets."
+  "one_line": "A lone adventurer stands on a snowy mountain ridge near white flowers as the sun sets.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1382,16 +1463,17 @@
   "start": 719.28,
   "end": 728.16,
   "raw": 0.4106203410548348,
-  "base": 0.40504264047397154,
-  "res": 0.005577700580863265,
-  "edge": false,
+  "base": 0.4204351999452872,
+  "res": -0.009814858890452416,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 2,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A lone figure stands on a mountaintop overlooking a hazy landscape while gentle music plays."
+  "one_line": "A lone figure stands on a mountaintop overlooking a hazy landscape while gentle music plays.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1399,16 +1481,17 @@
   "start": 728.16,
   "end": 737.04,
   "raw": 0.7704367532836248,
-  "base": 0.40429121807133017,
-  "res": 0.36614553521229465,
-  "edge": false,
+  "base": 0.4139116025312164,
+  "res": 0.3565251507524084,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 2,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A girl walks in a mountainous landscape as a creature lands nearby, accompanied by soft music."
+  "one_line": "A girl walks in a mountainous landscape as a creature lands nearby, accompanied by soft music.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1416,16 +1499,17 @@
   "start": 737.04,
   "end": 745.92,
   "raw": 0.7092919857103178,
-  "base": 0.4033591579470678,
-  "res": 0.30593282776325004,
-  "edge": false,
+  "base": 0.4078275887605077,
+  "res": 0.30146439694981014,
+  "edge": true,
   "visual_event_density": 1,
   "story_information": 1,
   "character_presence": 1,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A serene mountain landscape with a lone figure in the distance and white flowers in the foreground."
+  "one_line": "A serene mountain landscape with a lone figure in the distance and white flowers in the foreground.",
+  "credits": false
  },
  {
   "film": "sintel",
@@ -1433,16 +1517,17 @@
   "start": 745.92,
   "end": 754.8,
   "raw": 0.4944759382144361,
-  "base": 0.4020783699161212,
-  "res": 0.09239756829831486,
-  "edge": false,
+  "base": 0.4944759382144361,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 1,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 5,
   "score_intensity": 4,
   "inertness": 9,
-  "one_line": "Credits are displayed on a black screen while a woman sings a slow song."
+  "one_line": "Credits are displayed on a black screen while a woman sings a slow song.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1450,16 +1535,17 @@
   "start": 754.8,
   "end": 763.68,
   "raw": 0.32996561918881495,
-  "base": 0.4070453286121683,
-  "res": -0.07707970942335335,
-  "edge": false,
+  "base": 0.32996561918881495,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Credits are shown on a black background over music and singing."
+  "one_line": "Credits are shown on a black background over music and singing.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1467,16 +1553,17 @@
   "start": 763.68,
   "end": 772.56,
   "raw": 0.27836113092216497,
-  "base": 0.416923439280604,
-  "res": -0.13856230835843902,
-  "edge": false,
+  "base": 0.27836113092216497,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 8,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Credits roll over a black screen while music plays and someone sings."
+  "one_line": "Credits roll over a black screen while music plays and someone sings.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1484,16 +1571,17 @@
   "start": 772.56,
   "end": 781.44,
   "raw": 0.34869782176929276,
-  "base": 0.42792340679133234,
-  "res": -0.07922558502203958,
-  "edge": false,
+  "base": 0.34869782176929276,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 1,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 3,
   "score_intensity": 5,
   "inertness": 10,
-  "one_line": "The video displays rolling credit text over a black background accompanied by a soft, melodic song with vocals."
+  "one_line": "The video displays rolling credit text over a black background accompanied by a soft, melodic song with vocals.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1501,16 +1589,17 @@
   "start": 781.44,
   "end": 790.32,
   "raw": 0.38997555921647903,
-  "base": 0.4340677790002258,
-  "res": -0.04409221978374678,
-  "edge": false,
+  "base": 0.38997555921647903,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 9,
-  "one_line": "Credits roll over a dark screen and then a wooden surface with a knife and sketches."
+  "one_line": "Credits roll over a dark screen and then a wooden surface with a knife and sketches.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1518,16 +1607,17 @@
   "start": 790.32,
   "end": 799.2,
   "raw": 0.4194616193481693,
-  "base": 0.43601235223225987,
-  "res": -0.01655073288409059,
-  "edge": false,
+  "base": 0.4194616193481693,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 10,
-  "one_line": "Credits roll over a wooden table laden with props including sketches, a pipe, and a knife, accompanied by melodic singing."
+  "one_line": "Credits roll over a wooden table laden with props including sketches, a pipe, and a knife, accompanied by melodic singing.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1535,16 +1625,17 @@
   "start": 799.2,
   "end": 808.08,
   "raw": 0.47289699324109186,
-  "base": 0.4384367100500842,
-  "res": 0.034460283191007635,
-  "edge": false,
+  "base": 0.47289699324109186,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Closing credits roll over a wooden table featuring a knife, sketch, and apples."
+  "one_line": "Closing credits roll over a wooden table featuring a knife, sketch, and apples.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1552,16 +1643,17 @@
   "start": 808.08,
   "end": 816.96,
   "raw": 0.4528227043551344,
-  "base": 0.42595235357668004,
-  "res": 0.026870350778454344,
-  "edge": false,
+  "base": 0.4528227043551344,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 1,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 6,
   "inertness": 9,
-  "one_line": "Credits roll over a wooden table cluttered with apples, sketches, and a figurine, accompanied by a gentle vocal song."
+  "one_line": "Credits roll over a wooden table cluttered with apples, sketches, and a figurine, accompanied by a gentle vocal song.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1569,8 +1661,8 @@
   "start": 816.96,
   "end": 825.84,
   "raw": 0.44189968267283253,
-  "base": 0.4082436265683277,
-  "res": 0.03365605610450484,
+  "base": 0.44189968267283253,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1578,7 +1670,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "A credit roll with scrolling text over wooden background images accompanied by vocal music."
+  "one_line": "A credit roll with scrolling text over wooden background images accompanied by vocal music.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1586,8 +1679,8 @@
   "start": 825.84,
   "end": 834.72,
   "raw": 0.42927025051741796,
-  "base": 0.40249480579192043,
-  "res": 0.026775444725497533,
+  "base": 0.42927025051741796,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1595,7 +1688,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 8,
-  "one_line": "Credits roll on screen over a wooden tabletop background with small objects while music plays."
+  "one_line": "Credits roll on screen over a wooden tabletop background with small objects while music plays.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1603,8 +1697,8 @@
   "start": 834.72,
   "end": 843.6,
   "raw": 0.3631537251519405,
-  "base": 0.40767546197785653,
-  "res": -0.044521736825916036,
+  "base": 0.3631537251519405,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1612,7 +1706,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "A rolling credits sequence scrolls upward over a textured background with illustrations."
+  "one_line": "A rolling credits sequence scrolls upward over a textured background with illustrations.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1620,8 +1715,8 @@
   "start": 843.6,
   "end": 852.48,
   "raw": 0.36112331958883853,
-  "base": 0.41762271821290975,
-  "res": -0.05649939862407122,
+  "base": 0.36112331958883853,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1629,7 +1724,8 @@
   "speech_density": 10,
   "score_intensity": 8,
   "inertness": 9,
-  "one_line": "Credits roll vertically over a painted background while a song plays."
+  "one_line": "Credits roll vertically over a painted background while a song plays.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1637,8 +1733,8 @@
   "start": 852.48,
   "end": 861.36,
   "raw": 0.36780633824318965,
-  "base": 0.4233664595832112,
-  "res": -0.05556012134002153,
+  "base": 0.36780633824318965,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1646,7 +1742,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 10,
-  "one_line": "Credit roll with names scrolling upward accompanied by dramatic orchestral music."
+  "one_line": "Credit roll with names scrolling upward accompanied by dramatic orchestral music.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1654,8 +1751,8 @@
   "start": 861.36,
   "end": 870.24,
   "raw": 0.37195020546983826,
-  "base": 0.4264019959801868,
-  "res": -0.05445179051034854,
+  "base": 0.37195020546983826,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1663,7 +1760,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 9,
-  "one_line": "Credits roll silently against a textured background while a sweeping orchestral score plays."
+  "one_line": "Credits roll silently against a textured background while a sweeping orchestral score plays.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1671,8 +1769,8 @@
   "start": 870.24,
   "end": 879.12,
   "raw": 0.4518344239578483,
-  "base": 0.42709603364338855,
-  "res": 0.024738390314459735,
+  "base": 0.4518344239578483,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1680,7 +1778,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 8,
-  "one_line": "The film's ending credits scroll over a backdrop of production sketches and a song."
+  "one_line": "The film's ending credits scroll over a backdrop of production sketches and a song.",
+  "credits": true
  },
  {
   "film": "sintel",
@@ -1688,8 +1787,8 @@
   "start": 879.12,
   "end": 888,
   "raw": 0.5582026932357537,
-  "base": 0.42200703813253265,
-  "res": 0.136195655103221,
+  "base": 0.5582026932357537,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1697,6 +1796,7 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 10,
-  "one_line": "Credit text rolls over sketches of a character on a wooden surface."
+  "one_line": "Credit text rolls over sketches of a character on a wooden surface.",
+  "credits": true
  }
 ]

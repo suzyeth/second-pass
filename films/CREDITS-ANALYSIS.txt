@@ -1,0 +1,47 @@
+==============================================================================
+正片区重算基线后的相关表
+==============================================================================
+
+### tos   时长 734s   字幕 @588.0s (bin 80)   正片 80 bin，去边缘后 n=64
+    修正地板 0.332   未修正 0.247
+    position_bias (正片区) 1.28x
+    visual_event_density      +0.239   -
+    story_information         +0.199   -
+    character_presence        -0.093   -
+    speech_density            +0.122   -
+    score_intensity           +0.290   uncorrected only
+    inertness                 -0.087   -
+    边界不确定性 587-588s (抽帧实测): 无 verdict 翻转
+    脆弱性 ±1 bin (假设性): 稳健
+
+### bbb   时长 597s   字幕 @489.5s (bin 81)   正片 82 bin，去边缘后 n=66
+    修正地板 0.327   未修正 0.243
+    position_bias (正片区) 1.55x
+    visual_event_density      +0.174   -
+    story_information         -0.037   -
+    character_presence        -0.116   -
+    speech_density             n/a     undefined
+    score_intensity           +0.213   -
+    inertness                 +0.035   -
+    边界不确定性 488-491s (抽帧实测): 无 verdict 翻转
+    脆弱性 ±1 bin (假设性): 依赖少量段: score_intensity(-/uncorrected only)
+
+### sintel   时长 888s   字幕 @744.0s (bin 83)   正片 84 bin，去边缘后 n=68
+    修正地板 0.322   未修正 0.239
+    position_bias (正片区) 1.59x
+    visual_event_density      +0.138   -
+    story_information         +0.343   CLEARS
+    character_presence        +0.309   uncorrected only
+    speech_density            +0.276   uncorrected only
+    score_intensity           +0.022   -
+    inertness                 -0.171   -
+    边界不确定性 743-745s (抽帧实测): 无 verdict 翻转
+    脆弱性 ±1 bin (假设性): 依赖少量段: story_information(CLEARS/uncorrected only), character_presence(CLEARS/uncorrected only)
+
+==============================================================================
+跨片方向一致 2/5   双尾符号检验 p = 1.000
+  visual_event_density     tos +0.239  bbb +0.174  sintel +0.138
+  story_information        tos +0.199  bbb -0.037  sintel +0.343
+  character_presence       tos -0.093  bbb -0.116  sintel +0.309
+  score_intensity          tos +0.290  bbb +0.213  sintel +0.022
+  inertness                tos -0.087  bbb +0.035  sintel -0.171

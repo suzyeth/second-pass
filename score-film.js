@@ -1,6 +1,7 @@
 // Score every segment of one film. Built to run unattended for hours.
 //
-//   node score-film.js tos
+//   node score-film.js tos            # the 100-bin grid
+//   node score-film.js tos --beats    # the merged-shot beats
 //
 // The free tier dies at roughly twenty inline-video calls, and this needs three
 // hundred. That single fact shapes the whole design: quota exhaustion is the
@@ -140,28 +141,51 @@ async function scoreClip(file) {
   }
 }
 
+// Two units, one scorer. Bins come from YouTube's grid and straddle cuts; beats are
+// unions of detected shots and do not. Comparing the two is the whole experiment, so
+// they MUST go through the same prompt, the same model and the same resolution - a
+// second copy of this file would drift on the first edit and quietly make the
+// comparison meaningless.
+const UNITS = {
+  bin: {
+    key: "bin",
+    source: "bins.json",
+    out: "scored.json",
+    clips: (dir, i) => path.join(dir, "clips", `bin_${String(i).padStart(3, "0")}.mp4`),
+  },
+  beat: {
+    key: "beat",
+    source: "beats.json",
+    out: "scored-beats.json",
+    clips: (dir, i) =>
+      path.join(dir, "beat_clips", `beat_${String(i).padStart(3, "0")}.mp4`),
+  },
+};
+
 (async () => {
   const filmId = process.argv[2] || "tos";
+  const unitName = process.argv.includes("--beats") ? "beat" : "bin";
+  const unit = UNITS[unitName];
   const dir = path.join("films", filmId);
-  const outFile = path.join(dir, "scored.json");
+  const outFile = path.join(dir, unit.out);
 
-  const bins = JSON.parse(fs.readFileSync(path.join(dir, "bins.json"), "utf8"));
+  const bins = JSON.parse(fs.readFileSync(path.join(dir, unit.source), "utf8"));
   const done = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, "utf8")) : [];
-  const byBin = new Map(done.filter((r) => !r.error).map((r) => [r.bin, r]));
+  const byBin = new Map(done.filter((r) => !r.error).map((r) => [r[unit.key], r]));
 
-  console.log(`${filmId}: ${bins.length} bins, ${byBin.size} already scored`);
+  console.log(`${filmId}: ${bins.length} ${unitName}s, ${byBin.size} already scored`);
   const started = Date.now();
   let scored = 0;
 
   const results = [];
   for (const b of bins) {
-    if (byBin.has(b.bin)) {
-      results.push(byBin.get(b.bin));
+    if (byBin.has(b[unit.key])) {
+      results.push(byBin.get(b[unit.key]));
       continue;
     }
 
-    const clip = path.join(dir, "clips", `bin_${String(b.bin).padStart(3, "0")}.mp4`);
-    process.stdout.write(`[${stamp()}] bin ${String(b.bin).padStart(3)} `);
+    const clip = unit.clips(dir, b[unit.key]);
+    process.stdout.write(`[${stamp()}] ${unitName} ${String(b[unit.key]).padStart(3)} `);
 
     try {
       const s = await scoreClip(clip);

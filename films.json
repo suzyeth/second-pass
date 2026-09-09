@@ -4,7 +4,13 @@
   "youtube": "R6MlUcmOul8",
   "source": "https://download.blender.org/demo/movies/ToS/tears_of_steel_720p.mov",
   "meta": "tos.json",
-  "video": "tos.mov"
+  "video": "tos.mov",
+  "credits_start_s": 588.0,
+  "credits_note": "Frame sampling 2026-09-06: film through 587s, credits card at 588s. The credits run to ~710s and are followed by a POST-CREDITS SCENE, ~711-734s, which is film. It is excluded anyway: three bins separated from the body by 123s of credits have no valid local baseline. The upload's maximum attention sits at bin 97, which is that scene - people jump to the stinger, and on a most-replayed heatmap that is what it looks like. Treating it as film-with-high-attention is what produced position_bias 4.40.",
+  "credits_bracket_s": [
+   587.0,
+   588.0
+  ]
  },
  "bbb": {
   "title": "Big Buck Bunny (2008 original)",
@@ -12,7 +18,13 @@
   "youtube": "YE7VzlLtp-4",
   "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov.zip",
   "meta": "bbb.json",
-  "video": "big_buck_bunny_480p_h264.mov"
+  "video": "big_buck_bunny_480p_h264.mov",
+  "credits_start_s": 489.5,
+  "credits_note": "Frame sampling 2026-09-05: last film frame 488s, first credit card by 491s. No post-credits scene.",
+  "credits_bracket_s": [
+   488.0,
+   491.0
+  ]
  },
  "sintel": {
   "title": "Sintel",
@@ -20,6 +32,12 @@
   "source": "https://archive.org/download/Sintel/sintel-2048-stereo.mp4",
   "note": "Blender hosts only a 1.1GB 1080p mkv for this one, and that download died twice at ~500MB. The archive.org mirror of the Blender release is 270MB and arrived in a minute. Its 74MB sibling is NOT usable despite being named 2048: it decodes at 564x240, and cutting 360p clips from it would mean upscaling Sintel while tos and bbb are downscaled from 1280 and 853 - a picture-quality difference between films, in the one comparison the third film exists to make. Duration 888.064s matches the heatmap's 888s.",
   "meta": "sintel.json",
-  "video": "sintel.mp4"
+  "video": "sintel.mp4",
+  "credits_start_s": 744.0,
+  "credits_note": "Frame sampling 2026-09-06: film through 743s, black at 745s, first credit card at 747s. No bin midpoint falls between 744 and 748, so the earlier 748 estimate selected the same segments.",
+  "credits_bracket_s": [
+   743.0,
+   745.0
+  ]
  }
 }

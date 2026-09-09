@@ -55,6 +55,30 @@ CREATE TABLE IF NOT EXISTS segments
     -- artifact of the window. Excluded from claims, kept in the table.
     is_edge                 UInt8,
 
+    -- The 100-bin grid covers the whole YouTube upload, and the upload ends with
+    -- credits: 588s in on Tears of Steel, 489.5s on Big Buck Bunny, 744s on
+    -- Sintel, pinned by frame sampling. Roughly a fifth of each upload, and not
+    -- film. Tears of Steel also has a post-credits scene at ~711-734s which IS
+    -- film, but three bins cut off from the body by 123s of credits have no
+    -- valid local baseline, so they are excluded with the rest.
+    --
+    -- Leaving them in did two things. It put the upload's maximum attention -
+    -- the post-credits stinger, which people jump to - inside the film, which is
+    -- where position_bias 4.40 came from when the film's own figure is 1.28. And
+    -- because attention_base is a moving average, the window for the last stretch
+    -- of FILM reached into a region eight times higher, so those residuals were
+    -- an artifact of data that is not film. Filtering the rows out afterwards
+    -- does not undo that. prepare.py truncates the curve BEFORE detrending.
+    --
+    -- A bin belongs to the credits when its MIDPOINT does. Keying on its start
+    -- keeps a bin that is 94 percent credits, and on Big Buck Bunny that single
+    -- segment moved a feature across the significance floor and back.
+    --
+    -- Credit bins are also flagged is_edge. The two mean different things, but
+    -- every query filters on is_edge = 0, so this makes the exclusion fail-safe
+    -- rather than dependent on each of them being found and updated.
+    is_credits              UInt8,
+
     -- CONTENT, scored by Gemini from the clip itself, blind: the prompt never
     -- sees an attention value and is told not to guess what viewers preferred.
     visual_event_density    UInt8,
@@ -87,3 +111,58 @@ CREATE TABLE IF NOT EXISTS playback_events
 ENGINE = MergeTree
 PARTITION BY film
 ORDER BY (film, bin, session_id);
+
+
+-- The second corpus, and it answers a different question from the first.
+--
+-- 73 real hackathon demo videos pulled from Devpost on 2026-09-05, 56 of them with
+-- English auto-captions. `segments` is about one film's audience; this is about how
+-- people who make demo videos actually make them - how long, how fast, when the
+-- demo starts, what the first fifteen seconds do.
+--
+-- THESE ARE DESCRIPTIVE MEDIANS, NOT A STANDARD. The corpus was sampled in two
+-- batches, winners and non-winners of the same events, and the difference between
+-- them is weak and confounded: median duration 174s against 175s, and the winners'
+-- faster speech tracks their being more often teams (44% vs 23% multi-voice) rather
+-- than anything about pace. The batches are pooled and `batch` is kept as
+-- provenance only. Anything reading this table must return a percentile AND the
+-- spread, never a pass or a fail - only 32% of the corpus falls in the 2-3 minute
+-- band, so a median here is a default, not a threshold. A competition's own written
+-- duration cap is a rule and may fail a build; a median from this table may not.
+--
+-- Nullable throughout because 17 of the 73 have no captions. A video with no
+-- transcript has no words-per-minute - not zero words per minute.
+CREATE TABLE IF NOT EXISTS craft_videos
+(
+    video_id        String,
+    batch           LowCardinality(String),
+    duration_s      UInt32,
+    has_captions    UInt8,
+
+    words_total     Nullable(UInt32),
+    wpm             Nullable(Float32),
+    sentence_words  Nullable(Float32),
+
+    words_first_5s  Nullable(UInt16),
+    words_first_10s Nullable(UInt16),
+    words_first_15s Nullable(UInt16),
+    words_first_20s Nullable(UInt16),
+
+    intro_first_15s          Nullable(UInt8),
+    names_project_first_15s  Nullable(UInt8),
+    problem_first_15s        Nullable(UInt8),
+
+    demo_verb_at_s  Nullable(Float32),
+    demo_verb_frac  Nullable(Float32),
+    tech_first_frac Nullable(Float32),
+
+    mentions_number Nullable(UInt8),
+    multi_voice     Nullable(UInt8),
+
+    thanks_at_end   Nullable(UInt8),
+    cta_at_end      Nullable(UInt8),
+    tail_wpm        Nullable(Float32),
+    silent_tail     Nullable(UInt8)
+)
+ENGINE = MergeTree
+ORDER BY video_id;

@@ -312,6 +312,14 @@ async def content_at(film: str, bin: int) -> str:
     sql = (
         "SELECT bin, round(start_s) AS at_second, round(attention_raw,3) AS raw, "
         "round(attention_base,3) AS expected_for_position, round(attention_res,3) AS residual, "
+        # This tool answers about ONE bin by index, so it cannot filter the way
+        # every other query does. A bin in the end credits still has scores - the
+        # scorer was given the clip and did its job - and presenting them without
+        # saying what they describe is how credits get discussed as if they were
+        # film. The column says it instead.
+        "multiIf(is_credits = 1, 'end credits - not film, excluded from every claim', "
+        "is_edge = 1, 'edge bin - one-sided baseline, residual is a window artifact', "
+        "'film') AS segment_kind, "
         "visual_event_density, story_information, character_presence, speech_density, "
         "score_intensity, inertness, one_line "
         f"FROM segments WHERE film = '{_film(film)}' AND bin = {max(0, min(int(bin), 99))}"
@@ -520,6 +528,79 @@ async def exit_hotspots(film: str, limit: int = 5) -> str:
     return await MCP.run_query(sql)
 
 
+# The demo-video corpus is a different question from the film corpus, and the
+# allow-list is what keeps a metric name from reaching the SQL. Values are the
+# column names in craft_videos; the labels are what a person would call them.
+CRAFT_METRICS = {
+    "duration_s": "runtime in seconds",
+    "wpm": "words per minute",
+    "words_total": "total words spoken",
+    "sentence_words": "average words per sentence",
+    "words_first_5s": "words in the first 5 seconds",
+    "words_first_10s": "words in the first 10 seconds",
+    "words_first_15s": "words in the first 15 seconds",
+    "words_first_20s": "words in the first 20 seconds",
+    "demo_verb_at_s": "seconds before the demo starts",
+    "tail_wpm": "words per minute in the closing 10 seconds",
+}
+
+
+def _metric(value):
+    key = str(value).strip().lower().replace(" ", "_")
+    if key not in CRAFT_METRICS:
+        raise ValueError(
+            "unknown metric '%s' - the corpus holds: %s"
+            % (value, ", ".join(sorted(CRAFT_METRICS)))
+        )
+    return key
+
+
+async def craft_percentile(metric: str, value: float) -> str:
+    """Where one number about a demo video sits among 73 real ones.
+
+    A second corpus, unrelated to the films: 73 hackathon demo videos collected
+    from Devpost, 56 with usable captions. Use it when the question is about how
+    a video is made - how long, how fast, when the demo starts - and NOT when the
+    question is about a film's audience.
+
+    This returns a position and a spread. It cannot return a pass or a fail, and
+    you must not describe it as one.
+
+    Args:
+        metric: one of duration_s, wpm, words_total, sentence_words,
+            words_first_5s, words_first_10s, words_first_15s, words_first_20s,
+            demo_verb_at_s, tail_wpm.
+        value: the number to place in the distribution.
+    """
+    col = _metric(metric)
+    v = float(value)
+    sql = (
+        f"SELECT '{CRAFT_METRICS[col]}' AS measures, "
+        f"{v} AS your_value, "
+        "count() AS corpus_n, "
+        "round(median(m), 1) AS corpus_median, "
+        "round(quantile(0.25)(m), 1) AS p25, "
+        "round(quantile(0.75)(m), 1) AS p75, "
+        "round(min(m), 1) AS lowest, round(max(m), 1) AS highest, "
+        f"round(100 * countIf(m < {v}) / count()) AS your_percentile, "
+        # The spread is returned next to the median because the median alone
+        # reads as a target. Only 32% of this corpus falls in the 2-3 minute
+        # band that its own median sits in, and a caller who sees "median 175"
+        # without seeing "8 to 539" will treat 175 as the number to hit.
+        "multiIf("
+        f"  round(100 * countIf(m < {v}) / count()) < 10, 'in the lowest tenth of the corpus', "
+        f"  round(100 * countIf(m < {v}) / count()) < 25, 'below the middle half', "
+        f"  round(100 * countIf(m < {v}) / count()) <= 75, 'inside the middle half', "
+        f"  round(100 * countIf(m < {v}) / count()) < 90, 'above the middle half', "
+        "  'in the highest tenth of the corpus') AS position, "
+        "'descriptive only - these are medians of what people did, not a "
+        "threshold, and nothing here says a value outside the middle half "
+        "performs worse' AS status "
+        f"FROM (SELECT {col} AS m FROM craft_videos WHERE {col} IS NOT NULL)"
+    )
+    return await MCP.run_query(sql)
+
+
 INSTRUCTION = """You answer questions about why an audience's attention rises and
 falls across a film, using a database of measured segments and playback events.
 
@@ -571,6 +652,13 @@ tables by eye. Reporting that films "agree" or "disagree" without that tool is
 reading a pattern out of six numbers, which is the thing this system is for
 preventing.
 
+craft_percentile reads a DIFFERENT corpus - 73 demo videos, nothing to do with
+the films - and its numbers are descriptive, not prescriptive. Report the
+percentile and the range together, always. Never say a value is too long, too
+fast, wrong, or needs fixing: the corpus shows no cost to sitting outside the
+middle half, and it contains no outcome to compare against. "Longer than 8 in 10
+of them" is a fact; "too long" is not one this table can support.
+
 Attention here is a normalised rewatch score, never a count of people. Do not
 describe it as viewers, counts, or numbers watching. Only exit_hotspots counts
 sessions, and those are synthetic.
@@ -615,6 +703,7 @@ def build_agent(model=None, film=None):
             correlation_table,
             negative_control,
             direction_agreement,
+            craft_percentile,
             exit_hotspots,
         ],
     )

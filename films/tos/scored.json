@@ -14,7 +14,8 @@
   "speech_density": 3,
   "score_intensity": 3,
   "inertness": 8,
-  "one_line": "Text appears on a black screen while voiceover radio chatter plays."
+  "one_line": "Text appears on a black screen while voiceover radio chatter plays.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -31,7 +32,8 @@
   "speech_density": 1,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "Text introduces the Mango Open Movie project before massive rocket engines ignite with a loud roar."
+  "one_line": "Text introduces the Mango Open Movie project before massive rocket engines ignite with a loud roar.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -48,7 +50,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 6,
-  "one_line": "Massive rocket engines ignite, creating bright white exhaust beams that fill the frame, followed by a wide shot of an industrial cityscape."
+  "one_line": "Massive rocket engines ignite, creating bright white exhaust beams that fill the frame, followed by a wide shot of an industrial cityscape.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -65,7 +68,8 @@
   "speech_density": 7,
   "score_intensity": 5,
   "inertness": 3,
-  "one_line": "A rocket launches behind an industrial city before cutting to two young people talking on a bridge over a canal."
+  "one_line": "A rocket launches behind an industrial city before cutting to two young people talking on a bridge over a canal.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -82,7 +86,8 @@
   "speech_density": 8,
   "score_intensity": 2,
   "inertness": 4,
-  "one_line": "A young man and woman argue on a bridge in Amsterdam while she waves her robotic hand."
+  "one_line": "A young man and woman argue on a bridge in Amsterdam while she waves her robotic hand.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -99,7 +104,8 @@
   "speech_density": 5,
   "score_intensity": 4,
   "inertness": 2,
-  "one_line": "A man vents his anxieties on a bridge before a time jump reveals a futuristic setting with robot holograms."
+  "one_line": "A man vents his anxieties on a bridge before a time jump reveals a futuristic setting with robot holograms.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -116,7 +122,8 @@
   "speech_density": 3,
   "score_intensity": 5,
   "inertness": 4,
-  "one_line": "Forty years later, a character interacts with futuristic digital interfaces and robotic projections in a ruined industrial setting."
+  "one_line": "Forty years later, a character interacts with futuristic digital interfaces and robotic projections in a ruined industrial setting.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -133,7 +140,8 @@
   "speech_density": 2,
   "score_intensity": 6,
   "inertness": 4,
-  "one_line": "Scientists in a futuristic lab interact with consoles and a glowing model of a brain while a man speaks."
+  "one_line": "Scientists in a futuristic lab interact with consoles and a glowing model of a brain while a man speaks.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -150,7 +158,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A man with a high-tech eyepiece inspects a brain model on a table, remarking that it is pretty freaking."
+  "one_line": "A man with a high-tech eyepiece inspects a brain model on a table, remarking that it is pretty freaking.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -167,7 +176,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 3,
-  "one_line": "Title card fades to a sprawling, dystopian city under a cloudy sky."
+  "one_line": "Title card fades to a sprawling, dystopian city under a cloudy sky.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -184,7 +194,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A shot of a city rooftop with a large tower is followed by a camera movement into an interior where two people rest among ropes and bells."
+  "one_line": "A shot of a city rooftop with a large tower is followed by a camera movement into an interior where two people rest among ropes and bells.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -201,7 +212,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 3,
-  "one_line": "A person reads a newspaper about killer robots before a soldier aims a scoped rifle out a window."
+  "one_line": "A person reads a newspaper about killer robots before a soldier aims a scoped rifle out a window.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -218,7 +230,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A futuristic airship floats over a town while a person watches through a scope."
+  "one_line": "A futuristic airship floats over a town while a person watches through a scope.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -235,7 +248,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "A sniper sights a flying ship over a city while a man rests nearby."
+  "one_line": "A sniper sights a flying ship over a city while a man rests nearby.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -252,7 +266,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A sniper sights through a scope at a massive flying airship hovering over a city."
+  "one_line": "A sniper sights through a scope at a massive flying airship hovering over a city.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -269,7 +284,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 6,
-  "one_line": "A flying steampunk vehicle crashes down over a city rooftop."
+  "one_line": "A flying steampunk vehicle crashes down over a city rooftop.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -286,14 +302,15 @@
   "speech_density": 2,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "A young man aims a sniper rifle from a balcony while an older man rests nearby."
+  "one_line": "A young man aims a sniper rifle from a balcony while an older man rests nearby.",
+  "credits": false
  },
  {
   "film": "tos",
   "bin": 17,
   "start": 124.95,
   "end": 132.3,
-  "raw": 0,
+  "raw": 0.0,
   "base": 0.03844587357836615,
   "res": -0.03844587357836615,
   "edge": false,
@@ -303,7 +320,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 4,
-  "one_line": "An older man wakes up in pain while another person watches from the background."
+  "one_line": "An older man wakes up in pain while another person watches from the background.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -320,7 +338,8 @@
   "speech_density": 4,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "An older man talks about a past conversation while sitting on a balcony with another person in the background."
+  "one_line": "An older man talks about a past conversation while sitting on a balcony with another person in the background.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -337,7 +356,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An older man stands up on a balcony as a younger man aims a rifle nearby."
+  "one_line": "An older man stands up on a balcony as a younger man aims a rifle nearby.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -354,7 +374,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A sniper drinks from a carton before taking aim in an old ruined church."
+  "one_line": "A sniper drinks from a carton before taking aim in an old ruined church.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -371,7 +392,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A figure hangs from a rope in front of a pipe organ before landing on the floor."
+  "one_line": "A figure hangs from a rope in front of a pipe organ before landing on the floor.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -388,7 +410,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "An elderly man with grey hair holding a rope looks around a dimly lit, industrial interior with a glowing furnace."
+  "one_line": "An elderly man with grey hair holding a rope looks around a dimly lit, industrial interior with a glowing furnace.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -405,7 +428,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "An older man with grey hair is shown in a ruined industrial space and then in a study with blueprints."
+  "one_line": "An older man with grey hair is shown in a ruined industrial space and then in a study with blueprints.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -422,7 +446,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An older man and a young woman stand quietly indoors while eerie ambient music plays."
+  "one_line": "An older man and a young woman stand quietly indoors while eerie ambient music plays.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -439,7 +464,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A woman looks around a room, then the camera cuts to a man standing inside a ruined building."
+  "one_line": "A woman looks around a room, then the camera cuts to a man standing inside a ruined building.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -456,7 +482,8 @@
   "speech_density": 7,
   "score_intensity": 5,
   "inertness": 3,
-  "one_line": "Three characters prepare for action in a ruined city setting as one receives a supportive pat on the shoulder."
+  "one_line": "Three characters prepare for action in a ruined city setting as one receives a supportive pat on the shoulder.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -473,7 +500,8 @@
   "speech_density": 6,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "Three characters converse indoors while a soldier aims a sniper rifle from a ruined building."
+  "one_line": "Three characters converse indoors while a soldier aims a sniper rifle from a ruined building.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -490,7 +518,8 @@
   "speech_density": 3,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A cyborg leader gives a command, triggering a massive machine to roar to life."
+  "one_line": "A cyborg leader gives a command, triggering a massive machine to roar to life.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -507,7 +536,8 @@
   "speech_density": 3,
   "score_intensity": 9,
   "inertness": 3,
-  "one_line": "A man with a cybernetic eyepiece shouts enthusiastically while another man watches, followed by an explosion of digital graphics."
+  "one_line": "A man with a cybernetic eyepiece shouts enthusiastically while another man watches, followed by an explosion of digital graphics.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -524,7 +554,8 @@
   "speech_density": 4,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A man in a red jacket confronts a giant machine, followed by a cut to him speaking indoors with other characters."
+  "one_line": "A man in a red jacket confronts a giant machine, followed by a cut to him speaking indoors with other characters.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -541,7 +572,8 @@
   "speech_density": 3,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "Three characters stand in a room, with the central male figure wearing a mechanical eye piece."
+  "one_line": "Three characters stand in a room, with the central male figure wearing a mechanical eye piece.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -558,7 +590,8 @@
   "speech_density": 7,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "Three characters stand outdoors and then indoors, with one speaking about love and passion."
+  "one_line": "Three characters stand outdoors and then indoors, with one speaking about love and passion.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -575,7 +608,8 @@
   "speech_density": 7,
   "score_intensity": 4,
   "inertness": 4,
-  "one_line": "Three characters stand indoors while one man speaks closely to another with an eyepiece."
+  "one_line": "Three characters stand indoors while one man speaks closely to another with an eyepiece.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -592,7 +626,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "Three characters stand inside and then look out a window at a futuristic street scene."
+  "one_line": "Three characters stand inside and then look out a window at a futuristic street scene.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -609,7 +644,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A digital projection of a man fades away near a canal bridge, revealing a real person who walks away."
+  "one_line": "A digital projection of a man fades away near a canal bridge, revealing a real person who walks away.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -626,7 +662,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A young man stands by a bridge then walks along a canal."
+  "one_line": "A young man stands by a bridge then walks along a canal.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -643,7 +680,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A young man with dark hair and a patterned jacket walks across a bridge in a European city while gentle instrumental music plays."
+  "one_line": "A young man with dark hair and a patterned jacket walks across a bridge in a European city while gentle instrumental music plays.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -660,7 +698,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A young man walks across a bridge in Amsterdam past a mysterious mechanical structure."
+  "one_line": "A young man walks across a bridge in Amsterdam past a mysterious mechanical structure.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -677,7 +716,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A young man faces a large mechanical structure, followed by a cut to a man with cybernetic enhancements sitting indoors."
+  "one_line": "A young man faces a large mechanical structure, followed by a cut to a man with cybernetic enhancements sitting indoors.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -694,7 +734,8 @@
   "speech_density": 5,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A quick montage shifts from a man on a radio to futuristic control panels and a giant robot."
+  "one_line": "A quick montage shifts from a man on a radio to futuristic control panels and a giant robot.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -711,7 +752,8 @@
   "speech_density": 4,
   "score_intensity": 6,
   "inertness": 4,
-  "one_line": "A young man interacts with a massive robotic structure outdoors before the scene cuts to another man operating a futuristic computer system."
+  "one_line": "A young man interacts with a massive robotic structure outdoors before the scene cuts to another man operating a futuristic computer system.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -728,7 +770,8 @@
   "speech_density": 3,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A digital overlay reveals a human face over a robot, followed by a tense conversation between a young man and woman outdoors."
+  "one_line": "A digital overlay reveals a human face over a robot, followed by a tense conversation between a young man and woman outdoors.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -745,7 +788,8 @@
   "speech_density": 4,
   "score_intensity": 3,
   "inertness": 4,
-  "one_line": "A young man speaks to a woman outdoors about following their passions before visual effects appear in the background."
+  "one_line": "A young man speaks to a woman outdoors about following their passions before visual effects appear in the background.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -762,7 +806,8 @@
   "speech_density": 5,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A young man gazes into the distance and expresses a desire to be awesome in space, followed by a surreal cityscape vision."
+  "one_line": "A young man gazes into the distance and expresses a desire to be awesome in space, followed by a surreal cityscape vision.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -779,7 +824,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A mechanical robot prowls over European-style rooftops in a sunlit industrial city view."
+  "one_line": "A mechanical robot prowls over European-style rooftops in a sunlit industrial city view.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -796,7 +842,8 @@
   "speech_density": 6,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "Soldiers prepare for an approaching mechanical threat as a countdown ticks down."
+  "one_line": "Soldiers prepare for an approaching mechanical threat as a countdown ticks down.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -813,7 +860,8 @@
   "speech_density": 5,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A montage showcases characters in sci-fi elements, including a man with a cybernetic eye and a woman with a robotic hand speaking on a bridge."
+  "one_line": "A montage showcases characters in sci-fi elements, including a man with a cybernetic eye and a woman with a robotic hand speaking on a bridge.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -830,7 +878,8 @@
   "speech_density": 5,
   "score_intensity": 4,
   "inertness": 4,
-  "one_line": "A young man speaks to a woman who has a mechanical robotic hand while pink digital text floats in the background."
+  "one_line": "A young man speaks to a woman who has a mechanical robotic hand while pink digital text floats in the background.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -847,7 +896,8 @@
   "speech_density": 6,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "Two characters converse outdoors before cutting to an interior scene where a woman asks why someone did something."
+  "one_line": "Two characters converse outdoors before cutting to an interior scene where a woman asks why someone did something.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -864,7 +914,8 @@
   "speech_density": 5,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "A fast-paced sequence shows a man with a cybernetic eye, a chalkboard of notes, and a robotic hand gripping a young man's face."
+  "one_line": "A fast-paced sequence shows a man with a cybernetic eye, a chalkboard of notes, and a robotic hand gripping a young man's face.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -881,7 +932,8 @@
   "speech_density": 3,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "A panicked scientist presses a playback button that triggers a system error amidst flashing lights and alarms."
+  "one_line": "A panicked scientist presses a playback button that triggers a system error amidst flashing lights and alarms.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -898,7 +950,8 @@
   "speech_density": 7,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "A man screams in front of holographic displays while a woman confronts a cybernetic man outdoors."
+  "one_line": "A man screams in front of holographic displays while a woman confronts a cybernetic man outdoors.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -915,7 +968,8 @@
   "speech_density": 4,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A robotic weapon is held near a young man's face while a woman shouts at him."
+  "one_line": "A robotic weapon is held near a young man's face while a woman shouts at him.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -932,7 +986,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A quick montage features a man with a mechanical device attached to his mouth, followed by a man wearing glasses and an older man with an eyepatch alongside a woman."
+  "one_line": "A quick montage features a man with a mechanical device attached to his mouth, followed by a man wearing glasses and an older man with an eyepatch alongside a woman.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -949,7 +1004,8 @@
   "speech_density": 3,
   "score_intensity": 3,
   "inertness": 3,
-  "one_line": "A young man is kissed by a mechanical device, followed by a cut to a man with a cybernetic eye speaking in a room."
+  "one_line": "A young man is kissed by a mechanical device, followed by a cut to a man with a cybernetic eye speaking in a room.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -966,7 +1022,8 @@
   "speech_density": 2,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A man with a cybernetic eyepiece laughs, followed by a scene outdoors where a woman uses a robotic arm to scan a young man, revealing a large mecha."
+  "one_line": "A man with a cybernetic eyepiece laughs, followed by a scene outdoors where a woman uses a robotic arm to scan a young man, revealing a large mecha.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -983,7 +1040,8 @@
   "speech_density": 3,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A man wearing glasses looks at digital screens and speaks while holographic graphics project around him."
+  "one_line": "A man wearing glasses looks at digital screens and speaks while holographic graphics project around him.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1000,7 +1058,8 @@
   "speech_density": 3,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A spaceship flies overhead, a man gives a warning over a walkie-talkie, and a soldier takes aim with a rifle."
+  "one_line": "A spaceship flies overhead, a man gives a warning over a walkie-talkie, and a soldier takes aim with a rifle.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1017,7 +1076,8 @@
   "speech_density": 3,
   "score_intensity": 8,
   "inertness": 4,
-  "one_line": "A soldier in tactical gear defends a high tower from attacking mechanical threats and aerial units amidst explosions."
+  "one_line": "A soldier in tactical gear defends a high tower from attacking mechanical threats and aerial units amidst explosions.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1034,7 +1094,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A person in a protective suit handles a smoking piece of machinery before a young man looks down at a robotic component."
+  "one_line": "A person in a protective suit handles a smoking piece of machinery before a young man looks down at a robotic component.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1051,7 +1112,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A man in a white suit holds a small model of a space station while looking around apprehensively."
+  "one_line": "A man in a white suit holds a small model of a space station while looking around apprehensively.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1068,7 +1130,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A young man holds a mechanical device while looking around a high-tech interior, accompanied by sound effects."
+  "one_line": "A young man holds a mechanical device while looking around a high-tech interior, accompanied by sound effects.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1085,7 +1148,8 @@
   "speech_density": 2,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A large mechanical robot suddenly attacks a group of scientists in a greenhouse setting."
+  "one_line": "A large mechanical robot suddenly attacks a group of scientists in a greenhouse setting.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1102,7 +1166,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "Four people in white uniforms kneel and fire weapons in a greenhouse setting against robotic attackers while a loud score plays."
+  "one_line": "Four people in white uniforms kneel and fire weapons in a greenhouse setting against robotic attackers while a loud score plays.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1119,7 +1184,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 2,
-  "one_line": "A group of people fight mechanical creatures before cutting to a man navigating a dark, industrial structure."
+  "one_line": "A group of people fight mechanical creatures before cutting to a man navigating a dark, industrial structure.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1136,7 +1202,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A man swings on a rope inside a cavernous structure while being chased by a large mechanical creature."
+  "one_line": "A man swings on a rope inside a cavernous structure while being chased by a large mechanical creature.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1153,7 +1220,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A soldier in a battle fires weapons while holding onto a rope in a large hall with mechanical destruction."
+  "one_line": "A soldier in a battle fires weapons while holding onto a rope in a large hall with mechanical destruction.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1170,7 +1238,8 @@
   "speech_density": 3,
   "score_intensity": 9,
   "inertness": 3,
-  "one_line": "A soldier slides down a rope inside a damaged cathedral as a mechanical walker crashes nearby."
+  "one_line": "A soldier slides down a rope inside a damaged cathedral as a mechanical walker crashes nearby.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1187,7 +1256,8 @@
   "speech_density": 3,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A man and woman talk urgently indoors before a young man faces a large mechanical structure outside by a canal."
+  "one_line": "A man and woman talk urgently indoors before a young man faces a large mechanical structure outside by a canal.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1204,7 +1274,8 @@
   "speech_density": 3,
   "score_intensity": 5,
   "inertness": 3,
-  "one_line": "A young man stands by a canal in front of a large mechanical structure and speaks to someone named Celia."
+  "one_line": "A young man stands by a canal in front of a large mechanical structure and speaks to someone named Celia.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1221,7 +1292,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A robotic creature navigates a rusted, overgrown industrial interior amidst loud machinery noises."
+  "one_line": "A robotic creature navigates a rusted, overgrown industrial interior amidst loud machinery noises.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1229,16 +1301,17 @@
   "start": 529.2,
   "end": 536.55,
   "raw": 0.0851456959647712,
-  "base": 0.11102468110527831,
-  "res": -0.025878985140507113,
-  "edge": false,
+  "base": 0.10092315790412322,
+  "res": -0.01577746193935202,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 2,
   "character_presence": 6,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "Industrial machinery powers down as an older man with gray hair and a beard looks on thoughtfully."
+  "one_line": "Industrial machinery powers down as an older man with gray hair and a beard looks on thoughtfully.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1246,16 +1319,17 @@
   "start": 536.55,
   "end": 543.9,
   "raw": 0.08359056753512785,
-  "base": 0.12330598418901008,
-  "res": -0.03971541665388223,
-  "edge": false,
+  "base": 0.10500115935939774,
+  "res": -0.021410591824269895,
+  "edge": true,
   "visual_event_density": 8,
   "story_information": 6,
   "character_presence": 8,
   "speech_density": 3,
   "score_intensity": 7,
   "inertness": 2,
-  "one_line": "An older man oversees a mechanical device completing a memory overwrite process."
+  "one_line": "An older man oversees a mechanical device completing a memory overwrite process.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1263,16 +1337,17 @@
   "start": 543.9,
   "end": 551.25,
   "raw": 0.07268008253032134,
-  "base": 0.13984278137045433,
-  "res": -0.067162698840133,
-  "edge": false,
+  "base": 0.10846647692755959,
+  "res": -0.035786394397238255,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 5,
   "character_presence": 8,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "An elderly man gently touches the head of a large, metallic robot in a dimly lit workshop."
+  "one_line": "An elderly man gently touches the head of a large, metallic robot in a dimly lit workshop.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1280,16 +1355,17 @@
   "start": 551.25,
   "end": 558.6,
   "raw": 0.09982954753132799,
-  "base": 0.1608092090796948,
-  "res": -0.0609796615483668,
-  "edge": false,
+  "base": 0.11265892371453733,
+  "res": -0.01282937618320934,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 5,
   "character_presence": 8,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "An older man with gray hair examines a robotic machine while another man looks on with an eyepiece."
+  "one_line": "An older man with gray hair examines a robotic machine while another man looks on with an eyepiece.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1297,16 +1373,17 @@
   "start": 558.6,
   "end": 565.95,
   "raw": 0.13156340362620955,
-  "base": 0.18420622681581805,
-  "res": -0.0526428231896085,
-  "edge": false,
+  "base": 0.11758114088960647,
+  "res": 0.01398226273660308,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 5,
   "character_presence": 9,
   "speech_density": 5,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A man with a robotic eye piece speaks to someone off-camera, gesturing with his hand."
+  "one_line": "A man with a robotic eye piece speaks to someone off-camera, gesturing with his hand.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1314,16 +1391,17 @@
   "start": 565.95,
   "end": 573.3,
   "raw": 0.1784780732076416,
-  "base": 0.20828359847172126,
-  "res": -0.029805525264079646,
-  "edge": false,
+  "base": 0.12155488777538555,
+  "res": 0.056923185432256065,
+  "edge": true,
   "visual_event_density": 8,
   "story_information": 5,
   "character_presence": 6,
   "speech_density": 2,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A woman speaks to a seated man in an office before a vehicle crashes through the wall behind them."
+  "one_line": "A woman speaks to a seated man in an office before a vehicle crashes through the wall behind them.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1331,16 +1409,17 @@
   "start": 573.3,
   "end": 580.65,
   "raw": 0.16910462612461352,
-  "base": 0.2304104078306497,
-  "res": -0.06130578170603618,
-  "edge": false,
+  "base": 0.12206479017104818,
+  "res": 0.04703983595356534,
+  "edge": true,
   "visual_event_density": 5,
   "story_information": 4,
   "character_presence": 5,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "An elderly man stands in a cavernous workshop next to a massive, dormant mechanical creature."
+  "one_line": "An elderly man stands in a cavernous workshop next to a massive, dormant mechanical creature.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1348,16 +1427,17 @@
   "start": 580.65,
   "end": 588,
   "raw": 0.20507932459786868,
-  "base": 0.25680982479042325,
-  "res": -0.05173050019255457,
-  "edge": false,
+  "base": 0.12316851848733891,
+  "res": 0.08191080611052977,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 2,
   "character_presence": 2,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "A wide angle shot reveals a character standing near a complex machine inside a cavernous, industrial structure with dramatic musical accompaniment."
+  "one_line": "A wide angle shot reveals a character standing near a complex machine inside a cavernous, industrial structure with dramatic musical accompaniment.",
+  "credits": false
  },
  {
   "film": "tos",
@@ -1365,16 +1445,17 @@
   "start": 588,
   "end": 595.35,
   "raw": 0.2726490523237599,
-  "base": 0.2891160313728587,
-  "res": -0.016466979049098773,
-  "edge": false,
+  "base": 0.2726490523237599,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 8,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 5,
-  "one_line": "An animated blue and orange mechanical graphic sequence flashes on screen accompanied by heavy electronic music."
+  "one_line": "An animated blue and orange mechanical graphic sequence flashes on screen accompanied by heavy electronic music.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1382,16 +1463,17 @@
   "start": 595.35,
   "end": 602.7,
   "raw": 0.2485352884984454,
-  "base": 0.3223168273947542,
-  "res": -0.07378153889630881,
-  "edge": false,
+  "base": 0.2485352884984454,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 6,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 8,
-  "one_line": "Dynamic, stylized blueprint-style animations flash across the screen accompanied by credits and energetic electronic music."
+  "one_line": "Dynamic, stylized blueprint-style animations flash across the screen accompanied by credits and energetic electronic music.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1399,16 +1481,17 @@
   "start": 602.7,
   "end": 610.05,
   "raw": 0.337612265489684,
-  "base": 0.3537263447316755,
-  "res": -0.01611407924199154,
-  "edge": false,
+  "base": 0.337612265489684,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 8,
-  "one_line": "Credits roll over abstract blue and orange mechanical outlines with driving electronic music."
+  "one_line": "Credits roll over abstract blue and orange mechanical outlines with driving electronic music.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1416,16 +1499,17 @@
   "start": 610.05,
   "end": 617.4,
   "raw": 0.4103939397539366,
-  "base": 0.3867653417314448,
-  "res": 0.023628598022491842,
-  "edge": false,
+  "base": 0.4103939397539366,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 5,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 10,
-  "one_line": "Credits roll over blueprint-style animations of mechanical robots and limbs with an upbeat musical score."
+  "one_line": "Credits roll over blueprint-style animations of mechanical robots and limbs with an upbeat musical score.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1433,16 +1517,17 @@
   "start": 617.4,
   "end": 624.75,
   "raw": 0.45134161912780335,
-  "base": 0.4191247104427362,
-  "res": 0.03221690868506716,
-  "edge": false,
+  "base": 0.45134161912780335,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 5,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 9,
-  "one_line": "Credits roll over animated blueprints and 3D graphics accompanied by electronic music."
+  "one_line": "Credits roll over animated blueprints and 3D graphics accompanied by electronic music.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1450,16 +1535,17 @@
   "start": 624.75,
   "end": 632.1,
   "raw": 0.4831852432963914,
-  "base": 0.4512247103728544,
-  "res": 0.03196053292353701,
-  "edge": false,
+  "base": 0.4831852432963914,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 6,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 9,
-  "one_line": "Credits roll over a dark, abstract background with blue and orange graphic elements and low ambient sound."
+  "one_line": "Credits roll over a dark, abstract background with blue and orange graphic elements and low ambient sound.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1467,16 +1553,17 @@
   "start": 632.1,
   "end": 639.45,
   "raw": 0.4926116229205424,
-  "base": 0.48369475042637833,
-  "res": 0.008916872494164063,
-  "edge": false,
+  "base": 0.4926116229205424,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 10,
-  "one_line": "Scrolling credits for studio and location film crew are displayed over an orange graphic background."
+  "one_line": "Scrolling credits for studio and location film crew are displayed over an orange graphic background.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1484,16 +1571,17 @@
   "start": 639.45,
   "end": 646.8,
   "raw": 0.5609213236405817,
-  "base": 0.5206260521643405,
-  "res": 0.040295271476241123,
-  "edge": false,
+  "base": 0.5609213236405817,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 10,
-  "one_line": "The clip shows rolling end credits against a dark, futuristic technical background with text and HUD elements."
+  "one_line": "The clip shows rolling end credits against a dark, futuristic technical background with text and HUD elements.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1501,16 +1589,17 @@
   "start": 646.8,
   "end": 654.15,
   "raw": 0.6322508571695716,
-  "base": 0.5669185037971222,
-  "res": 0.06533235337244947,
-  "edge": false,
+  "base": 0.6322508571695716,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Credits roll over a dark, futuristic technical interface with glowing orange diagrams and text."
+  "one_line": "Credits roll over a dark, futuristic technical interface with glowing orange diagrams and text.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1518,16 +1607,17 @@
   "start": 654.15,
   "end": 661.5,
   "raw": 0.6495592283369943,
-  "base": 0.6097038536604305,
-  "res": 0.03985537467656386,
-  "edge": false,
+  "base": 0.6495592283369943,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 10,
-  "one_line": "Credits roll on a dark, circuit-patterned screen with ambient electronic music playing."
+  "one_line": "Credits roll on a dark, circuit-patterned screen with ambient electronic music playing.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1535,16 +1625,17 @@
   "start": 661.5,
   "end": 668.85,
   "raw": 0.6175523622627903,
-  "base": 0.6444537334188828,
-  "res": -0.02690137115609248,
-  "edge": false,
+  "base": 0.6175523622627903,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "A rolling list of names is displayed on a screen against a dark background with orange graphical elements, accompanied by music."
+  "one_line": "A rolling list of names is displayed on a screen against a dark background with orange graphical elements, accompanied by music.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1552,16 +1643,17 @@
   "start": 668.85,
   "end": 676.2,
   "raw": 0.6343430315263993,
-  "base": 0.6673157681657729,
-  "res": -0.03297273663937361,
-  "edge": false,
+  "base": 0.6343430315263993,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 10,
-  "one_line": "End credits roll slowly over a futuristic orange and black interface background."
+  "one_line": "End credits roll slowly over a futuristic orange and black interface background.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1569,8 +1661,8 @@
   "start": 676.2,
   "end": 683.55,
   "raw": 0.6499388156232817,
-  "base": 0.6833733824415126,
-  "res": -0.03343456681823087,
+  "base": 0.6499388156232817,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1578,7 +1670,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 10,
-  "one_line": "Scrolling credits roll against a dark technical interface while upbeat electronic music plays."
+  "one_line": "Scrolling credits roll against a dark technical interface while upbeat electronic music plays.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1586,8 +1679,8 @@
   "start": 683.55,
   "end": 690.9,
   "raw": 0.6772634024382187,
-  "base": 0.6988421666624266,
-  "res": -0.021578764224207903,
+  "base": 0.6772634024382187,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1595,7 +1688,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Credits roll against a dark background with orange graphics and sound effects."
+  "one_line": "Credits roll against a dark background with orange graphics and sound effects.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1603,8 +1697,8 @@
   "start": 690.9,
   "end": 698.25,
   "raw": 0.7304687541175492,
-  "base": 0.7142462326171434,
-  "res": 0.016222521500405818,
+  "base": 0.7304687541175492,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 3,
   "story_information": 1,
@@ -1612,7 +1706,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 9,
-  "one_line": "Credits roll on a dark screen with orange text as a gentle score plays."
+  "one_line": "Credits roll on a dark screen with orange text as a gentle score plays.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1620,8 +1715,8 @@
   "start": 698.25,
   "end": 705.6,
   "raw": 0.7969367556699711,
-  "base": 0.7312950487476512,
-  "res": 0.06564170692231996,
+  "base": 0.7969367556699711,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1629,7 +1724,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 10,
-  "one_line": "End credits with names and production company logos scrolling on a dark background."
+  "one_line": "End credits with names and production company logos scrolling on a dark background.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1637,8 +1733,8 @@
   "start": 705.6,
   "end": 712.95,
   "raw": 0.9920510023551562,
-  "base": 0.7454928591732403,
-  "res": 0.24655814318191593,
+  "base": 0.9920510023551562,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 4,
   "story_information": 1,
@@ -1646,16 +1742,17 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 5,
-  "one_line": "Credits roll over a black screen before panning across a pile of scrap metal and machinery."
+  "one_line": "Credits roll over a black screen before panning across a pile of scrap metal and machinery.",
+  "credits": true
  },
  {
   "film": "tos",
   "bin": 97,
   "start": 712.95,
   "end": 720.3,
-  "raw": 1,
-  "base": 0.7557875866281192,
-  "res": 0.24421241337188082,
+  "raw": 1.0,
+  "base": 1.0,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 5,
   "story_information": 2,
@@ -1663,7 +1760,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A man rests quietly amid a massive pile of mechanical wreckage."
+  "one_line": "A man rests quietly amid a massive pile of mechanical wreckage.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1671,8 +1769,8 @@
   "start": 720.3,
   "end": 727.65,
   "raw": 0.8392832443921349,
-  "base": 0.7664104224572317,
-  "res": 0.07287282193490319,
+  "base": 0.8392832443921349,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 3,
   "story_information": 2,
@@ -1680,7 +1778,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A young man crouches amidst a massive pile of robotic scrap metal, holding a device in his hand."
+  "one_line": "A young man crouches amidst a massive pile of robotic scrap metal, holding a device in his hand.",
+  "credits": true
  },
  {
   "film": "tos",
@@ -1688,8 +1787,8 @@
   "start": 727.65,
   "end": 735,
   "raw": 0.7262668561868155,
-  "base": 0.7829502069232808,
-  "res": -0.05668335073646524,
+  "base": 0.7262668561868155,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 3,
   "story_information": 2,
@@ -1697,6 +1796,7 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A young man sits amidst a vast pile of metallic debris, inspecting a small object in his hand before the screen cuts to black."
+  "one_line": "A young man sits amidst a vast pile of metallic debris, inspecting a small object in his hand before the screen cuts to black.",
+  "credits": true
  }
 ]

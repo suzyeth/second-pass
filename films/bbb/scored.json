@@ -4,7 +4,7 @@
   "bin": 0,
   "start": 0,
   "end": 5.97,
-  "raw": 1,
+  "raw": 1.0,
   "base": 0.12960817647572492,
   "res": 0.8703918235242751,
   "edge": true,
@@ -14,7 +14,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 7,
-  "one_line": "A static animated landscape shot of pink clouds and green trees under a soft, morning light with gentle chiming music playing."
+  "one_line": "A static animated landscape shot of pink clouds and green trees under a soft, morning light with gentle chiming music playing.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -31,7 +32,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 8,
-  "one_line": "An animated landscape with green hills, trees, and pink clouds is accompanied by a gentle orchestral score."
+  "one_line": "An animated landscape with green hills, trees, and pink clouds is accompanied by a gentle orchestral score.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -48,7 +50,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "An animated landscape with a gentle stream and a sleeping bird on a tree branch."
+  "one_line": "An animated landscape with a gentle stream and a sleeping bird on a tree branch.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -65,7 +68,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A chubby animated bird sings on a tree branch before suddenly popping out of existence."
+  "one_line": "A chubby animated bird sings on a tree branch before suddenly popping out of existence.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -82,7 +86,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 2,
-  "one_line": "A tranquil grassy clearing with a tree-topped burrow displays the title 'Big Buck Bunny' amidst gentle music."
+  "one_line": "A tranquil grassy clearing with a tree-topped burrow displays the title 'Big Buck Bunny' amidst gentle music.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -99,14 +104,15 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "Title card fades to reveal a sleeping creature inside a hollow under a tree in a lush green forest."
+  "one_line": "Title card fades to reveal a sleeping creature inside a hollow under a tree in a lush green forest.",
+  "credits": false
  },
  {
   "film": "bbb",
   "bin": 6,
   "start": 35.82,
   "end": 41.79,
-  "raw": 0,
+  "raw": 0.0,
   "base": 0.08507316132412532,
   "res": -0.08507316132412532,
   "edge": true,
@@ -116,7 +122,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A sleeping troll rests inside a grassy cave while soft music plays."
+  "one_line": "A sleeping troll rests inside a grassy cave while soft music plays.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -133,7 +140,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large, sleepy creature wakes up and stretches in a grassy den."
+  "one_line": "A large, sleepy creature wakes up and stretches in a grassy den.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -150,7 +158,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large, animated rabbit wakes up and stretches outside its burrow."
+  "one_line": "A large, animated rabbit wakes up and stretches outside its burrow.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -167,7 +176,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large cartoon rabbit walks out of its burrow into a sunny field."
+  "one_line": "A large cartoon rabbit walks out of its burrow into a sunny field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -184,7 +194,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A large, muscular white rabbit looks around serenely in a sunny, flower-filled outdoor setting as classical music plays."
+  "one_line": "A large, muscular white rabbit looks around serenely in a sunny, flower-filled outdoor setting as classical music plays.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -201,7 +212,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A plump white rabbit sniffs flowers in a sunny green field."
+  "one_line": "A plump white rabbit sniffs flowers in a sunny green field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -210,7 +222,7 @@
   "end": 77.61,
   "raw": 0.0158653579251877,
   "base": 0.015919429578095137,
-  "res": -0.000054071652907435735,
+  "res": -5.4071652907435735e-05,
   "edge": false,
   "visual_event_density": 5,
   "story_information": 2,
@@ -218,7 +230,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "A chubby white creature frolicks in a sunny meadow while being watched by another animal from a tree above."
+  "one_line": "A chubby white creature frolicks in a sunny meadow while being watched by another animal from a tree above.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -235,7 +248,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 8,
-  "one_line": "A plump white rabbit plays with a butterfly in a sunny, green meadow while operatic music plays."
+  "one_line": "A plump white rabbit plays with a butterfly in a sunny, green meadow while operatic music plays.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -252,7 +266,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "A chubby white rabbit in a sunny meadow reacts to a red apple falling nearby."
+  "one_line": "A chubby white rabbit in a sunny meadow reacts to a red apple falling nearby.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -269,7 +284,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 3,
-  "one_line": "A large, chubby white rabbit stands in a green field holding a red apple while looking up at an apple tree."
+  "one_line": "A large, chubby white rabbit stands in a green field holding a red apple while looking up at an apple tree.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -286,7 +302,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A plump white rabbit holding an apple in a grassy field is watched by another creature from a tree branch."
+  "one_line": "A plump white rabbit holding an apple in a grassy field is watched by another creature from a tree branch.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -303,7 +320,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A plump, animated white rabbit finishes eating an apple core in a grassy field."
+  "one_line": "A plump, animated white rabbit finishes eating an apple core in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -320,7 +338,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 7,
-  "one_line": "A large, plump animated rabbit watches a purple butterfly fly off his head in a grassy field."
+  "one_line": "A large, plump animated rabbit watches a purple butterfly fly off his head in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -337,7 +356,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A fluffy white rabbit chases a butterfly in a sunny field while two other creatures watch."
+  "one_line": "A fluffy white rabbit chases a butterfly in a sunny field while two other creatures watch.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -354,7 +374,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Animated woodland animals including a squirrel and a bear interact playfully with each other and a butterfly in a sunny meadow."
+  "one_line": "Animated woodland animals including a squirrel and a bear interact playfully with each other and a butterfly in a sunny meadow.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -371,7 +392,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A small squirrel watches from behind a tree as a large, round rabbit reacts to a purple butterfly landing on its head."
+  "one_line": "A small squirrel watches from behind a tree as a large, round rabbit reacts to a purple butterfly landing on its head.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -388,7 +410,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 7,
-  "one_line": "An animated rabbit looks on while a squirrel watches from behind a tree as a pink object and a butterfly float down."
+  "one_line": "An animated rabbit looks on while a squirrel watches from behind a tree as a pink object and a butterfly float down.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -405,7 +428,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 8,
-  "one_line": "An animated rabbit looks on as a butterfly flies away from its head."
+  "one_line": "An animated rabbit looks on as a butterfly flies away from its head.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -422,7 +446,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "An animated squirrel scuttles on a tree as a large rabbit looks on in a grassy field."
+  "one_line": "An animated squirrel scuttles on a tree as a large rabbit looks on in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -439,7 +464,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "Three animated woodland creatures gather near a large tree trunk in a grassy field."
+  "one_line": "Three animated woodland creatures gather near a large tree trunk in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -456,7 +482,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Three animated woodland animals peer out from behind a tree at a large, plump rabbit standing in a grassy field."
+  "one_line": "Three animated woodland animals peer out from behind a tree at a large, plump rabbit standing in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -473,7 +500,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "Three animated woodland animals giggle conspiratorially while looking at a confused, overweight white rabbit."
+  "one_line": "Three animated woodland animals giggle conspiratorially while looking at a confused, overweight white rabbit.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -490,7 +518,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A large cartoon rabbit reacts as other small animals hurl an acorn at him in a sunny field."
+  "one_line": "A large cartoon rabbit reacts as other small animals hurl an acorn at him in a sunny field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -507,7 +536,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "An animated white rabbit is targeted by unseen acorn-throwers hiding near a tree in a grassy field."
+  "one_line": "An animated white rabbit is targeted by unseen acorn-throwers hiding near a tree in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -524,7 +554,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "An animated rabbit gets hit by a pear, followed by a squirrel, a fox, and a mouse reacting to falling food in a field."
+  "one_line": "An animated rabbit gets hit by a pear, followed by a squirrel, a fox, and a mouse reacting to falling food in a field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -541,7 +572,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 7,
-  "one_line": "Animated woodland creatures interact briefly with nature in a sequence of short scenes."
+  "one_line": "Animated woodland creatures interact briefly with nature in a sequence of short scenes.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -558,7 +590,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "An animated squirrel prepares to throw a snowball at a butterfly, startling a large rabbit nearby."
+  "one_line": "An animated squirrel prepares to throw a snowball at a butterfly, startling a large rabbit nearby.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -575,7 +608,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated white rabbit looks surprised, followed by shots of other woodland creatures near a tree."
+  "one_line": "An animated white rabbit looks surprised, followed by shots of other woodland creatures near a tree.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -592,7 +626,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Animated woodland creatures look at a purple butterfly outdoors."
+  "one_line": "Animated woodland creatures look at a purple butterfly outdoors.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -609,7 +644,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "Animated woodland characters dance and interact in a sunny grassy field."
+  "one_line": "Animated woodland characters dance and interact in a sunny grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -626,7 +662,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "Animated rodents in a field interact playfully with objects."
+  "one_line": "Animated rodents in a field interact playfully with objects.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -643,7 +680,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "An animated rabbit surrounded by fruit panics as woodland creatures watch from afar."
+  "one_line": "An animated rabbit surrounded by fruit panics as woodland creatures watch from afar.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -660,7 +698,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "An animated rabbit scrambles behind a tree, surprising three woodland animals sitting in the grass."
+  "one_line": "An animated rabbit scrambles behind a tree, surprising three woodland animals sitting in the grass.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -677,7 +716,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large, heavy-set rabbit reacts with a confused and concerned expression while standing by a tree."
+  "one_line": "A large, heavy-set rabbit reacts with a confused and concerned expression while standing by a tree.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -694,7 +734,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large, animated rabbit blinks and then walks away across a grassy clearing near some trees."
+  "one_line": "A large, animated rabbit blinks and then walks away across a grassy clearing near some trees.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -711,7 +752,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 6,
-  "one_line": "An animated, overweight rabbit dances in a sunlit forest while upbeat music plays."
+  "one_line": "An animated, overweight rabbit dances in a sunlit forest while upbeat music plays.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -728,7 +770,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A large white cartoon rabbit pulls on a vine in a forest, straining as it tries to move something."
+  "one_line": "A large white cartoon rabbit pulls on a vine in a forest, straining as it tries to move something.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -745,7 +788,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 6,
-  "one_line": "A large, muscular white rabbit character in a forest sharpens a wooden stake and inspects a leafy branch tied to it."
+  "one_line": "A large, muscular white rabbit character in a forest sharpens a wooden stake and inspects a leafy branch tied to it.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -762,7 +806,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 6,
-  "one_line": "A large animated rabbit crafts primitive weapons in a forest."
+  "one_line": "A large animated rabbit crafts primitive weapons in a forest.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -779,7 +824,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 7,
-  "one_line": "An animated, overweight rabbit holds a rope and laughs in a forest setting."
+  "one_line": "An animated, overweight rabbit holds a rope and laughs in a forest setting.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -796,7 +842,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "A large white rabbit in a forest hammers a wooden stake into the ground to tether a rope."
+  "one_line": "A large white rabbit in a forest hammers a wooden stake into the ground to tether a rope.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -813,7 +860,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 3,
-  "one_line": "A large, determined rabbit prepares for a challenge in a green field, accompanied by dramatic music."
+  "one_line": "A large, determined rabbit prepares for a challenge in a green field, accompanied by dramatic music.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -830,7 +878,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Three small animated animals hide behind a rock in a sunny field before running behind a tree trunk."
+  "one_line": "Three small animated animals hide behind a rock in a sunny field before running behind a tree trunk.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -847,7 +896,8 @@
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 6,
-  "one_line": "A muscular animated rabbit draws back a makeshift bow and shoots an arrow into a tree."
+  "one_line": "A muscular animated rabbit draws back a makeshift bow and shoots an arrow into a tree.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -864,7 +914,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large cartoon rabbit appears, followed by a cut to three animals running through a grassy field."
+  "one_line": "A large cartoon rabbit appears, followed by a cut to three animals running through a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -881,7 +932,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "Three animated woodland creatures run through a grassy field and down a dirt path."
+  "one_line": "Three animated woodland creatures run through a grassy field and down a dirt path.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -898,7 +950,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 5,
-  "one_line": "Three animated woodland animals gather nuts in a forest as an unseen creature observes them."
+  "one_line": "Three animated woodland animals gather nuts in a forest as an unseen creature observes them.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -915,7 +968,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "An animated white rabbit aims a bow and arrow in the forest while three other woodland creatures watch."
+  "one_line": "An animated white rabbit aims a bow and arrow in the forest while three other woodland creatures watch.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -932,7 +986,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Three animated animals emerge from the woods and glare towards the camera."
+  "one_line": "Three animated animals emerge from the woods and glare towards the camera.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -949,7 +1004,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "Three animated animals stand under a bright sun, while one of them holds an acorn as a swing passes by overhead."
+  "one_line": "Three animated animals stand under a bright sun, while one of them holds an acorn as a swing passes by overhead.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -966,7 +1022,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated red creature holds an acorn and squints before tossing it into the air."
+  "one_line": "An animated red creature holds an acorn and squints before tossing it into the air.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -983,7 +1040,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 7,
-  "one_line": "An animated chinchilla drops a nut, and it rolls away in the forest."
+  "one_line": "An animated chinchilla drops a nut, and it rolls away in the forest.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1000,7 +1058,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 7,
-  "one_line": "An animated chinchilla sits under a rock holding a nut in a forest clearing."
+  "one_line": "An animated chinchilla sits under a rock holding a nut in a forest clearing.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1017,7 +1076,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A wooden log falls over to reveal a chinchilla holding a nut in a forest setting."
+  "one_line": "A wooden log falls over to reveal a chinchilla holding a nut in a forest setting.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1034,7 +1094,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A large, stern white rabbit confronts a small, fearful chinchilla holding a nut in a forest clearing."
+  "one_line": "A large, stern white rabbit confronts a small, fearful chinchilla holding a nut in a forest clearing.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1051,7 +1112,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 7,
-  "one_line": "A large, stern white rabbit stands beside a small, timid chinchilla in a sunlit forest clearing."
+  "one_line": "A large, stern white rabbit stands beside a small, timid chinchilla in a sunlit forest clearing.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1068,7 +1130,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "A large, grumpy creature in a forest kicks a smaller creature high into the air."
+  "one_line": "A large, grumpy creature in a forest kicks a smaller creature high into the air.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1085,7 +1148,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated bunny, squirrel, and bird react to something off-screen in a forest."
+  "one_line": "An animated bunny, squirrel, and bird react to something off-screen in a forest.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1102,7 +1166,8 @@
   "speech_density": 0,
   "score_intensity": 2,
   "inertness": 6,
-  "one_line": "An animated squirrel quickly hides behind a tree trunk as a chubby purple bird looks around."
+  "one_line": "An animated squirrel quickly hides behind a tree trunk as a chubby purple bird looks around.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1119,7 +1184,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A purple bird perched on a branch is startled and tumbles off as a squirrel appears."
+  "one_line": "A purple bird perched on a branch is startled and tumbles off as a squirrel appears.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1136,7 +1202,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 6,
-  "one_line": "An animated squirrel prepares to leap from a tree branch into a forest below."
+  "one_line": "An animated squirrel prepares to leap from a tree branch into a forest below.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1153,7 +1220,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "An animated flying squirrel jumps off a tree branch into the air."
+  "one_line": "An animated flying squirrel jumps off a tree branch into the air.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1170,7 +1238,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A large cartoon rabbit stands outdoors as a flying squirrel glides past."
+  "one_line": "A large cartoon rabbit stands outdoors as a flying squirrel glides past.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1187,7 +1256,8 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated squirrel watches a peach fall from a tree branch."
+  "one_line": "An animated squirrel watches a peach fall from a tree branch.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1204,7 +1274,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 7,
-  "one_line": "A peach falls from a tree and lands on a row of sharpened wooden stakes."
+  "one_line": "A peach falls from a tree and lands on a row of sharpened wooden stakes.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1221,7 +1292,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "An animated scene shows a forest glade, a gliding squirrel, and a large rabbit pointing forward."
+  "one_line": "An animated scene shows a forest glade, a gliding squirrel, and a large rabbit pointing forward.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1238,7 +1310,8 @@
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 4,
-  "one_line": "A chubby rabbit points, followed by a frantic flying squirrel gliding over forest ground."
+  "one_line": "A chubby rabbit points, followed by a frantic flying squirrel gliding over forest ground.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1255,7 +1328,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "A flying squirrel glides through the air against a blue sky, making humorous sounds."
+  "one_line": "A flying squirrel glides through the air against a blue sky, making humorous sounds.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1263,16 +1337,17 @@
   "start": 441.78,
   "end": 447.75,
   "raw": 0.1534305636840961,
-  "base": 0.11168892963268615,
-  "res": 0.04174163405140996,
-  "edge": false,
+  "base": 0.1074641865792686,
+  "res": 0.04596637710482751,
+  "edge": true,
   "visual_event_density": 8,
   "story_information": 2,
   "character_presence": 4,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 3,
-  "one_line": "A frightened flying squirrel plummets through the air toward a wooden fence of sharpened stakes."
+  "one_line": "A frightened flying squirrel plummets through the air toward a wooden fence of sharpened stakes.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1280,16 +1355,17 @@
   "start": 447.75,
   "end": 453.72,
   "raw": 0.07765225824791398,
-  "base": 0.11853826534376104,
-  "res": -0.040886007095847055,
-  "edge": false,
+  "base": 0.11025875624968647,
+  "res": -0.03260649800177248,
+  "edge": true,
   "visual_event_density": 5,
   "story_information": 2,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated squirrel is stuck on a branch hovering dangerously over sharp wooden stakes."
+  "one_line": "An animated squirrel is stuck on a branch hovering dangerously over sharp wooden stakes.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1297,16 +1373,17 @@
   "start": 453.72,
   "end": 459.69,
   "raw": 0.08728565456582446,
-  "base": 0.12760045482668095,
-  "res": -0.04031480026085649,
-  "edge": false,
+  "base": 0.11341026131034994,
+  "res": -0.026124606744525478,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 5,
   "character_presence": 8,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "A large white rabbit grabs a small squirrel by the neck as they stand on a tree branch in a forest."
+  "one_line": "A large white rabbit grabs a small squirrel by the neck as they stand on a tree branch in a forest.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1314,16 +1391,17 @@
   "start": 459.69,
   "end": 465.66,
   "raw": 0.0820815678143237,
-  "base": 0.14210199370285378,
-  "res": -0.060020425888530085,
-  "edge": false,
+  "base": 0.11731019668424146,
+  "res": -0.03522862886991776,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 2,
   "character_presence": 4,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "A large white rabbit holds a small fearful animal by the neck before transitioning to a peaceful forest landscape."
+  "one_line": "A large white rabbit holds a small fearful animal by the neck before transitioning to a peaceful forest landscape.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1331,16 +1409,17 @@
   "start": 465.66,
   "end": 471.63,
   "raw": 0.06703737270705483,
-  "base": 0.14933247889393705,
-  "res": -0.08229510618688222,
-  "edge": false,
+  "base": 0.10383706781711062,
+  "res": -0.03679969511005579,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 8,
-  "one_line": "A panning shot of a green field with trees and some pink animated creatures in the distance."
+  "one_line": "A panning shot of a green field with trees and some pink animated creatures in the distance.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1348,16 +1427,17 @@
   "start": 471.63,
   "end": 477.6,
   "raw": 0.07989686136147016,
-  "base": 0.1662838653579252,
-  "res": -0.08638700399645503,
-  "edge": false,
+  "base": 0.10328402801318876,
+  "res": -0.023387166651718597,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 2,
   "character_presence": 4,
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 6,
-  "one_line": "A large white animated rabbit stands in a sunny field as a butterfly lands on its nose."
+  "one_line": "A large white animated rabbit stands in a sunny field as a butterfly lands on its nose.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1365,16 +1445,17 @@
   "start": 477.6,
   "end": 483.57,
   "raw": 0.10394792903366051,
-  "base": 0.18144485964209942,
-  "res": -0.0774969306084389,
-  "edge": false,
+  "base": 0.10335630988411952,
+  "res": 0.0005916191495409923,
+  "edge": true,
   "visual_event_density": 4,
   "story_information": 1,
   "character_presence": 8,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 6,
-  "one_line": "An animated white rabbit looks around before the scene cuts to a startled squirrel flying like a kite."
+  "one_line": "An animated white rabbit looks around before the scene cuts to a startled squirrel flying like a kite.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1382,16 +1463,17 @@
   "start": 483.57,
   "end": 489.54,
   "raw": 0.14105897697439929,
-  "base": 0.1972207552050802,
-  "res": -0.056161778230680914,
-  "edge": false,
+  "base": 0.10288942397910175,
+  "res": 0.038169552995297534,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 2,
   "character_presence": 6,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 5,
-  "one_line": "A large white rabbit holds the string of a flying squirrel used as a kite in a grassy field."
+  "one_line": "A large white rabbit holds the string of a flying squirrel used as a kite in a grassy field.",
+  "credits": false
  },
  {
   "film": "bbb",
@@ -1399,16 +1481,17 @@
   "start": 489.54,
   "end": 495.51,
   "raw": 0.17928481848736685,
-  "base": 0.2107809838381116,
-  "res": -0.03149616535074476,
-  "edge": false,
+  "base": 0.17928481848736685,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 2,
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 7,
-  "one_line": "Credits roll on a blue textured background after a brief glimpse of a white rabbit."
+  "one_line": "Credits roll on a blue textured background after a brief glimpse of a white rabbit.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1416,16 +1499,17 @@
   "start": 495.51,
   "end": 501.48,
   "raw": 0.1819843486112737,
-  "base": 0.22436160491653478,
-  "res": -0.042377256305261096,
-  "edge": false,
+  "base": 0.1819843486112737,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 7,
   "inertness": 7,
-  "one_line": "Credits roll over an animated fox falling through a blue background while upbeat music plays."
+  "one_line": "Credits roll over an animated fox falling through a blue background while upbeat music plays.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1433,16 +1517,17 @@
   "start": 501.48,
   "end": 507.45,
   "raw": 0.2201949066100363,
-  "base": 0.24458273291424493,
-  "res": -0.024387826304208632,
-  "edge": false,
+  "base": 0.2201949066100363,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 8,
-  "one_line": "Credits roll on a blue textured background while an animated squirrel falls through the air."
+  "one_line": "Credits roll on a blue textured background while an animated squirrel falls through the air.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1450,16 +1535,17 @@
   "start": 507.45,
   "end": 513.42,
   "raw": 0.30923726234469845,
-  "base": 0.26572565806751774,
-  "res": 0.043511604277180704,
-  "edge": false,
+  "base": 0.30923726234469845,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 10,
-  "one_line": "Animated credits roll over a textured blue background while two animated animals dance briefly on either side of the screen."
+  "one_line": "Animated credits roll over a textured blue background while two animated animals dance briefly on either side of the screen.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1467,16 +1553,17 @@
   "start": 513.42,
   "end": 519.39,
   "raw": 0.4019059913382272,
-  "base": 0.28717545352338214,
-  "res": 0.11473053781484505,
-  "edge": false,
+  "base": 0.4019059913382272,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 0,
   "character_presence": 3,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 10,
-  "one_line": "Credits roll against a green background as animated woodland animals briefly run across the screen to upbeat music."
+  "one_line": "Credits roll against a green background as animated woodland animals briefly run across the screen to upbeat music.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1484,16 +1571,17 @@
   "start": 519.39,
   "end": 525.36,
   "raw": 0.39809407554804943,
-  "base": 0.31362125252421924,
-  "res": 0.08447282302383019,
-  "edge": false,
+  "base": 0.39809407554804943,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 0,
   "character_presence": 2,
   "speech_density": 0,
   "score_intensity": 8,
   "inertness": 10,
-  "one_line": "Credits roll on a green background while a small animal bounces and a butterfly flutters past."
+  "one_line": "Credits roll on a green background while a small animal bounces and a butterfly flutters past.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1501,16 +1589,17 @@
   "start": 525.36,
   "end": 531.33,
   "raw": 0.36029811213484275,
-  "base": 0.34095292091386326,
-  "res": 0.019345191220979496,
-  "edge": false,
+  "base": 0.36029811213484275,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 10,
-  "one_line": "End credits roll over a dark gradient background while a glowing butterfly flutters across the screen."
+  "one_line": "End credits roll over a dark gradient background while a glowing butterfly flutters across the screen.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1518,16 +1607,17 @@
   "start": 531.33,
   "end": 537.3,
   "raw": 0.37574850759995315,
-  "base": 0.3671469068539745,
-  "res": 0.008601600745978655,
-  "edge": false,
+  "base": 0.37574850759995315,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
   "character_presence": 2,
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 10,
-  "one_line": "Credits roll over a green textured background while a small animated mouse dances in the corner."
+  "one_line": "Credits roll over a green textured background while a small animated mouse dances in the corner.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1535,16 +1625,17 @@
   "start": 537.3,
   "end": 543.27,
   "raw": 0.36413751818470647,
-  "base": 0.38536440922204374,
-  "res": -0.02122689103733727,
-  "edge": false,
+  "base": 0.36413751818470647,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 10,
-  "one_line": "Credits roll over a black screen with orchestral music."
+  "one_line": "Credits roll over a black screen with orchestral music.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1552,16 +1643,17 @@
   "start": 543.27,
   "end": 549.24,
   "raw": 0.3843011220172901,
-  "base": 0.4043912394715591,
-  "res": -0.020090117454268974,
-  "edge": false,
+  "base": 0.3843011220172901,
+  "res": 0.0,
+  "edge": true,
   "visual_event_density": 3,
   "story_information": 0,
   "character_presence": 0,
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 10,
-  "one_line": "Credits roll against a black background while soft instrumental music plays."
+  "one_line": "Credits roll against a black background while soft instrumental music plays.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1569,8 +1661,8 @@
   "start": 549.24,
   "end": 555.21,
   "raw": 0.4214114342089862,
-  "base": 0.4182916701503269,
-  "res": 0.003119764058659269,
+  "base": 0.4214114342089862,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 4,
   "story_information": 1,
@@ -1578,7 +1670,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 9,
-  "one_line": "Credits roll over a dark background accompanied by a classical musical score."
+  "one_line": "Credits roll over a dark background accompanied by a classical musical score.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1586,8 +1679,8 @@
   "start": 555.21,
   "end": 561.18,
   "raw": 0.44671538217146295,
-  "base": 0.43149812105301294,
-  "res": 0.01521726111845001,
+  "base": 0.44671538217146295,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 3,
   "story_information": 1,
@@ -1595,7 +1688,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 9,
-  "one_line": "Credits roll on screen as a small animated creature dances across the text to instrumental music."
+  "one_line": "Credits roll on screen as a small animated creature dances across the text to instrumental music.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1603,8 +1697,8 @@
   "start": 561.18,
   "end": 567.15,
   "raw": 0.4467280905640185,
-  "base": 0.4402310395321783,
-  "res": 0.006497051031840229,
+  "base": 0.4467280905640185,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1612,7 +1706,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 10,
-  "one_line": "End credits roll slowly over a dark textured background with accompanying music."
+  "one_line": "End credits roll slowly over a dark textured background with accompanying music.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1620,8 +1715,8 @@
   "start": 567.15,
   "end": 573.12,
   "raw": 0.5166159557212849,
-  "base": 0.4431791201624822,
-  "res": 0.07343683555880276,
+  "base": 0.5166159557212849,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 1,
@@ -1629,7 +1724,8 @@
   "speech_density": 0,
   "score_intensity": 5,
   "inertness": 10,
-  "one_line": "Credits roll over a dark, textured background while soft music plays."
+  "one_line": "Credits roll over a dark, textured background while soft music plays.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1637,8 +1733,8 @@
   "start": 573.12,
   "end": 579.09,
   "raw": 0.5445352239854188,
-  "base": 0.44693620721368493,
-  "res": 0.09759901677173383,
+  "base": 0.5445352239854188,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 2,
   "story_information": 0,
@@ -1646,7 +1742,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 10,
-  "one_line": "End credits roll over a dark, textured background with a small pink butterfly fluttering near text."
+  "one_line": "End credits roll over a dark, textured background with a small pink butterfly fluttering near text.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1654,8 +1751,8 @@
   "start": 579.09,
   "end": 585.06,
   "raw": 0.549245690015551,
-  "base": 0.4548123976753979,
-  "res": 0.09443329234015313,
+  "base": 0.549245690015551,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 4,
   "story_information": 1,
@@ -1663,7 +1760,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 5,
-  "one_line": "Credits transition to an animated flying squirrel gliding through the air."
+  "one_line": "Credits transition to an animated flying squirrel gliding through the air.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1671,8 +1769,8 @@
   "start": 585.06,
   "end": 591.03,
   "raw": 0.450756517231577,
-  "base": 0.4627187866829423,
-  "res": -0.011962269451365304,
+  "base": 0.450756517231577,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 3,
   "story_information": 1,
@@ -1680,7 +1778,8 @@
   "speech_density": 0,
   "score_intensity": 4,
   "inertness": 7,
-  "one_line": "An animated sugar glider and a purple bird glide through the air against a blue sky."
+  "one_line": "An animated sugar glider and a purple bird glide through the air against a blue sky.",
+  "credits": true
  },
  {
   "film": "bbb",
@@ -1688,8 +1787,8 @@
   "start": 591.03,
   "end": 597,
   "raw": 0.5027409327291273,
-  "base": 0.4736722609605241,
-  "res": 0.029068671768603227,
+  "base": 0.5027409327291273,
+  "res": 0.0,
   "edge": true,
   "visual_event_density": 4,
   "story_information": 2,
@@ -1697,6 +1796,7 @@
   "speech_density": 0,
   "score_intensity": 3,
   "inertness": 6,
-  "one_line": "An animated purple bird hovers in the air above another animal against a blue sky."
+  "one_line": "An animated purple bird hovers in the air above another animal against a blue sky.",
+  "credits": true
  }
 ]

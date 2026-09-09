@@ -1,0 +1,49 @@
+========================================================================================
+按 bin 评分 vs 按 beat 评分 —— 同一批残差、同一个 n、同一套地板
+========================================================================================
+
+### tos   n=64   修正地板 0.332   未修正 0.247
+    25 beat 覆盖这 64 个 bin（语料共 30 beat）
+    beat 侧有效 n=25，地板 0.539（不是 0.332——同一个分数被 2-3 个 bin 重用）
+    feature                     bin 评分   beat 评分        变化   verdict
+    --------------------------------------------------------------------------
+    visual_event_density        +0.239    +0.129    -0.110   - -> -
+    story_information           +0.199    +0.205    +0.006   - -> -
+    character_presence          -0.093    +0.284    +0.378   - -> -
+    speech_density              +0.122    +0.140    +0.018   - -> -
+    score_intensity             +0.290    +0.116    -0.174   uncorrected only -> -  <<<
+    inertness                   -0.087    -0.097    -0.010   - -> -
+
+### bbb   n=66   修正地板 0.327   未修正 0.243
+    21 beat 覆盖这 66 个 bin（语料共 25 beat）
+    beat 侧有效 n=21，地板 0.590（不是 0.327——同一个分数被 2-3 个 bin 重用）
+    feature                     bin 评分   beat 评分        变化   verdict
+    --------------------------------------------------------------------------
+    visual_event_density        +0.174    +0.070    -0.104   - -> -
+    story_information           -0.037    -0.115    -0.079   - -> -
+    character_presence          -0.116    +0.011    +0.127   - -> -
+    speech_density                 n/a       n/a         -   undefined
+    score_intensity             +0.213    -0.024    -0.238   - -> -
+    inertness                   +0.035    -0.018    -0.053   - -> -
+
+### sintel   n=68   修正地板 0.322   未修正 0.239
+    23 beat 覆盖这 68 个 bin（语料共 27 beat）
+    beat 侧有效 n=23，地板 0.562（不是 0.322——同一个分数被 2-3 个 bin 重用）
+    feature                     bin 评分   beat 评分        变化   verdict
+    --------------------------------------------------------------------------
+    visual_event_density        +0.138    +0.059    -0.079   - -> -
+    story_information           +0.343    +0.266    -0.077   CLEARS -> -  <<<
+    character_presence          +0.309    +0.301    -0.008   uncorrected only -> -  <<<
+    speech_density              +0.276    +0.292    +0.016   uncorrected only -> -  <<<
+    score_intensity             +0.022    -0.023    -0.045   - -> -
+    inertness                   -0.171    -0.220    -0.050   - -> -
+
+========================================================================================
+beat 评分下的跨片方向一致 3/5   符号检验 p = 1.000  （bin 评分下是 2/5, p = 1.000）
+  visual_event_density     tos +0.129  bbb +0.070  sintel +0.059
+  story_information        tos +0.205  bbb -0.115  sintel +0.266
+  character_presence       tos +0.284  bbb +0.011  sintel +0.301
+  score_intensity          tos +0.116  bbb -0.024  sintel -0.023
+  inertness                tos -0.097  bbb -0.018  sintel -0.220
+
+提醒：两套分都没有信度估计，所以这里的差异也可能只是重采样噪声。

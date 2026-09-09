@@ -25,4 +25,18 @@ DEMO-SCRIPT.md
 AUDIT-*.md
 sintel.mp4
 RECORD.md
+FIRST-PRINCIPLES.md
+DESIGN-v2.md
 narration/
+
+# Local launch config: carries the GCP project id, which is shared with an
+# unrelated entry still in judging and does not belong in a public repo.
+.claude/
+
+# Scratch filter scripts for ffmpeg frame sampling. Regenerated on demand.
+films/*/_*.txt
+
+# Beat clips: regenerate from the source film + beats.json with beats.py.
+films/*/beat_clips/
+
+narration/_superseded/
