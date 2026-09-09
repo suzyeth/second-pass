@@ -58,9 +58,28 @@ async (marks) => {
   });
   const glide = (y) => window.scrollTo({ top: y, behavior: "smooth" });
   const el = (sel) => document.querySelector(sel);
-  const top = (sel) => el(sel).getBoundingClientRect().top + window.scrollY;
   const log = [];
   const mark = (what) => log.push(((Date.now() - t0) / 1000).toFixed(1) + "  " + what);
+
+  // Every interaction is guarded, and a miss is recorded rather than thrown.
+  // A single null selector used to abort the whole take: the panels redraw when a
+  // question is answered or a film is switched, so an element that exists when the
+  // choreography is written can be mid-replacement when the clock reaches it.
+  // Losing one scroll is a blemish; losing 154 seconds of recording, with a
+  // deadline, is not recoverable. Whatever missed shows up in the returned log.
+  const click = (sel, what) => {
+    const node = el(sel);
+    if (node) { node.click(); mark(what); return true; }
+    mark("MISSED " + what + "  (" + sel + ")");
+    return false;
+  };
+  const scrollTo = (sel, offset, what) => {
+    const node = el(sel);
+    if (!node) { mark("MISSED scroll " + what + "  (" + sel + ")"); return false; }
+    glide(node.getBoundingClientRect().top + window.scrollY - offset);
+    if (what) mark(what);
+    return true;
+  };
 
   const [b1, b2, b3, b4, b5, b6, b7] = marks;
 
@@ -71,10 +90,9 @@ async (marks) => {
   // reordered it: Sintel now leads at 1.59 against Tears of Steel's 1.28, so the
   // page opens on Sintel. A take recorded on the old assumption showed Sintel for
   // two minutes while the narration talked about Tears of Steel.
-  el("#filmpick button[data-film='tos']").click();
-  mark("open on Tears of Steel");
+  click("#filmpick button[data-film='tos']", "open on Tears of Steel");
   await at(b1 + 9);
-  glide(top(".chart-wrap") - 140);
+  scrollTo(".chart-wrap", 140, "");
 
   // 2 - the credits. The blurb under the title carries the whole beat: how many
   // segments are film, how many are credits, 1.28x against 4.40x. The question is
@@ -82,57 +100,45 @@ async (marks) => {
   // points at the MCP rows it produces and an empty log there would be a claim
   // about queries that had not run.
   await at(b2);
-  glide(top("#filmsub") - 90);
-  mark("the blurb: 80 film segments, 20 of end credits, 1.28x vs 4.40x");
+  scrollTo("#filmsub", 90, "the blurb: 80 film segments, 20 of end credits, 1.28x vs 4.40x");
   await at(b2 + 2);
-  el("#presets button[data-i='0']").click();
-  mark("asked: which features explain attention");
+  click("#presets button[data-i='0']", "asked: which features explain attention");
   await at(b2 + 12);
-  glide(top(".chart-wrap") - 120);
-  mark("the tail of the curve - that peak is the post-credits scene");
+  scrollTo(".chart-wrap", 120, "the tail of the curve - that peak is the post-credits scene");
 
   // 3 - where the numbers came from: the chip, the URL, the query rows.
   await at(b3);
   glide(0);
   mark("chip: model, mcp, clickhouse, cloud run revision");
   await at(b3 + 9);
-  glide(top("#log") - 120);
-  mark("the mcp run_query rows");
+  scrollTo("#log", 120, "the mcp run_query rows");
 
   // 4 - the negative control, and back again.
   await at(b4);
-  glide(top("#prooftable") - 220);
+  scrollTo("#prooftable", 220, "");
   await at(b4 + 4);
-  el("#toggle button[data-shuffled='1']").click();
-  mark("shuffled");
+  click("#toggle button[data-shuffled='1']", "shuffled");
   await at(b4 + 15);
-  el("#toggle button[data-shuffled='0']").click();
-  mark("back to real attention");
+  click("#toggle button[data-shuffled='0']", "back to real attention");
 
   // 5 - the third film, which is where the last pattern died.
   await at(b5);
-  glide(top("#crossfilm") - 320);
-  mark("cross-film sign test");
+  scrollTo("#crossfilm", 320, "cross-film sign test");
   await at(b5 + 14);
   glide(0);
   await at(b5 + 16);
-  el("#filmpick button[data-film='sintel']").click();
-  mark("switch to Sintel");
+  click("#filmpick button[data-film='sintel']", "switch to Sintel");
   await at(b5 + 21);
-  glide(top("#prooftable") - 200);
-  mark("Sintel: story_information, verdict says marginal");
+  scrollTo("#prooftable", 200, "Sintel: story_information, verdict says marginal");
 
   // 6 - the second corpus. A preset rather than typing, because the answer is the
   // point and a live keystroke is thirty seconds of nothing.
   await at(b6);
   glide(0);
   await at(b6 + 2);
-  el("#presets button[data-i='3']").click();
-  mark("asked: how long should my demo video be");
+  click("#presets button[data-i='3']", "asked: how long should my demo video be");
   await at(b6 + 13);
-  const ans = el(".answer");
-  if (ans) glide(ans.getBoundingClientRect().top + window.scrollY - 150);
-  mark("percentile, median, full range, and the refusal");
+  scrollTo(".answer", 150, "percentile, median, full range, and the refusal");
 
   // 7 - out.
   await at(b7);

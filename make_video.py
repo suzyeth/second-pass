@@ -115,9 +115,51 @@ def launch_chrome():
         "--start-maximized", "--lang=en-US",
         "--disable-features=Translate,TranslateUI",
         "--no-first-run", "--no-default-browser-check",
-        "--hide-crash-restore-bubble", URL,
+        "--hide-crash-restore-bubble", "--start-fullscreen", URL,
     ])
     time.sleep(16)
+
+    # gdigrab records the desktop, not a window, so whatever is in front is what
+    # ends up in the file. A take was once recorded entirely of the editor that
+    # started it: Chrome had launched, had the debugging port open, and was driven
+    # correctly the whole time - behind another window. --start-maximized is not
+    # enough because Windows does not hand focus to a process it did not see the
+    # user start. So the window is raised explicitly and the result is checked.
+    # Windows refuses SetForegroundWindow to a process the user did not just
+    # interact with. The documented unlock is that the calling thread must have
+    # received input, so an ALT keypress is sent first - which is exactly what
+    # WScript.Shell.AppActivate does internally, and it is more reliable than
+    # calling the API directly. Both are tried, and then the result is CHECKED,
+    # because a take recorded of whatever happened to be in front is worse than
+    # no take at all: one was recorded of the editor that started it.
+    ps = (
+        "$ErrorActionPreference='SilentlyContinue';"
+        "Add-Type -Name W -Namespace N -MemberDefinition '"
+        "[DllImport(\"user32.dll\")] public static extern bool SetForegroundWindow(IntPtr h);"
+        "[DllImport(\"user32.dll\")] public static extern bool ShowWindow(IntPtr h,int c);"
+        "[DllImport(\"user32.dll\")] public static extern IntPtr GetForegroundWindow();';"
+        "$p = Get-Process chrome | Where-Object {$_.MainWindowTitle -ne ''} |"
+        " Sort-Object StartTime -Descending | Select-Object -First 1;"
+        "if (-not $p) { 'no-window'; exit }"
+        "$w = New-Object -ComObject WScript.Shell;"
+        "foreach ($try in 1..6) {"
+        "  $w.SendKeys('%') | Out-Null; Start-Sleep -Milliseconds 150;"
+        "  $w.AppActivate($p.Id) | Out-Null; Start-Sleep -Milliseconds 250;"
+        "  [N.W]::ShowWindow($p.MainWindowHandle,3) | Out-Null;"
+        "  [N.W]::SetForegroundWindow($p.MainWindowHandle) | Out-Null;"
+        "  Start-Sleep -Milliseconds 400;"
+        "  if ([N.W]::GetForegroundWindow() -eq $p.MainWindowHandle) { 'front'; exit }"
+        "}"
+        "'NOT-front'"
+    )
+    out = subprocess.run(["powershell", "-NoProfile", "-Command", ps],
+                         capture_output=True, text=True).stdout.strip().splitlines()
+    state = out[-1] if out else "no-output"
+    print(f"  chrome:    {state}", flush=True)
+    if state != "front":
+        sys.exit("Chrome is not the foreground window - the recording would capture "
+                 "whatever is. Click the Chrome window, then re-run without --launch.")
+    time.sleep(2)
 
 
 def record(seconds):

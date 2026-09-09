@@ -794,9 +794,17 @@ async function drawCrossFilm(shuffled) {
     `<b>${agreeing} of ${comparable}</b> comparable features point the same way on `
     + `all ${films} films. Two-tailed sign test: <b>p = ${Number(p).toFixed(3)}</b> `
     + `&mdash; ${escapeHtml(verdict)}.`
+    // The two-film history, corrected. Before the third film was scored these two
+    // agreed on all five at p = 0.063, and that is why a third was scored at all.
+    // Recomputing on the film regions - the end credits used to be in the curve -
+    // leaves those same two films agreeing on three of five, p = 1.000. The result
+    // that justified going further did not exist either, and a page that still
+    // quoted the 0.063 would be repeating the error this panel exists to expose.
     + (agreeing < comparable
-        ? ` Two of these films agreed on all five before the third was scored, at `
-          + `p = 0.063. That was two films' worth of noise.`
+        ? ` Before the third film was scored, these two appeared to agree on all `
+          + `five at p = 0.063 &mdash; which is why a third was scored. Corrected `
+          + `for the end credits, those same two agree on three of five, p = 1.000. `
+          + `The pattern that justified going further was not there either.`
         : "");
 }
 
