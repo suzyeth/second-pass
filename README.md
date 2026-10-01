@@ -1,5 +1,7 @@
 # Second Pass
 
+[![Reproduce analysis](https://github.com/suzyeth/second-pass/actions/workflows/reproduce.yml/badge.svg)](https://github.com/suzyeth/second-pass/actions/workflows/reproduce.yml)
+
 Every attention-analytics product promises to tell you which stretches lose your
 audience, and why. We built the machinery to test that claim, pointed it at our own
 hypothesis first, and it did not survive.
