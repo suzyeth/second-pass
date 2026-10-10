@@ -33,7 +33,7 @@ Optional controls:
 
 ```bash
 python -m pip install -r requirements-dev.txt
-pytest -q
+python -m pytest -q
 docker build -t second-pass:local .
 ```
 

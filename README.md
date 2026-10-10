@@ -277,7 +277,7 @@ input bounds, allow-list rejection, and dependency failure behaviour.
 
 ```bash
 python -m pip install -r requirements-dev.txt
-pytest -q
+python -m pytest -q
 ```
 
 `/api/health` is process liveness; `/api/ready` executes a bounded `SELECT 1`
