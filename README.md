@@ -269,6 +269,22 @@ python runq.py                                    # the canonical queries, timed
 python analyze.py                                 # reproduce the statistics
 ```
 
+### Reliability checks
+
+The API test suite does not need ClickHouse or Gemini credentials: it replaces
+the MCP dependency with an in-process fake and exercises liveness, readiness,
+input bounds, allow-list rejection, and dependency failure behaviour.
+
+```bash
+python -m pip install -r requirements-dev.txt
+pytest -q
+```
+
+`/api/health` is process liveness; `/api/ready` executes a bounded `SELECT 1`
+through the real MCP path. Every response carries `X-Request-ID`, request logs
+are structured JSON, and MCP calls have a configurable timeout. See
+[`OPERATIONS.md`](OPERATIONS.md) for the runtime contract and recovery steps.
+
 To rebuild the corpus from scratch: `prepare.py` (fetch, bin, detrend, cut),
 `score-film.js` (Gemini, resumable — the free-tier video quota dies around 20 calls,
 so it writes after every clip and skips what is already scored), then `load.py`.

@@ -12,6 +12,7 @@ films/*/clips/
 node_modules/
 __pycache__/
 *.pyc
+.venv-platform/
 
 # Internal working notes: sprint plan, deploy runbook, audit, submission drafts.
 # They name a GCP project that also hosts an unrelated competition entry, and a

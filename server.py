@@ -15,11 +15,14 @@
 import asyncio
 import io
 import json
+import logging
 import os
+import time
+import uuid
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from agent import (
     FIELDS,
@@ -34,6 +37,10 @@ from agent import (
 )
 
 WEB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
+READINESS_TIMEOUT_S = float(os.environ.get("READINESS_TIMEOUT_S", "10"))
+
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
+LOGGER = logging.getLogger("second_pass.api")
 
 
 async def lifespan(app):
@@ -58,8 +65,31 @@ app = FastAPI(title="Second Pass", lifespan=lifespan)
 
 
 class Question(BaseModel):
-    question: str
-    film: str | None = None
+    question: str = Field(min_length=1, max_length=2000)
+    film: str | None = Field(default=None, max_length=32)
+
+
+@app.middleware("http")
+async def request_observability(request: Request, call_next):
+    """Attach a correlation id and emit one structured record per request."""
+    request_id = uuid.uuid4().hex
+    request.state.request_id = request_id
+    started = time.monotonic()
+    status = 500
+    try:
+        response = await call_next(request)
+        status = response.status_code
+        response.headers["X-Request-ID"] = request_id
+        return response
+    finally:
+        LOGGER.info(json.dumps({
+            "event": "request_complete",
+            "request_id": request_id,
+            "method": request.method,
+            "path": request.url.path,
+            "status": status,
+            "duration_ms": round((time.monotonic() - started) * 1000, 1),
+        }))
 
 
 def bins_in(response):
@@ -92,6 +122,21 @@ async def health():
         "mcp": "mcp-clickhouse",
         "revision": os.environ.get("K_REVISION", "local"),
     }
+
+
+@app.get("/api/ready")
+async def ready():
+    """Readiness checks the runtime data path without exposing credentials."""
+    try:
+        raw = await asyncio.wait_for(
+            MCP.run_query("SELECT 1 AS ok"), timeout=READINESS_TIMEOUT_S
+        )
+        result = json.loads(raw)
+        if not result.get("rows"):
+            raise RuntimeError("empty readiness result")
+    except Exception as exc:  # noqa: BLE001 - dependency failures map to 503
+        raise HTTPException(503, "data dependency unavailable") from exc
+    return {"status": "ready", "dependency": "clickhouse-via-mcp"}
 
 
 @app.get("/api/films")
@@ -179,8 +224,8 @@ async def ask(body: Question):
     if body.film:
         try:
             film = _film(body.film)
-        except ValueError:
-            film = None
+        except ValueError as exc:
+            raise HTTPException(404, str(exc)) from exc
 
     async def events():
         try:

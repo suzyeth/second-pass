@@ -26,6 +26,9 @@ queries.sql
 .gitignore
 __pycache__/
 *.pyc
+.venv-platform/
+tests/
+requirements-dev.txt
 run.ps1
 DESIGN.md
 README.md

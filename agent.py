@@ -52,6 +52,7 @@ MODELS = [
 ]
 MODEL = MODELS[0]
 NEWLINE = chr(10)
+MCP_QUERY_TIMEOUT_S = float(os.environ.get("MCP_QUERY_TIMEOUT_S", "30"))
 
 # Allow-lists. A value not in one of these never reaches a query.
 #
@@ -118,9 +119,11 @@ class ClickHouseMCP:
                         sql, future = item
                         try:
                             result = await session.call_tool("run_query", {"query": sql})
-                            future.set_result(str(result.content[0].text))
+                            if not future.cancelled():
+                                future.set_result(str(result.content[0].text))
                         except Exception as exc:  # noqa: BLE001 - relayed to caller
-                            future.set_exception(exc)
+                            if not future.cancelled():
+                                future.set_exception(exc)
         except Exception as exc:  # noqa: BLE001 - startup failure
             if not self._up.done():
                 self._up.set_exception(exc)
@@ -139,7 +142,12 @@ class ClickHouseMCP:
         await self.start()
         future = asyncio.get_running_loop().create_future()
         await self._queue.put((sql, future))
-        return await future
+        try:
+            return await asyncio.wait_for(future, timeout=MCP_QUERY_TIMEOUT_S)
+        except TimeoutError as exc:
+            raise TimeoutError(
+                f"ClickHouse MCP query exceeded {MCP_QUERY_TIMEOUT_S:g}s"
+            ) from exc
 
     async def prewarm(self):
         """Pay the cold-start cost before the demo starts talking.
