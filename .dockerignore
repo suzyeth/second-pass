@@ -32,3 +32,5 @@ requirements-dev.txt
 run.ps1
 DESIGN.md
 README.md
+events.jsonl
+scripts/

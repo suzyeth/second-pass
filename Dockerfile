@@ -20,7 +20,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY agent.py server.py ./
+COPY agent.py server.py tracing.py ./
 COPY web/ ./web/
 
 # Cloud Run supplies PORT; 8080 is the default it uses and what server.py falls

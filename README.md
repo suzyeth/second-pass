@@ -285,6 +285,36 @@ through the real MCP path. Every response carries `X-Request-ID`, request logs
 are structured JSON, and MCP calls have a configurable timeout. See
 [`OPERATIONS.md`](OPERATIONS.md) for the runtime contract and recovery steps.
 
+### Observability
+
+Every Gemini call the agent makes, from the CLI or the web server, appends one
+line to `events.jsonl` (`tracing.py`): tokens in and out (thinking tokens count
+as output, because they are billed as output), the call's own latency, its
+list-price cost, and whether a tool result had come back before the model
+spoke. Each question then gets one more line with the end-to-end figures.
+Attempts that failed upstream are written too, with their error, so a 503 is in
+the percentiles rather than missing from them.
+
+Latency is split on purpose: the clock restarts after every event, so the time
+ClickHouse spends on a query is charged to the tool and not to the model call
+that follows it. Cost is `null` for a model with no published price rather than
+a guess; `TRACE_PRICES='{"model": [input_usd, output_usd]}'` adds one, per
+million tokens. `TRACE_PATH` moves the file, and an empty `TRACE_PATH` turns
+tracing off.
+
+```bash
+for i in $(seq 10); do python agent.py "which stretches lose people?"; done
+python scripts/trace_report.py      # p50 / p95 per model call and per question
+```
+
+Measured figures: not yet run against the live service. This table is filled
+from `trace_report.py` output, never by hand.
+
+| | latency p50 ms | latency p95 ms | tokens in p50 | tokens out p50 | cost total |
+|---|---|---|---|---|---|
+| per model call | — | — | — | — | — |
+| per question | — | — | — | — | — |
+
 To rebuild the corpus from scratch: `prepare.py` (fetch, bin, detrend, cut),
 `score-film.js` (Gemini, resumable — the free-tier video quota dies around 20 calls,
 so it writes after every clip and skips what is already scored), then `load.py`.

@@ -32,6 +32,8 @@ from google.genai import types
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
+import tracing
+
 # A chain, not a model. Two days before recording, gemini-3.5-flash-lite returned
 # 503 "experiencing high demand" on four consecutive attempts over thirty-seven
 # seconds — not a blip. A demo that claims to be unedited cannot depend on one
@@ -787,19 +789,30 @@ async def _run_once(question, model, film=None):
         app_name="second-pass", user_id="local"
     )
     message = types.Content(role="user", parts=[types.Part(text=question)])
-
-    async for event in runner.run_async(
-        user_id="local", session_id=session.id, new_message=message
-    ):
-        for part in (event.content.parts if event.content else []) or []:
-            if getattr(part, "function_call", None):
-                call = part.function_call
-                yield ("tool", call.name, dict(call.args))
-            elif getattr(part, "function_response", None):
-                got = part.function_response
-                yield ("result", got.name, dict(got.response or {}))
-            elif getattr(part, "text", None) and event.is_final_response():
-                yield ("answer", part.text.strip(), None)
+    # Started after the session exists, so the first call's latency is the
+    # model's and not the runner's setup. A failed attempt is traced too: a
+    # p95 that leaves out the 503s describes a service nobody used.
+    trace = tracing.TurnTrace(question, model, film=film, path=tracing.trace_path())
+    error = None
+    try:
+        async for event in runner.run_async(
+            user_id="local", session_id=session.id, new_message=message
+        ):
+            trace.observe(event)
+            for part in (event.content.parts if event.content else []) or []:
+                if getattr(part, "function_call", None):
+                    call = part.function_call
+                    yield ("tool", call.name, dict(call.args))
+                elif getattr(part, "function_response", None):
+                    got = part.function_response
+                    yield ("result", got.name, dict(got.response or {}))
+                elif getattr(part, "text", None) and event.is_final_response():
+                    yield ("answer", part.text.strip(), None)
+    except BaseException as exc:
+        error = exc
+        raise
+    finally:
+        trace.finish(error)
 
 
 async def ask(question):
