@@ -158,7 +158,7 @@ score     each segment at 360p/2fps with audio, inline to Gemini, blind prompt:
           it never sees an attention value and is told not to guess preferences
 store     ClickHouse. 3 films, 300 segments (246 film, 54 credits), 198 usable
           after edges, 13.3M synthetic playback events
-agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse Cloud
+agent     Google ADK -> mcp-clickhouse (MCP) -> ClickHouse, in the same container
 ui        player, attention curve, residual, proof panel
 ```
 
@@ -255,9 +255,12 @@ the curve it came from (rho = +0.849, +0.739 and +0.500) rather than asserting i
 
 ## Running it
 
-Needs `CLICKHOUSE_HOST`, `CLICKHOUSE_PASSWORD`, and `GOOGLE_API_KEY` in the
-environment. On Windows, `run.ps1` loads the first two from the user registry and the
-third from Secret Manager, and echoes none of them.
+Needs `GOOGLE_API_KEY`, and a ClickHouse to query: `CLICKHOUSE_HOST` and
+`CLICKHOUSE_PASSWORD`, plus `CLICKHOUSE_PORT=8123 CLICKHOUSE_SECURE=false` for a
+local server (the defaults are TLS on 8443). Any ClickHouse will do once
+`load.py` and `load-craft.py` have filled it; the container image does exactly
+that at build time. On Windows, `run.ps1` loads the ClickHouse pair from the
+user registry and the key from Secret Manager, and echoes none of them.
 
 ```bash
 pip install -r requirements.txt
@@ -335,9 +338,24 @@ so it writes after every clip and skips what is already scored), then `load.py`.
 
 ## Deployment
 
-Cloud Run, from the `Dockerfile`. The image carries two Python programs: the server,
-and the `mcp-clickhouse` MCP server it spawns as a subprocess and talks to over stdio.
-Credentials come from Secret Manager; nothing is baked into the image.
+Cloud Run, from the `Dockerfile`. The image carries three programs: the server,
+the `mcp-clickhouse` MCP server it spawns as a subprocess and talks to over stdio,
+and a ClickHouse server (25.8 LTS) that MCP queries over loopback.
+
+The database used to be ClickHouse Cloud. When its trial ended the service went
+with it, so the database moved into the image: a build stage runs `load.py` and
+`load-craft.py` against a ClickHouse inside the build, and the final image ships
+the loaded data directory (about 80 MB, the 13.3M events included). Nothing is
+loaded at startup. `start.sh` starts ClickHouse, waits until it answers, then
+starts the server. The agent's path is unchanged: every query still goes through
+MCP's `run_query`, and the server log still shows each statement.
+
+The cost is memory, not money. ClickHouse holds about 600 MB resident when idle,
+so the service runs with 2 GiB instead of 1. The only secret left is the Gemini
+key, from Secret Manager. The database has no password because it listens on
+127.0.0.1 only, and its one user is restricted to loopback (`clickhouse/`).
+CI builds the image, starts it, and queries `/api/ready`, `/api/films` and
+`/api/proof/tos` before anything is deployed.
 
 ---
 

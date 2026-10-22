@@ -1,0 +1,6 @@
+# Files that run inside the Linux image keep LF whatever the checkout's
+# autocrlf says: a start.sh with CRLF fails on its first line, and the
+# container exits before the server is up.
+*.sh text eol=lf
+Dockerfile text eol=lf
+clickhouse/*.xml text eol=lf

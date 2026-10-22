@@ -16,3 +16,21 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: python -m pytest -q
       - run: docker build -t second-pass:ci .
+      # The image carries its own ClickHouse, loaded at build time. Building is
+      # not proof that it starts, so run it and query through the real MCP path.
+      # No Gemini key is needed for these routes.
+      - name: smoke-test the image
+        run: |
+          docker run -d --name sp -p 8080:8080 second-pass:ci
+          for i in $(seq 60); do
+            curl -sf localhost:8080/api/ready && break
+            sleep 1
+          done
+          curl -sf localhost:8080/api/ready
+          curl -sf localhost:8080/api/films | python -c "import json,sys; rows=json.load(sys.stdin)['rows']; assert sorted(r[0] for r in rows) == ['bbb','sintel','tos'], rows; print('films ok:', len(rows))"
+          curl -sf localhost:8080/api/proof/tos > /dev/null
+          docker stats --no-stream sp
+          docker image ls second-pass:ci
+      - name: container logs
+        if: always()
+        run: docker logs sp || true

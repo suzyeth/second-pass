@@ -1,0 +1,43 @@
+<!--
+  The ClickHouse server that ships inside the Cloud Run image.
+
+  It replaces ClickHouse Cloud, whose trial ended. The agent still reaches it
+  only through mcp-clickhouse over HTTP, so the MCP path is unchanged; what
+  changed is that the database is a process in the same container, loaded at
+  build time from the files in this repo (load.py, load-craft.py).
+
+  Three constraints shape this file:
+  - Cloud Run's writable filesystem is memory. Anything ClickHouse writes counts
+    against the instance's RAM, so the system log tables (query_log, trace_log,
+    metric_log and the rest) are simply not configured, and therefore not created.
+  - The instance has 2 GiB shared with Python, ADK and the MCP subprocess, so
+    the server is capped well under that.
+  - Nothing outside the container may reach it: loopback only, no password.
+-->
+<clickhouse>
+    <logger>
+        <level>warning</level>
+        <console>1</console>
+    </logger>
+
+    <listen_host>127.0.0.1</listen_host>
+    <http_port>8123</http_port>
+    <tcp_port>9000</tcp_port>
+
+    <path>/var/lib/clickhouse/</path>
+    <tmp_path>/var/lib/clickhouse/tmp/</tmp_path>
+    <user_files_path>/var/lib/clickhouse/user_files/</user_files_path>
+    <format_schema_path>/var/lib/clickhouse/format_schemas/</format_schema_path>
+
+    <!-- 900 MiB. The largest query here aggregates thirteen million event rows
+         into a hundred groups; it needs far less than this. -->
+    <max_server_memory_usage>943718400</max_server_memory_usage>
+    <mark_cache_size>67108864</mark_cache_size>
+    <uncompressed_cache_size>0</uncompressed_cache_size>
+
+    <user_directories>
+        <users_xml>
+            <path>users.xml</path>
+        </users_xml>
+    </user_directories>
+</clickhouse>

@@ -7,11 +7,13 @@
 *.mp4
 clips/
 clips_audio/
-films/
+films/*/clips/
+films/*/beat_clips/
 
-# Data prep and analysis. None of it runs in the container.
+# Data prep and analysis. None of it runs in the container. load.py,
+# load-craft.py, schema.sql and the scored files DO: the image loads its own
+# ClickHouse at build time.
 prepare.py
-load.py
 analyze.py
 analyze-film.py
 runq.py
@@ -19,7 +21,10 @@ mcp_probe.py
 score*.js
 *.json
 !films.json
-schema.sql
+!tos.json
+!bbb.json
+!sintel.json
+!films/*/scored.json
 queries.sql
 
 .git/

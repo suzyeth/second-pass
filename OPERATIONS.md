@@ -2,15 +2,26 @@
 
 ## Runtime
 
-The API and web UI run in one Python container. The process starts an official
-`mcp-clickhouse` subprocess and communicates with it over stdio. ClickHouse and
-Gemini credentials are provided at runtime; no secrets are included in the image.
+The API, the web UI and the database run in one container. `start.sh` starts
+ClickHouse (25.8 LTS, loopback only, data loaded at build time), waits for it to
+answer, then starts the Python server. The server starts an official
+`mcp-clickhouse` subprocess and communicates with it over stdio, and every query
+reaches ClickHouse through it. The Gemini key is provided at runtime; no secrets
+are included in the image.
 
 Required environment variables:
 
-- `CLICKHOUSE_HOST`
-- `CLICKHOUSE_PASSWORD`
 - `GOOGLE_API_KEY`
+
+Set by the image for the bundled database, and overridable to point at another
+ClickHouse: `CLICKHOUSE_HOST` (`127.0.0.1`), `CLICKHOUSE_PORT` (`8123`),
+`CLICKHOUSE_USER` (`default`), `CLICKHOUSE_PASSWORD` (empty),
+`CLICKHOUSE_SECURE` (`false`).
+
+Resources: 2 GiB. ClickHouse is about 600 MB resident when idle, and its own
+caps are in `clickhouse/config.xml` (900 MB server, 600 MB per query). The data
+directory is about 80 MB, and Cloud Run's writable filesystem is memory, so the
+system log tables are not configured.
 
 Optional controls:
 
@@ -35,6 +46,7 @@ Optional controls:
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 docker build -t second-pass:local .
+docker run --rm -p 8080:8080 second-pass:local   # /api/films works without a key
 ```
 
 The test suite replaces ClickHouse MCP with an in-process fake and does not need
@@ -42,6 +54,8 @@ credentials or network access.
 
 ## Expected Failures
 
+- If the bundled ClickHouse does not answer within `CH_WAIT_S` (default 30)
+  seconds, `start.sh` logs it and starts the server anyway.
 - A ClickHouse outage makes readiness fail and query-backed endpoints return an
   error; liveness remains healthy so a rollout is not restarted indefinitely for
   an external outage.
@@ -55,8 +69,9 @@ credentials or network access.
 
 1. Use the request id to find the failed request in platform logs.
 2. Check `/api/health`; if it fails, restart or roll back the revision.
-3. Check `/api/ready`; if it fails, verify ClickHouse credentials and service
-   availability before replacing a healthy application revision.
+3. Check `/api/ready`; if it fails, read the container's startup lines for
+   `[start]` and ClickHouse errors. The database is inside the revision, so a
+   new revision rebuilt from the same commit restores it exactly.
 4. For model 429/503 responses, confirm the fallback ladder was exhausted before
    retrying the request.
 
