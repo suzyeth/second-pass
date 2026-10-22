@@ -307,13 +307,25 @@ for i in $(seq 10); do python agent.py "which stretches lose people?"; done
 python scripts/trace_report.py      # p50 / p95 per model call and per question
 ```
 
-Measured figures: not yet run against the live service. This table is filled
-from `trace_report.py` output, never by hand.
+Measured 2026-10-22: ten runs of `python agent.py "which stretches lose people?"`,
+copied from `trace_report.py` output, not typed by hand. Every run was answered by
+`gemini-3.5-flash-lite` with no fallback and no errors. Two conditions matter
+for reading it. The calls went out from a laptop, not from Cloud Run, so the
+latency includes that network path. The database was a local ClickHouse
+(26.11, in WSL, loaded with `load.py` and `load-craft.py` from the same files)
+because the Cloud service was unreachable that day. Database time is excluded
+from the per-call figures either way, but it is inside the per-question ones.
 
-| | latency p50 ms | latency p95 ms | tokens in p50 | tokens out p50 | cost total |
-|---|---|---|---|---|---|
-| per model call | — | — | — | — | — |
-| per question | — | — | — | — | — |
+| | n | latency p50 ms | latency p95 ms | tokens in p50 | tokens in p95 | tokens out p50 | tokens out p95 | cost total | grounded |
+|---|---|---|---|---|---|---|---|---|---|
+| per model call | 20 | 3054 | 5004 | 2772 | 3654 | 116 | 273 | $0.0235 | 10 of 10 answers |
+| per question | 10 | 6008 | 8087 | 5546 | 6257 | 211 | 352 | $0.0235 | 10 of 10 |
+
+Each question took two model calls: one to choose the tool, one to answer from
+its result. The first call (4.3–6.8 s) is consistently slower than the second
+(1.0–1.8 s). It runs in a fresh process, so connection setup is in its latency.
+Cost is at paid-tier list price ($0.30 / $2.50 per million tokens in / out):
+$0.0024 per question on average, about a quarter of a US cent.
 
 To rebuild the corpus from scratch: `prepare.py` (fetch, bin, detrend, cut),
 `score-film.js` (Gemini, resumable — the free-tier video quota dies around 20 calls,

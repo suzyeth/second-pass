@@ -91,21 +91,31 @@ class ClickHouseMCP:
         self._task = None
         self._up = None
 
+    @staticmethod
+    def server_env():
+        """The MCP server's environment. TLS on port 8443 unless told otherwise.
+
+        The override exists for a local ClickHouse (port 8123, no TLS), which is
+        how the latency figures in the README were measured while the Cloud
+        service was unreachable. The default stays the deployed configuration.
+        """
+        return {
+            **os.environ,
+            "CLICKHOUSE_HOST": os.environ["CLICKHOUSE_HOST"],
+            "CLICKHOUSE_PORT": os.environ.get("CLICKHOUSE_PORT", "8443"),
+            "CLICKHOUSE_USER": os.environ.get("CLICKHOUSE_USER", "default"),
+            "CLICKHOUSE_PASSWORD": os.environ["CLICKHOUSE_PASSWORD"],
+            "CLICKHOUSE_SECURE": os.environ.get("CLICKHOUSE_SECURE", "true"),
+            # The ASCII art is noise; the per-query log lines below it are
+            # the evidence that MCP is on the path, and those stay.
+            "FASTMCP_SHOW_CLI_BANNER": "false",
+        }
+
     async def _serve(self):
         params = StdioServerParameters(
             command="python",
             args=["-m", "mcp_clickhouse.main"],
-            env={
-                **os.environ,
-                "CLICKHOUSE_HOST": os.environ["CLICKHOUSE_HOST"],
-                "CLICKHOUSE_PORT": os.environ.get("CLICKHOUSE_PORT", "8443"),
-                "CLICKHOUSE_USER": os.environ.get("CLICKHOUSE_USER", "default"),
-                "CLICKHOUSE_PASSWORD": os.environ["CLICKHOUSE_PASSWORD"],
-                "CLICKHOUSE_SECURE": "true",
-                # The ASCII art is noise; the per-query log lines below it are
-                # the evidence that MCP is on the path, and those stay.
-                "FASTMCP_SHOW_CLI_BANNER": "false",
-            },
+            env=self.server_env(),
         )
 
         try:
